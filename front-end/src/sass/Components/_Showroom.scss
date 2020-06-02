@@ -20,13 +20,13 @@
             padding: 1rem 1rem 1rem 1.5rem;
             border: 1px solid #e6e6e6;
             transition: all .3s;
-            &:active,&:focus{
+            &:focus{
                 background-color: white;
                 outline: none;
                 box-shadow: 0 1rem 2rem rgba($color: $color-black, $alpha: .15);
-                border-bottom: 3px solid #f65e39;
+                border-bottom: 3px solid $color-primary;
                 &:invalid{
-                    border-bottom: 3px solid $color-secondary-dark;
+                    border-bottom: 3px solid #f65e39;
                 }
             }
         }

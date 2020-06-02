@@ -16,19 +16,19 @@ class Showrooms extends Component {
                 </div>
                 <form className="Showroom__info">
                     <label for="inputName" className="Showroom__info--label">Tên</label>
-                    <input id="inputName" className="Showroom__info--input"></input>
+                    <input type="text" id="inputName" className="Showroom__info--input" required></input>
                     
                     <label for="inputSurname" className="Showroom__info--label">Họ và tên đệm</label>
-                    <input id="inputSurname" className="Showroom__info--input"></input>
+                    <input type="text" id="inputSurname" className="Showroom__info--input" required></input>
                     
                     <label for="inputEmail" className="Showroom__info--label">Email</label>
                     <input value="hyakkiamru@gmail.com" readOnly="true" id="inputEmail" type="email" className="Showroom__info--input Showroom__info--email"></input>
                    
                     <label for="inputPhone" className="Showroom__info--label">Số điện thoại</label>
-                    <input id="inputPhone"  className="Showroom__info--input"></input>
+                    <input type="text" id="inputPhone"  className="Showroom__info--input" required></input>
                     
                     <label for="inputAddress" className="Showroom__info--label">Địa chỉ</label>
-                    <input id="inputAddress"  className="Showroom__info--input"></input>
+                    <input type="text" id="inputAddress"  className="Showroom__info--input"></input>
                     
                     <label for="inputBirthday" className="Showroom__info--label">Ngày sinh</label>
                     <input onClick={()=>{document.getElementById("inputBirthday").focus();}} type="date" id="inputBirthday"  className="Showroom__info--input "></input>

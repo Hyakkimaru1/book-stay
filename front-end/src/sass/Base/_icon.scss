@@ -8,3 +8,27 @@
 .icon{
     color:white;
 }
+
+
+.icon-button{
+    $button-size: calc(#{$icon}*0.5);
+    min-width: $button-size;
+    height: $button-size;
+    background-color: $bg-accent;
+    border-radius: 3.2rem;
+    padding: 5px;
+    margin: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: filter 300ms;
+    font-size: 1.6rem;
+    &:hover {
+        filter: brightness(1.05);
+    }
+    & svg { 
+        fill: $text-color;
+        width: 20px;
+        height: 20px;
+    }
+}

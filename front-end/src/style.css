@@ -151,6 +151,25 @@ input {
 .icon {
   color: white; }
 
+.icon-button {
+  min-width: calc(7rem*0.5);
+  height: calc(7rem*0.5);
+  background-color: #E4E6EB;
+  border-radius: 3.2rem;
+  padding: 5px;
+  margin: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: filter 300ms;
+  font-size: 1.6rem; }
+  .icon-button:hover {
+    filter: brightness(1.05); }
+  .icon-button svg {
+    fill: #050505;
+    width: 20px;
+    height: 20px; }
+
 .card {
   color: #222;
   width: 26.15rem;
@@ -590,13 +609,13 @@ input {
       padding: 1rem 1rem 1rem 1.5rem;
       border: 1px solid #e6e6e6;
       transition: all .3s; }
-      .Showroom__info--input:active, .Showroom__info--input:focus {
+      .Showroom__info--input:focus {
         background-color: white;
         outline: none;
         box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
-        border-bottom: 3px solid #f65e39; }
-        .Showroom__info--input:active:invalid, .Showroom__info--input:focus:invalid {
-          border-bottom: 3px solid #ff7730; }
+        border-bottom: 3px solid #5a73fc; }
+        .Showroom__info--input:focus:invalid {
+          border-bottom: 3px solid #f65e39; }
     .Showroom__info--email {
       cursor: context-menu;
       color: #aaaaaa !important; }
@@ -689,25 +708,6 @@ input {
     margin-right: .5rem;
     object-fit: cover; }
 
-.icon-button {
-  min-width: calc(7rem*0.5);
-  height: calc(7rem*0.5);
-  background-color: #E4E6EB;
-  border-radius: 3.2rem;
-  padding: 5px;
-  margin: 2px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: filter 300ms;
-  font-size: 1.6rem; }
-  .icon-button:hover {
-    filter: brightness(1.05); }
-  .icon-button svg {
-    fill: #050505;
-    width: 20px;
-    height: 20px; }
-
 /* Dropdown Menu */
 .dropdown {
   position: absolute;
@@ -771,3 +771,51 @@ input {
 .menu-secondary-exit-active {
   transform: translateX(110%);
   transition: all 500ms ease; }
+
+.ChangePass {
+  font-size: 1.6rem;
+  margin-bottom: 5rem; }
+  .ChangePass__group :not(:last-child) {
+    margin-bottom: 2rem; }
+  .ChangePass__input {
+    font-size: 1.5rem;
+    font-family: inherit;
+    color: #666;
+    padding: 1.5rem 2rem;
+    color: inherit;
+    border: none;
+    border-radius: .5rem;
+    border-bottom: 3px solid transparent;
+    display: block;
+    background-color: rgba(0, 0, 0, 0.07);
+    width: 80%; }
+    .ChangePass__input:focus {
+      background-color: white;
+      outline: none;
+      box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+      border-bottom: 3px solid #5a73fc; }
+      .ChangePass__input:focus:invalid {
+        border-bottom: 3px solid #ff7730; }
+    .ChangePass__input::-webkit-input-placeholder {
+      color: #777777; }
+  .ChangePass__input:placeholder-shown + .ChangePass__label {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-4rem); }
+  .ChangePass__label {
+    font-size: 1.5rem;
+    margin-left: 2rem;
+    top: -10rem;
+    position: relative;
+    display: block;
+    transition: all .3s;
+    font-weight: 700;
+    color: #666; }
+  .ChangePass__error {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-left: 20rem;
+    margin-top: -14rem;
+    position: absolute;
+    display: block;
+    transition: all .3s; }
