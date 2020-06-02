@@ -1,0 +1,46 @@
+.cozy{
+    line-height: 2;
+    &__title{
+        font-size: 3rem;
+        font-weight: 900;
+        line-height: 1.25;
+    }
+    &__intro{
+        font-size: 1.6rem;
+    }
+
+    &__base{
+        margin-top: .6rem;
+        &--title{
+            font-size: 2.4rem;
+            font-weight: 700;
+        }
+        &--list{
+            font-size: 1.4rem;
+            color: #555;
+            &-item{
+                list-style: none;
+                float: left;
+                margin-top: .5rem;
+            }
+            &-icon{
+                padding-right: 1rem;
+            }
+        }
+        &--para{
+            line-height: 1.5;
+            font-size: 1.6rem;
+        }
+
+        &--button{
+            display: inline;
+            color: #f65e39;
+            text-decoration: none;
+            font-size: 1.6rem;
+            &:hover {
+                cursor: pointer;
+                color: #222;
+            }
+        }
+    }
+}

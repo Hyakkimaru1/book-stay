@@ -1,0 +1,105 @@
+.detail{
+    &__head{
+        &--title{
+            font-size: 3rem;
+            font-weight: 900;
+            margin-top: 0;
+            line-height: 1.25;
+            text-transform: uppercase;
+        }
+        &--locState{
+            margin-top: 2rem;
+            font-weight: 700;
+            font-size: 1.8rem;
+            line-height: 3rem;
+        }
+        &--intro{
+            margin-top: 2rem;
+            font-weight: 500;
+            font-size: 1.6rem;
+            line-height: 1.6rem;
+            font-family: mallory,Helvetica Neue,Helvetica,Arial,sans-serif;
+            &-para{
+                max-height: 30rem;
+                overflow: hidden;
+                position: relative;
+                &:before{
+                    content: "";
+                    position: absolute;
+                    display: block;
+                    width: 100%;
+                    height: 100%;
+                    background: linear-gradient(180deg,hsla(0,0%,100%,0) 20%,#fff);
+                }
+            }
+            &-bt{
+                margin-top: 2rem;
+                display: block;
+                color: #f65e39;
+                text-decoration: none;
+                font-size: 1.6rem;
+                &:hover {
+                    cursor: pointer;
+                    color: #222;
+                }
+            }
+        }
+    }
+    &__body{
+        line-height: 1.25;
+        margin-top: 4rem;
+        &--price,&--review,&--rules{
+            line-height: 2;
+            margin-top: 4rem;
+        }
+
+        &--place{
+            margin-top: 4rem;
+        }
+    }
+
+    &__price{
+        margin-top: 2rem;
+        list-style: none;
+        line-height: 1.25 !important;
+        &--item{
+            display: flex;
+            justify-content: space-between;
+            @include odd()
+            {
+                background: #f6f6f6;;
+            }
+            font-size: 1.6rem;
+            padding: 1.6rem;
+            color: #333;
+            font-weight: 700;
+            border-radius: .5rem;;
+            &-note{
+                color: #444;
+                font-weight: 300;
+                display: inline-block;
+            }
+        }
+    }
+
+}
+
+
+
+.rule-process__symbol.is-first:after, .rule-process__symbol.is-last:after {
+    content: "";
+    position: absolute;
+    width: calc(100% + 2px);
+    height: calc(100% + 2px);
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+    border-radius: 50%;
+    background: transparent;
+    border: 3px solid #fff;
+}
+
+.rule-process__txt {
+    min-height: 120px;
+}

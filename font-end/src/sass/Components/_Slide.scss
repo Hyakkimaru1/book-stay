@@ -1,0 +1,64 @@
+.slide{
+    height:42rem;
+    width: 1000rem;
+    overflow: hidden;
+    position: relative;
+    background-color: black;
+    &__img{
+        position: relative;
+        transition: all 2s;
+        left: 0;
+        &--parent{
+            width: 63rem;
+            height: 42rem;
+            margin: 0 .2rem;
+            overflow: hidden;
+            display: inline-block;
+        }
+        &--pic{
+            transition: all .5s;
+            width: 63rem;
+            height: 42rem;
+            display: block;
+        }
+
+        &--parent:hover &--pic{
+            transform: scale(1.05);
+        }
+    }
+    &__left{
+        position: absolute;
+        top: 50%;
+        left: 2%;
+        z-index: 999;
+        font-size: 3rem;
+        color: white;
+        border: 1px solid rgba(0,0,0,.6);
+        background-color: rgba(0,0,0,.6);
+        border-radius: 3rem;
+        padding: 1rem 1.3rem;
+        width: 5rem;
+        &:hover{
+            cursor: not-allowed;
+            background-color: rgba(19, 18, 18, 0.903);
+        }
+    }
+    &__right{
+        z-index: 999;
+        position: absolute;
+        right: 88%;
+        top: 50%;
+        font-size: 3rem;
+        color: white;
+        border: 1px solid rgba(0,0,0,.6);
+        background-color: rgba(0,0,0,.6);
+        border-radius: 3rem;
+        padding: 1rem 1.6rem;
+        width: 5rem;
+        cursor: not-allowed;
+        &:hover{
+            cursor: pointer;
+            background-color: rgba(19, 18, 18, 0.903);
+        }
+    }
+}

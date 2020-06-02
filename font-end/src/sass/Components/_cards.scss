@@ -1,0 +1,46 @@
+.card{
+    color: #222;
+    width: 26.15rem;
+    height: 34rem;
+    background-color: $color-white;
+    border-radius: .4rem;
+    cursor: pointer;
+    overflow: hidden;
+    &__header{ 
+        width: 26.15rem; 
+            height: 15.9rem;
+        &--img{
+            width: 26.15rem; 
+            height: 15.9rem;
+            
+        }
+    }
+    &:active{
+        box-shadow: 0 .5rem 1rem rgba($color:$color-black, $alpha: .1);
+        transform: translateY(-0.1rem);
+    }
+    &__body{
+        padding: .2rem;
+        text-align: left;
+        &--name{
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0;
+            display: -webkit-box;
+            max-height: 52px;
+            -webkit-line-clamp: 2;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        &--room{
+            font-size: 1.4rem;
+        }
+        &--price{
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        &--place{
+            font-size: 1.4rem;
+        }
+    }
+}

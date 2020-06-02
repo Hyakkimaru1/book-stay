@@ -1,0 +1,17 @@
+.ListOptions{
+    background-color: white;
+    padding: 0 2rem;
+    color: #666;
+    font-size: 1.6rem;
+    &__item{
+        padding: 1rem 0;
+        list-style: none;
+        cursor: pointer;
+    }
+    li:not(:last-child){
+        border-bottom: 1px solid #ececec;
+    }
+    &__active{
+        color: #333;
+    }
+}

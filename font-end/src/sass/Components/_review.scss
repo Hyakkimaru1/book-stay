@@ -1,0 +1,44 @@
+.review{
+    li:not(:last-child){
+        border-bottom: 1px solid #ececec;
+    }
+    list-style: none;
+    &__elements{
+        padding-bottom: 1rem;
+        &--detail{
+            &-img{
+                float: left;
+                width: 4.8rem;
+                height: 4.8rem;
+                &-show{
+                    width: 4.8rem;
+                    height: 4.8rem;
+                    border-radius: 5rem;
+                }
+            }
+            &-name{
+                margin-left: 6rem;
+                margin-top: 3rem;
+                color: #222;
+                word-wrap: break-word;
+                &-main{
+                    margin-bottom: 0rem;
+                    font-weight: 700;
+                    font-size: 1.4rem;
+                }
+                &-detail{
+                    margin-bottom: 6px;
+                    font-size: 1.2rem;
+                }
+            }
+        }
+        &--comment{
+            color: #555;
+            font-weight: 300;
+            font-size: 1.6rem;
+            line-height: 1.5;
+        }
+    }
+    
+}
+
