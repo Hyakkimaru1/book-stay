@@ -1,16 +1,20 @@
-import React,{useState} from 'react';
+import React,{useState, useEffect} from 'react';
 import './BodyPage';
-const imgSlide = [
-    "https://cdn.luxstay.com/rooms/14008/large/1533543259_2c3a127aa3293fa539387cc7bbe4d17d.jpg",
-    "https://cdn.luxstay.com/rooms/14008/large/1533543286_268a2c1ed9f673df23b287dffe6dc8dd.jpg",
-    "https://cdn.luxstay.com/rooms/14008/large/1533543292_678c03d50142720f3207ca454ef40153.jpg",
-    "https://cdn.luxstay.com/rooms/14008/large/1533543297_920168cb2d25d1537a2cd1cafc3c8275.jpg",
-    "https://cdn.luxstay.com/rooms/14008/large/1533543345_4942635_18043006330065132835.jpg",
-    "https://cdn.luxstay.com/rooms/14008/large/1533543393_20180502_163053.jpg"
-]
+import $ from 'jquery';
+const config = require('../../config/default.json'); 
+
 let temp = 0;
-const Slide = () => {
+
+const Slide = (props) => {
     const [id,setId] = useState(0);
+    const [imgSlide,setImgSlide] = useState([]);
+    useEffect(() => {
+        $.get(`${config.url}/room/img/${props.id}`, (data) => {
+            let imgSlideTemp = [];
+            data.map(src=>imgSlideTemp.push(src.img));
+            setImgSlide(imgSlideTemp);
+        });
+    }, [props.id]);
     return (
         <div style={{overflow:'hidden'}}>
             <div className="slide">

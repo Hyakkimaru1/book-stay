@@ -1,21 +1,47 @@
-import React, { Component } from 'react';
+import React,{useEffect, useState} from 'react';
 import Slide from './Slide';
 import BodyPage from './BodyPage';
 import CardDetail from '../CardDetail/CardDetail';
-class PageRoom extends Component {
-    render() {
-        return (
+import $ from 'jquery';
+import {
+    useParams, Redirect,useLocation, useHistory 
+} from "react-router-dom";
+
+const config = require('../../config/default.json'); 
+
+const PageRoom = () => {
+    let history = useHistory();
+    const { id } = useParams();
+    const [checkLength,setCheckLength] = useState(true);
+    useEffect(() => {
+        $.get(`${config.url}/room/maxID`, (data) => {
+            if (id>data.max){
+                setCheckLength(false);
+            }
+        });
+        history.push({
+            pathname: `/rooms/${id}`,
+          });
+        console.log(history);
+    }, [id]);
+
+    if (!isNaN(id) && checkLength)
+    {  return (
             <div>
-                <Slide/>
-                <BodyPage/>
-                <div className="cozy__title row" style={{padding:'.2rem'}}>
-                <div style={{marginBottom:'1.6rem'}} className="cozy__title">Chỗ ở tương tự</div>
-                <CardDetail/>
+                <Slide id={id}/>
+                <BodyPage id={id}/>
+                <div className="cozy__title row" style={{ padding: '.2rem' }}>
+                    <div style={{ marginBottom: '1.6rem' }} className="cozy__title">Chỗ ở tương tự</div>
+                    <CardDetail />
                 </div>
-                
+
             </div>
         );
+    }
+    else {
+        return (<Redirect to="/error"></Redirect>)
     }
 }
 
 export default PageRoom;
+

@@ -1,0 +1,41 @@
+.navCreate{
+    min-height: 6rem;
+    display: flex;
+    border-bottom: 1px solid #dfdbdb;
+    &__info{
+        width: 100%;
+        margin: 1px 2px 0;
+        padding: 1rem;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        font-size: 1.6rem;
+        text-align: center;
+        border-bottom: 1.5px solid $color-secondary-dark;
+        cursor: context-menu;
+        position: relative;
+        z-index: 1;
+        &--tick{
+            position: absolute;
+            right: 4rem;
+            z-index: -100;
+            color: #008009;
+            fill: #008009;
+        }
+        &--hide{
+            display: none;
+        }
+        &--notAcvite{
+            border-bottom: none;
+            &:hover{
+                background-color: #e6e6e6;
+                cursor: pointer;
+            }
+        }
+        &--notAllowed{
+            cursor: not-allowed;
+            color: #e6e6e6;
+        }
+    }
+
+}

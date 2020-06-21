@@ -12,6 +12,7 @@
     overflow: hidden;
     filter: drop-shadow(3px 3px 3px $bg-accent);
     transition: height $speed ease;
+    z-index: 1000;
   }
   
   .menu {
@@ -25,6 +26,13 @@
     border-radius: $border-radius;
     transition: $speed;
     padding: 0.5rem;
+    cursor: context-menu;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
   }
   
   .menu-item .icon-button {

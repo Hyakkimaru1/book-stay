@@ -1,0 +1,17 @@
+{
+  "mysql": {
+    "connectionLimit": 50,
+    "host": "localhost",
+    "port": 8889,
+    "user": "root",
+    "password": "root",
+    "database": "bookstay"
+  },
+  "paginate": {
+    "limit":4
+  },
+  "newProduct":{
+    "time": 10
+  },
+  "secret": "book-stay-secret-key"
+}

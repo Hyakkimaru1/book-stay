@@ -11,7 +11,7 @@
 
 
 .icon-button{
-    $button-size: calc(#{$icon}*0.5);
+    $button-size: calc(#{$icon}*0.6);
     min-width: $button-size;
     height: $button-size;
     background-color: $bg-accent;
@@ -23,8 +23,15 @@
     justify-content: center;
     transition: filter 300ms;
     font-size: 1.6rem;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
     &:hover {
         filter: brightness(1.05);
+        cursor: context-menu;
     }
     & svg { 
         fill: $text-color;

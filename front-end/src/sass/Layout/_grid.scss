@@ -83,3 +83,13 @@
         width: calc(3*((100% - 3*#{$gutter-horizontal-1of4}) / 4) + 2*#{$gutter-horizontal-1of4});
     }
 }
+
+.container{
+    max-width: $grid-width;
+    margin: 0 auto;
+    background-color: white;
+}
+
+.body{
+    background-color: #F9F9FA;
+}

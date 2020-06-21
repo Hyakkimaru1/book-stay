@@ -1,7 +1,11 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import {RangeDayPicker} from './RangeDayPicker';
 import {checkWeekdays,checkNormalDays,checkDays} from '../../js/checkWeekdays';
 import numberWithComas from '../../js/numberWithCommas';
+import $ from 'jquery';
+
+var moment = require('moment');
+const config = require('../../config/default.json');
 
 const styleHr ={
     marginBottom: '3rem',
@@ -9,13 +13,38 @@ const styleHr ={
 }
 
 
-const RoomSideBar = () => {
-    const caseNormal = 719200;
-    const caseWeekend = 800000;
+const RoomSideBar = (props) => {
+    let caseNormal="0";
+    let caseWeekend="0";
+    
+    const [cast,setCast] = useState(caseNormal);
+    const [user,setUser] = useState({}); 
+    const [maxGuest,setMaxGuest] = useState(0);
+    if (props.data){
+        caseNormal = props.data.giaNgayThuong;
+        caseWeekend = props.data.giaNgayCuoiTuan;
+    }  
+   
+    useEffect(
+        () => {
+            if (props.data){
+                setCast(props.data.giaNgayThuong);
+                $.get(`${config.url}/room/owner/${props.data.id}`,val=>{
+                    setUser(val);
+                }); 
+                setMaxGuest(props.data.soKhachToiDa);        
+            }   
+        },
+        [props.data],
+    );
+
+
     const [quantity,setQuantity] = useState(1);
     const [startDay,setStartDay] = useState(null);
     const [endDate,setEndDate] = useState(null);
-    const [cast,setCast] = useState(caseNormal);
+    
+    
+
     const showDay = ()=>{
         console.log(checkWeekdays(startDay,endDate)) ;  
     };
@@ -25,7 +54,7 @@ const RoomSideBar = () => {
             <div className="room-sidebar__wrap px--12 px--lg--18">
                 <div className="room-sidebar__pricing">
                     <p className="room-sidebar__pricing--fadeIn">
-    <span className="extra-bold">{numberWithComas(cast)}</span> <span className="p--small">/{checkDays(startDay,endDate)}đêm</span> 
+                        <span className="extra-bold">{numberWithComas(cast)}</span> <span className="p--small">/{checkDays(startDay,endDate)}đêm</span> 
                     </p>
                     <RangeDayPicker onDatesChange={
                         (newStartDay,newEndDate)=>{
@@ -47,9 +76,9 @@ const RoomSideBar = () => {
                             className="room-sidebar__pricing--cur-minus room-sidebar__pricing--cur-ban noselect">−</span> 
                             <span style={{padding: '5px 13px'}}>{quantity} khách</span> 
                             <span id="plus" onClick={()=>{
-                                if (quantity!==10){
+                                if (quantity!==maxGuest){
                                     setQuantity(quantity+1);
-                                    if (quantity+1===10){
+                                    if (quantity+1===maxGuest){
                                         document.getElementById('plus').classList.add('room-sidebar__pricing--cur-ban');
                                     }  
                                     document.getElementById('minus').classList.remove('room-sidebar__pricing--cur-ban')
@@ -67,11 +96,11 @@ const RoomSideBar = () => {
                     <div style={styleHr}></div>
                     <a href="/" style={{textDecoration: 'none', cursor: 'pointer'}}>
                         <div className="room-sidebar__host--img">
-                            <img className="room-sidebar__host--img-show" alt="" src="https://cdn.luxstay.com/users_avatar_default/default-avatar.png" />
+                            <img className="room-sidebar__host--img-show" alt="" src={user.avatar} />
                         </div>
                         <div className="room-sidebar__host--name">
-                            <p className="room-sidebar__host--name-main" >Homestay Little Flower</p>
-                            <p  className="room-sidebar__host--name-detail" >Tham gia 03/2020</p>
+                            <p className="room-sidebar__host--name-main" >{user.ten}</p>
+                            <p  className="room-sidebar__host--name-detail" >Tham gia {moment(user.timeCreate).format('MM/YYYY')}</p>
                         </div>
                     </a>
                 </div>

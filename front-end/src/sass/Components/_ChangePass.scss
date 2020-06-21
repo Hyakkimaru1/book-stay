@@ -1,0 +1,60 @@
+.ChangePass{
+    font-size: 1.6rem;
+    margin-bottom: 5rem;
+     &__group :not(:last-child){
+        margin-bottom: 2rem;
+    }
+
+    &__input{
+        font-size: 1.5rem;
+        font-family: inherit;
+        color: #666;
+        padding: 1.5rem 2rem;
+        color: inherit;
+        border: none;
+        border-radius: .5rem;
+        border-bottom: 3px solid transparent;
+        display: block;
+        background-color: rgba(0,0,0,.07);
+        width: 80%;
+        &:focus{
+           
+            background-color: white;
+            outline: none;
+            box-shadow: 0 1rem 2rem rgba($color: $color-black, $alpha: .15);
+            border-bottom: 3px solid $color-primary;
+            &:invalid{
+                border-bottom: 3px solid $color-secondary-dark;
+            }
+        }
+        &::-webkit-input-placeholder{
+            color: $color-grey;
+        }
+    }
+
+    &__input:placeholder-shown + &__label{
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-4rem);
+    }
+
+    &__label{
+        font-size: 1.5rem;
+        margin-left: 2rem;
+        top: -10rem;
+        position: relative;
+        display: block;
+        transition: all .3s;
+        font-weight: 700;
+        color: #666;
+    }
+    &__error{
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-left: 20rem;
+        margin-top: -14rem;
+        position: absolute;
+        display: block;
+        transition: all .3s;
+    }
+}

@@ -10,7 +10,7 @@ class LiReview extends Component {
                         </div>
                         <div className="review__elements--detail-name">
                             <p className="review__elements--detail-name-main" >{this.props.name} &nbsp;&nbsp; <StarRating star={this.props.star}/></p>
-                            <p  className="review__elements--detail-name-detail" >{this.props.days}</p>
+                            <p  className="review__elements--detail-name-detail" >lúc {this.props.days}</p>
                         </div>
                 </div>
                 
