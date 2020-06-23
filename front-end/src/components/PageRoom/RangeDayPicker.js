@@ -37,6 +37,7 @@ export class RangeDayPicker extends React.Component {
               onDatesChange={this.onDatesChange}
               focusedInput={this.state.focusedInput}
               onFocusChange={this.onFocusChange}
+             
             />
           </div>
         )

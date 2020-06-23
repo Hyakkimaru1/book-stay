@@ -8,6 +8,10 @@ import PageCreateARoom from './components/PageCreateARoom/PageCreateARoom';
 import NavBar from './components/NavBar/NavBar';
 import NavItem from './components/NavBar/NavItem';
 import DropdownMenu from './components/NavBar/DropdownMenu';
+import User from './components/User/User';
+
+
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -74,6 +78,9 @@ function App() {
               <NavItem icon = {<Link to="/">🤓</Link>}/>
               <NavItem icon = {<Link to="/login">Login/Logup</Link>}/>
         </NavBar>}
+        <User/>
+
+
         <Switch>
             <Router exact path="/">
             </Router>

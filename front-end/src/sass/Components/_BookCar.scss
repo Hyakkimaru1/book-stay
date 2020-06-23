@@ -1,0 +1,21 @@
+.car{
+    &__list{
+        
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-top: 50px;
+        margin-left: auto;
+        margin-right: auto;
+        width: 50%;
+        opacity: 50%;
+        & svg{
+            width: 100%;
+        }
+        & span{
+            text-align: center;
+        }
+    }
+   
+    
+}
