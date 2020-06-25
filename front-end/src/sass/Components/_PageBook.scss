@@ -1,0 +1,136 @@
+.PageBook{
+    color: #555;
+    font-size: 1.5rem;
+    line-height: 2rem;
+    padding-bottom: 7rem;
+
+    &__payment{
+        margin-top: 5rem;
+        padding: 3rem 2rem;
+        background: white;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &__link{
+        padding-top: 2rem;
+        &--item{
+            font-weight: 500;
+            font-size: 1.6rem;
+        }
+        
+    }
+
+    &__head{
+        padding-top: 5rem;
+        font-size: 3rem;
+        font-weight: 700;
+        color: #222;
+    }
+
+    &__body{
+        margin-top: 4rem;
+        &--part{
+            margin-top: 3rem;
+        }
+    }
+
+    &__title{
+        font-weight: 700;
+        color: #222;
+        &--force{
+            color: red;
+        }
+    }
+
+    &__text{
+        margin-top: 1rem;
+    }
+
+    &__textBox{
+        margin-top: 1rem;
+        border: none;
+        background-color: white;
+        width: 45%;
+    }
+
+    &__checkInfo{
+        display: inline-block;
+        margin-top: 1rem;
+        width: 45%;
+    }
+
+    &__time{
+        display: inline-block;
+        margin-top: 1rem;
+        border: none;
+        background-color: white;
+        width: 45%;
+        line-height: 3rem;
+        &--line{
+            width: 45%;
+            height: .4rem;
+            margin-bottom: .5rem;
+            border-radius: .5rem;
+            &-blue{
+                border: 1px solid #28CA6E;
+                background-color: #28CA6E;
+            }
+            &-red{
+                border: 1px solid #FBDB91;
+                background-color: #FBDB91;
+            }
+        }
+        &--check{
+            color: #999;
+            font-size: 1.7rem;
+        }
+
+        &--timeCheck{
+            color: #222;
+            font-size: 2.7rem;
+        }
+
+        &--date{
+            color: #999;
+        }
+    }
+
+    &__slide{
+        background-color: white;
+        border-radius: .5rem;
+        padding: 2rem;
+
+        &--head{
+            margin-bottom: 2rem;
+        }
+
+        &--default{
+            padding: 2rem 0;
+            border-top: 1px solid #e6e6e6;
+        }
+
+        &--img{
+            width: 80%;
+            padding: 8rem;
+            margin: 0 auto;
+            background-size: cover;
+            border-radius: .5rem;
+            margin-top: 1rem;
+        }
+        &--icon{
+            display: flex;
+            margin-top: 1rem;
+        }
+
+        &--cast{
+            display: flex;
+            flex-direction: column;
+            &-element{
+                justify-content: space-between;
+                display: flex;
+            }
+        }
+    }
+
+}

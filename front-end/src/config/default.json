@@ -1,3 +1,4 @@
 {
-  "url":"http://localhost:3300"
+  "url":"http://localhost:3300",
+  "castService":0.12
 }

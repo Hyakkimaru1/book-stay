@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React, { useState, useReducer,useEffect, useContext } from 'react';
+import React, { useState, useReducer,useEffect } from 'react';
 import './App.css';
 import './style.css';
 import PageRoom from './components/PageRoom/PageRoom';
@@ -12,19 +12,22 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,Redirect
+  Link
 } from 'react-router-dom';
 import {ReactComponent as CaretIcon} from '../src/icons/caret.svg';
 import { UserContext } from './UserContext';
 import Login from './components/Login/Login';
 import {UserReducer} from './UserReducer';
 import ProtectHostCreate from './ProctectHostCreate';
+import ProtectBooked from './ProtectBooked';
 import Cookies from 'js-cookie';
-import $, { type } from 'jquery';
+import $ from 'jquery';
+import PageBookRoom from './components/PageBookRoom/PageBookRoom';
+import MomoQR from './components/Payment.js/MomoQR';
 const config = require('./config/default.json');
 
 function App() {
-  const [checkError,setCheckError] = useState(true);
+  //const [checkError,setCheckError] = useState(true);
   const [state, dispatch] = useReducer(UserReducer, null);
   //Begin when go on web check login or not
   useEffect(() => {
@@ -38,6 +41,10 @@ function App() {
           success: function( id ) {
               dispatch( {
                   id:id.id,
+                  avt:id.avt,
+                  email:id.email,
+                  ten:id.ten,
+                  sdt:id.sdt,
                   type:"login"
               });
           }
@@ -53,8 +60,7 @@ function App() {
        type: "logout"
       });
     }
-    console.log(state);
-  }, [Cookies]);
+  }, []);
   if (!state) return null;
   else 
   return (
@@ -77,14 +83,24 @@ function App() {
         <Switch>
             <Router exact path="/">
             </Router>
+
             <Route path="/rooms/:id"  children={<PageRoom />} />
+            
             <ProtectHostCreate path="/host/create">
                 <PageCreateARoom />
             </ProtectHostCreate>
+
+            <ProtectBooked path="/checkout/room">
+                <PageBookRoom/>
+            </ProtectBooked>
+
+            <Route path="/payment/momo" children={<MomoQR/>}/>
+
             <Route path="/login" children={<Login></Login>} />
+
             <Router>
                 <h1>ERROR</h1>
-                <Link onClick={()=> {setCheckError(false)}} to="/">Public Page</Link>
+               <Link to="/">Public Page</Link>
             </Router>
         </Switch>
       </UserContext.Provider>

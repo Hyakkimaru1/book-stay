@@ -13,5 +13,6 @@
   "newProduct":{
     "time": 10
   },
-  "secret": "book-stay-secret-key"
+  "secret": "book-stay-secret-key",
+  "urlWebBackEnd": ""
 }

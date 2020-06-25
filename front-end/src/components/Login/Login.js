@@ -19,7 +19,11 @@ const Login = () => {
                 (val)=>{
                     dispatch({
                         id:val.id,
-                        type:'login'
+                        avt:val.avt,
+                        email:val.email,
+                        ten:val.ten,
+                        sdt:val.sdt,
+                        type:"login"
                     });
                     Cookies.set('token', val.token,{ expires: 10 });
             })
