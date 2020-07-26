@@ -14,7 +14,7 @@ const config = require('../../config/default.json');
 class PageCreateARoom extends Component {
     constructor(props){
         super(props);
-        this.state={
+        this.state=this.props.data?this.props.data:{
             option: "form_create_room_1",
             prev:"",
             ten:"",
@@ -50,11 +50,27 @@ class PageCreateARoom extends Component {
         this.checkPriceFill = this.checkPriceFill.bind(this);
     }
 
-    componentWillMount(){
+    componentDidMount(){
         $.get(`${config.url}/room/tiennghi`,val=>{
             this.setState({danhSachTienNghi:val});
             val.map(valTemp => this.state.tiennghi.push(false));
         });
+    }
+
+    async componentWillReceiveProps(newProps)
+    {
+        if (newProps.data) {
+            let tiennghicuaphong;
+            await $.get(`${config.url}/room/tiennghi/${this.props.id}`,val=>{
+                tiennghicuaphong=val;
+            });
+            $.get(`${config.url}/room/tiennghi`,val=>{
+                this.setState({danhSachTienNghi:val});
+                val.map(valTemp => tiennghicuaphong.find(element => element.tenTienNghi === valTemp.tenTienNghi )?this.state.tiennghi.push(true):this.state.tiennghi.push(false));
+            });
+            
+            this.setState(newProps.data);
+        }
     }
 
     chooseOption(newOption){
@@ -247,38 +263,77 @@ class PageCreateARoom extends Component {
                 return null;
             });
             delete dataSend.tiennghi;
-            $.ajax({
-                url:`${config.url}/host/upload`,
-                type:'post',
-                data:dataSend,
-                xhrFields: {
-                    withCredentials: true
-                }, success: (idRoom)=>{
-                    if (idRoom.id>0){
-                        const data = new FormData()
-                        for(var temp = 0; temp<this.state.hinhAnh.length; temp++) {
-                            data.append('file', this.state.hinhAnh[temp])
-                        }
-                        $.ajax({ 
-                            url: `${config.url}/host/upload/${idRoom.id}`, 
-                            type: 'post', 
-                            data: data, 
-                            contentType: false, 
-                            processData: false, 
-                            success: function(response){ 
-                                if(response === "oke"){ 
-                                    toast.success('Đăng tải thành công') ;
-                                } 
-                                else{ 
+            //check update or create a new room
+            if (this.props.id){
+                $.ajax({
+                    url:`${config.url}/host/roomowner/${this.props.id}/update`,
+                    type:'post',
+                    data:dataSend,
+                    xhrFields: {
+                        withCredentials: true
+                    }, success: ()=>{
+                        if (typeof this.state.hinhAnh !== 'string'){
+                            const data = new FormData();
+                            for(var temp = 0; temp<this.state.hinhAnh.length; temp++) {
+                                data.append('file', this.state.hinhAnh[temp])
+                            }
+                            $.ajax({ 
+                                url: `${config.url}/host/upload/${this.props.id}`, 
+                                type: 'post', 
+                                data: data, 
+                                contentType: false, 
+                                processData: false, 
+                                success: function(response){ 
+                                    if(response === "oke"){
+                                        toast.success('Cập nhật thành công');
+                                    } 
+                                    else{ 
+                                        toast.error('Cập nhật thất bại');
+                                    } 
+                                },
+                                error: function() {
+                                    toast.error('Cập nhật ảnh thất bại');
+                                }
+                            });
+                        } 
+                }});
+            }
+            else {
+                $.ajax({
+                    url:`${config.url}/host/upload`,
+                    type:'post',
+                    data:dataSend,
+                    xhrFields: {
+                        withCredentials: true
+                    }, success: (idRoom)=>{
+                        if (idRoom.id>0){
+                            const data = new FormData()
+                            for(var temp = 0; temp<this.state.hinhAnh.length; temp++) {
+                                data.append('file', this.state.hinhAnh[temp])
+                            }
+                            $.ajax({ 
+                                url: `${config.url}/host/upload/${idRoom.id}`, 
+                                type: 'post', 
+                                data: data, 
+                                contentType: false, 
+                                processData: false, 
+                                success: function(response){ 
+                                    if(response === "oke"){ 
+                                        toast.success('Đăng tải thành công') ;
+                                    } 
+                                    else{ 
+                                        toast.error('Đăng tải thất bại');
+                                    } 
+                                },error: function() {
                                     toast.error('Đăng tải thất bại');
                                 } 
-                            }, 
-                        });
-                    }
-                    else {
-                        toast.error('Đăng tải thất bại');
-                    }
-            }});
+                            });
+                        }
+                        else {
+                            toast.error('Đăng tải thất bại');
+                        }
+                }});
+            } 
         }
     }
     render() {

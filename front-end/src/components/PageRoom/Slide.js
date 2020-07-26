@@ -13,7 +13,9 @@ const Slide = (props) => {
             let imgSlideTemp = [];
             data.map(src=>imgSlideTemp.push(src.img));
             setImgSlide(imgSlideTemp);
+            document.getElementById("loader").style.display="none";
         });
+        
     }, [props.id]);
     return (
         <div style={{overflow:'hidden'}}>

@@ -1,0 +1,102 @@
+.ListBookRoom{
+    padding: 2rem 3rem;
+    margin-top: 3rem;
+    border-radius: .8rem;
+    background-color: white;
+    &__status{
+        background-color: #28CA6E;
+        display: inline-block;
+        color: white;
+        padding: .2rem .4rem;
+        border-radius: .4rem;
+    }
+    &__body{
+        display: flex;
+        justify-content: space-between;
+        margin-top: 2rem;
+    }
+    &__name{
+        flex: 1 30%;
+        font-size: 2.5rem;
+        line-height: 3rem;
+        padding-right: 4rem;
+        border-right: 1px solid #CCC;
+    }
+    &__detail{
+        flex: 1 45%;
+        &--label{
+            color: #999;
+            font-size: 1.2rem;
+        }
+        &--containt{
+            font-size: 1.6rem;
+        }
+        padding-left: 5rem;
+        border-right: 1px solid #CCC;
+    }
+
+    &__grid{
+        display: grid; 
+        grid-template-columns: auto auto auto;
+    }
+
+    &__showmore{
+        flex: 1 24%;
+        padding-left: 3rem;
+        padding-top: 2rem;
+        &--bt{
+            &:hover{
+                cursor: pointer;
+            }
+            outline: none;
+            padding: 1rem 7.4rem;
+            font-weight: 700;
+            border-radius: .4rem;
+            border: none;
+            color: white;
+            background-color: $color-main;
+        }
+    }
+
+    &__button{
+        width: 5rem;
+        padding: .4rem 0;
+        font-size: 1.4rem;
+        font-weight: 500;
+        margin: 0 .5rem;
+        border-radius: .5rem;
+        border: 1px solid #f68a39;
+        outline: none;
+        cursor: pointer;
+    }
+
+    &__normalBt{
+        border: 1px solid #f68a39;
+        outline: none;
+        width: 5rem;
+        padding: .4rem 0;
+        font-size: 1.4rem;
+        font-weight: 500;
+        margin: 0 .5rem;
+        border-radius: .5rem;
+        cursor: pointer;
+    }
+
+    &__filter{
+        display: none;
+        background-color: white;
+        position: absolute;
+        top: 4rem;
+        padding: 2rem 1.5rem;
+        border-radius: .5rem;
+        font-size: 2rem;
+        font-weight: 500;
+        max-height: 30rem;
+        overflow: auto;
+        &--item{
+            margin-bottom: .5rem;
+            cursor: pointer;
+        }
+        box-shadow: 0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    }
+}

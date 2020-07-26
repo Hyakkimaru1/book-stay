@@ -17,6 +17,7 @@ const Login = () => {
         {
             $.post(`${config.url}/user/login`,{username,password},
                 (val)=>{
+                    Cookies.set('token', val.token,{ expires: 10 });
                     dispatch({
                         id:val.id,
                         avt:val.avt,
@@ -25,7 +26,6 @@ const Login = () => {
                         sdt:val.sdt,
                         type:"login"
                     });
-                    Cookies.set('token', val.token,{ expires: 10 });
             })
             .fail(function() {
                 toast.error('Sai tài khoản hoặc mật khẩu');

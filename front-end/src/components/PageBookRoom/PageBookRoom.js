@@ -3,7 +3,7 @@ import { useLocation, useHistory } from 'react-router-dom';
 import $ from 'jquery';
 import getUrlParameter from '../../js/getUrlParameter';
 import moment from 'moment';
-import {checkWeekdays,checkNormalDays,checkDays,cast,castService,castTotal} from '../../js/checkWeekdays';
+import {checkDays,cast,castService,castTotal} from '../../js/checkWeekdays';
 import numberWithCommas from '../../js/numberWithCommas';
 import { ToastContainer } from 'react-toastify';
 import PageInfoBook from './PageInfoBook';
@@ -22,7 +22,7 @@ const PageBookRoom = () => {
     const dateIn = moment(getUrlParameter('checkin',location.search));
     const dateOut = moment(getUrlParameter('checkout',location.search));
     const [data,setData] = useState(null);
-    const [link,setLink] = useState(2);
+    const [link,setLink] = useState(1);
 
     useEffect(() => {
         $.get(`${config.url}/room/search/${location.search}`,val => {

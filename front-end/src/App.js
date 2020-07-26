@@ -9,9 +9,6 @@ import NavBar from './components/NavBar/NavBar';
 import NavItem from './components/NavBar/NavItem';
 import DropdownMenu from './components/NavBar/DropdownMenu';
 import User from './components/User/User';
-
-
-
 import {
   BrowserRouter as Router,
   Switch,
@@ -23,16 +20,22 @@ import { UserContext } from './UserContext';
 import Login from './components/Login/Login';
 import {UserReducer} from './UserReducer';
 import ProtectHostCreate from './ProctectHostCreate';
+import ProtectHostFixRoom from './ProtectHostFixRoom';
 import ProtectBooked from './ProtectBooked';
 import Cookies from 'js-cookie';
 import $ from 'jquery';
 import PageBookRoom from './components/PageBookRoom/PageBookRoom';
 import MomoQR from './components/Payment.js/MomoQR';
+import PageHostInf from './components/PageHostInf/PageHostInf';
+import InfWhoBook from './components/ListBookRoom.js/InfWhoBook';
+import ManageRooms from './components/ManageRooms.js/ManageRooms';
+import ListBookRoom from './components/ListBookRoom.js/ListBookRoom';
 const config = require('./config/default.json');
 
 function App() {
   //const [checkError,setCheckError] = useState(true);
   const [state, dispatch] = useReducer(UserReducer, null);
+
   //Begin when go on web check login or not
   useEffect(() => {
     if(Cookies.get('token')){
@@ -73,7 +76,7 @@ function App() {
     <UserContext.Provider value={[state, dispatch]}>
         {state.type==="login" && <NavBar>
               <NavItem icon = {<Link to="/">🤓</Link>}/>
-              <NavItem icon = "Huynh Duy" img="https://i.ytimg.com/vi/beffsLKXCV4/hq720.jpg?sqp=-oaymwEZCNAFEJQDSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLBXk56VfwsPMTWE3wY1WAKa1Mg7Qg"/>
+              <NavItem icon = {state.ten} img="https://i.ytimg.com/vi/beffsLKXCV4/hq720.jpg?sqp=-oaymwEZCNAFEJQDSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLBXk56VfwsPMTWE3wY1WAKa1Mg7Qg"/>
               <NavItem icon = {<CaretIcon/>}>
               <DropdownMenu></DropdownMenu>
               </NavItem>
@@ -84,18 +87,31 @@ function App() {
               <NavItem icon = {<Link to="/">🤓</Link>}/>
               <NavItem icon = {<Link to="/login">Login/Logup</Link>}/>
         </NavBar>}
-        <User/>
-
-
+        
         <Switch>
             <Router exact path="/">
+              <User/>
             </Router>
 
-            <Route path="/rooms/:id"  children={<PageRoom />} />
+            <Route exact strict path="/rooms/:id"  children={<PageRoom />} />
+
+            <Route exact strict path="/host/reservations/:id"  children={<InfWhoBook />} />
+
+            <Route strict path="/host/reservations" children={<ListBookRoom/>}/>
             
-            <ProtectHostCreate path="/host/create">
+            <Route exact strict path="/host/manage" children={<ManageRooms/>}/>
+            
+           
+            
+            <ProtectHostCreate  path="/host/create">
                 <PageCreateARoom />
             </ProtectHostCreate>
+            
+            <ProtectHostFixRoom  path="/host/fix/:id">
+                <PageCreateARoom />
+            </ProtectHostFixRoom>
+
+            <Route exact strict path="/host/:id"  children={<PageHostInf />} />
 
             <ProtectBooked path="/checkout/room">
                 <PageBookRoom/>
@@ -115,6 +131,5 @@ function App() {
     </Router>
   );
 }
-
 
 export default App;

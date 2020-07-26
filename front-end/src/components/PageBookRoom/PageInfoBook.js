@@ -12,7 +12,7 @@ const PageInfoBook = (props) => {
     const location = useLocation();
     const dateIn = moment(getUrlParameter('checkin',location.search));
     const dateOut = moment(getUrlParameter('checkout',location.search));
-    const [state,dispatch] = useContext(UserContext);
+    const [state] = useContext(UserContext);
 
     const [name,setName] = useState(state.ten);
     const [numPhone, setNumPhone] = useState(state.sdt);
@@ -23,22 +23,16 @@ const PageInfoBook = (props) => {
         switch (dateOfWeek) {
             case 1:
                 return 'Thứ 2'
-                break;
             case 2:
                 return 'Thứ 3'
-                break;
             case 3:
                 return 'Thứ 4'
-                break;
             case 4:
                 return 'Thứ 5'
-                break;
             case 5:
                 return 'Thứ 6'
-                break;
             case 6:
-                return 'Thứ 7'
-                break;      
+                return 'Thứ 7'    
             default:
                 return 'Chủ nhật';
         }

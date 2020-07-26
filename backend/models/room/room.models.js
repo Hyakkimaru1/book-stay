@@ -30,4 +30,8 @@ module.exports = {
   addNguoiDatPhong: entity => db.add('danhsachdatphong',entity),
   searchPhongDaDat: entity => db.load(`select * from danhsachdatphong where phong = ${entity.phong} 
   and nguoidat = ${entity.nguoidat} and ngaycheckin='${entity.ngaycheckin}' and ngaycheckout = '${entity.ngaycheckout}' and sokhach = ${entity.sokhach}`),
+  updateRoom: (entity, condition) => db.patch('phong',entity,{id:condition}),
+  removeAllTienNghi: condition => db.del('tiennghicuaphong',{phong:condition}),
+  getImg: id => db.load(`SELECT * FROM img WHERE phong = ${id}`),
+  delImg: condition => db.del('img',{phong:condition}),
 };

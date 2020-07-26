@@ -140,7 +140,7 @@ const RoomSideBar = (props) => {
                 </div>
                 <div className="room-sidebar__host">
                     <div style={styleHr}></div>
-                    <a href="/" style={{textDecoration: 'none', cursor: 'pointer'}}>
+                    <div onClick={()=> history.push(`/host/${user.id}`)}  style={{ cursor: 'pointer'}}>
                         <div className="room-sidebar__host--img">
                             <img className="room-sidebar__host--img-show" alt="" src={user.avatar} />
                         </div>
@@ -148,7 +148,7 @@ const RoomSideBar = (props) => {
                             <p className="room-sidebar__host--name-main" >{user.ten}</p>
                             <p  className="room-sidebar__host--name-detail" >Tham gia {moment(user.timeCreate).format('MM/YYYY')}</p>
                         </div>
-                    </a>
+                    </div>
                 </div>
                 <div className="room-sidebar__call px--12 px--lg--24 w--100">
                    <div className="room-sidebar__call--bg">

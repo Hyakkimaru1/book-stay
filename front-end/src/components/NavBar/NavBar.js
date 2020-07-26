@@ -33,7 +33,7 @@ useEffect(() => {
 
 
         return (
-            <nav className="navbar">
+            <nav id="navbar" className="navbar">
                 <div className = "navbar__container ">
                     <div className = "navbar__container--left ">
                     <div className= "navbar-logo">

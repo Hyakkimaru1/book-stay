@@ -4,6 +4,7 @@
 @import './Base/base';
 @import './Base/font';
 @import './Base/icon';
+@import './Base/loader';
 @import './Components/cards';
 @import './Components/Slide';
 @import './Components/room-sidebar';
@@ -21,11 +22,11 @@
 @import './Components/popup';
 @import './Components/CreateRoom';
 @import './Components/navCreate';
-<<<<<<< HEAD
 @import './Components/PageBook';
-=======
 @import './Components/MenuUser';
 @import './Components/Mybooking';
 @import './Components/BookCar';
 @import './Components/Guestpopup';
->>>>>>> 0e446758b862992a881bef3b67e1af143ceb8dec
+@import './Components/PageHostInf';
+@import './Components/InfWhoBook';
+@import './Components/ListBookRoom';

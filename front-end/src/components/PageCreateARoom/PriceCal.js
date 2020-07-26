@@ -56,7 +56,7 @@ class PriceCal extends Component {
 
             <label className="CreateRoom__label" for="">Phần trăm chiết khấu theo tháng</label>
             <div className= "CreateRoom__Info">
-                <p className= "CreateRoom__Info--inf">&nbsp;&nbsp;%&nbsp;&nbsp;</p>
+                <p className= "CreateRoom__Info--inf">&nbsp;&nbsp;&nbsp;%&nbsp;&nbsp;</p>
                 <input className="CreateRoom__Info--input" value={this.props.giaThang} name="" id="nameHome"  type="number" max="100" min="1" onChange={this.handleChangeFour.bind(this)} onKeyPress={this.onKeyPress.bind(this)} required></input>
             </div>
         

@@ -9,8 +9,33 @@ var Cookies = require('js-cookie');
 const router = express.Router();
 
 
-router.get('/profile', (req, res) => {
-    res.send('aaaaaaab');
+router.post('/profile',verifyToken, async (req, res) => {
+    jwt.verify(req.token,privateKey,async (err,authData)=>{
+        if (err){
+            res.sendStatus(404);
+        } else {
+            const row = await userModels.single(authData.user.id);
+            delete row.pass;
+            delete row.id;
+            delete row.timeCreate;
+            res.send(row);
+        }
+    });
+});
+
+router.post('/profile/update',verifyToken, async (req, res) => {
+    jwt.verify(req.token,privateKey,async (err,authData)=>{
+        if (err){
+            res.sendStatus(404);
+        } else {
+            const row = await userModels.updateUser(req.body,authData.user.id);
+            if (row.insertId!==null && row.insertId!== undefined)
+            {
+                res.send('oke');
+            }
+            else res.sendStatus(400);
+        }
+    });
 });
 
 router.post('/login', async (req, res) => {

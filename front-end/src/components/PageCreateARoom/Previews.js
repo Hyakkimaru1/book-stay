@@ -51,17 +51,14 @@ function Previews(props) {
     <div style={thumb} key={file.name}>
       <div style={thumbInner}>
         <img
-          src={file.preview}
+          src={typeof file === 'string'?file:file.preview}
           style={img}
         />
       </div>
     </div>
   ));
 
-  useEffect(() => () => {
-    // Make sure to revoke the data uris to avoid memory leaks
-    //files.forEach(file => URL.revokeObjectURL(file.preview));
-  }, [files]);
+
 
   return (
     <section className="container" style={{marginTop:'5rem',maxWidth:'80rem'}}>
