@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import InforUser from '../InforUser/InforUser';
+import React from 'react';
+
 
 
 const BodyUser = () => {

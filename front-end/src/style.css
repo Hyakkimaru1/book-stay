@@ -17,7 +17,6 @@
 }
 @media (max-width: 900px) {
   .row {
-    max-width: 50rem;
     padding: 0 3rem;
   }
 }
@@ -688,6 +687,9 @@ input {
   color: #222;
 }
 
+.Box {
+  padding-top: 15px;
+}
 .BoxStart {
   display: flex;
   justify-content: flex-start;
@@ -872,6 +874,7 @@ input {
 
 .navbar {
   position: fixed;
+  z-index: 1000;
   top: 0;
   height: 70px;
   background-color: #fff;
@@ -882,7 +885,6 @@ input {
   margin: 0 auto;
 }
 .navbar-nav {
-  padding-top: 20px;
   max-width: 100%;
   height: 100%;
   display: flex;
@@ -958,7 +960,9 @@ input {
   line-height: 1.5;
   border-radius: 0 !important;
 }
-.navbarsearch__wrapper--box-field input:focus, .navbarsearch__wrapper--box-field textarea:focus, .navbarsearch__wrapper--box-field select:focus {
+.navbarsearch__wrapper--box-field input:focus,
+.navbarsearch__wrapper--box-field textarea:focus,
+.navbarsearch__wrapper--box-field select:focus {
   outline: none;
 }
 .navbarsearch__wrapper--box-field.active {
@@ -967,11 +971,15 @@ input {
 .navbarsearch__wrapper--box-field:focus {
   color: #000000;
 }
+.navbarsearch__wrapper--box-guestwrap {
+  padding-bottom: 7px !important;
+}
 .navbarsearch__wrapper--box-calender, .navbarsearch__wrapper--box-guest {
   cursor: pointer;
-  margin-right: 20px;
+  margin-right: 0px;
   display: flex;
   font-size: 15px;
+  font-family: Arial, Helvetica, sans-serif;
   font-weight: bold;
   width: fit-content;
   justify-content: space-around;
@@ -996,6 +1004,7 @@ input {
   cursor: pointer;
   background-color: #F5F5F5;
   border: 0px !important;
+  font-family: Arial, Helvetica, sans-serif;
   border-radius: 6px;
   width: 230px;
 }
@@ -1006,6 +1015,8 @@ input {
   background-color: #F5F5F5;
   text-align: start !important;
   padding: 8px 0rem 3px !important;
+  font-weight: bold;
+  font-size: 15px !important;
 }
 .navbarsearch__wrapper--box-calender .HHcsf .DateInput, .navbarsearch__wrapper--box-guest .HHcsf .DateInput {
   width: 80px;
@@ -1014,7 +1025,6 @@ input {
   fill: #565a5c;
   height: 39px;
   width: 14px;
-  margin-left: 5px;
 }
 .navbarsearch__wrapper--box-guest {
   margin-right: 0;
@@ -1037,6 +1047,10 @@ input {
 .navbar-logo img {
   width: 7rem;
   height: 5rem;
+}
+
+.login {
+  margin: 100px 100px;
 }
 
 /* Dropdown Menu */
@@ -1491,15 +1505,20 @@ input {
 
 .mybooking {
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 18px;
   background-color: #F8F8F8;
   min-height: 100vh;
 }
 .mybooking__info {
+  font-size: 18px;
   padding-top: 15px;
 }
 .mybooking__info--tag {
   margin: 20px 15px;
+}
+@media (max-width: 900px) {
+  .mybooking__info--tag .row {
+    max-width: 100%;
+  }
 }
 .mybooking__info--tag .row [class^=col-]:not(:last-child) {
   margin-right: 4rem;
@@ -1507,8 +1526,14 @@ input {
 .mybooking__info--tag .col-2-of-3 {
   display: flex;
 }
+@media (max-width: 900px) {
+  .mybooking__info--tag .col-2-of-3 {
+    display: block;
+  }
+}
 .mybooking__info--tag .col-2-of-3 .col-1-of-3 {
   width: 31%;
+  margin-bottom: 5px !important;
 }
 .mybooking__info--tag-box {
   background-color: #ffffff;
@@ -1532,8 +1557,24 @@ input {
 .mybooking__frommonth {
   width: 100%;
 }
-.mybooking__frommonth .DateRangePickerInput__withBorder {
+.mybooking__frommonth--range .HHcsf .DateInput_input {
+  padding: 8px 0rem 3px !important;
+  font-size: 15px !important;
+}
+.mybooking__frommonth--range .HHcsf .DateInput {
+  width: 80px;
+}
+.mybooking__frommonth--range .HHcsf .DateRangePickerInput_arrow_svg {
+  fill: #565a5c;
+  height: 39px;
+  width: 14px;
+}
+.mybooking__frommonth--range .DateRangePickerInput__withBorder {
+  cursor: pointer;
   border: 0px !important;
+  font-family: Arial, Helvetica, sans-serif;
+  border-radius: 6px;
+  width: 230px;
 }
 .mybooking__place {
   cursor: pointer;
@@ -1604,7 +1645,7 @@ input {
 .mybooking__contain--typebar-type a {
   font-size: 15px;
   cursor: pointer;
-  padding: 12px 0px;
+  padding: 13px 0px;
   margin-right: 30px;
 }
 .mybooking__contain--typebar-type span {
@@ -1614,7 +1655,12 @@ input {
   border-bottom: 2px solid #f65e39;
   color: #f65e39;
 }
-.car__list {
+.homestay .row {
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  margin: 10px 0;
+}
+.homestay__list {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1624,11 +1670,106 @@ input {
   width: 50%;
   opacity: 50%;
 }
-.car__list svg {
+.homestay__list svg {
   width: 100%;
 }
-.car__list span {
+.homestay__list span {
   text-align: center;
+}
+.homestay__empty {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+  opacity: 50%;
+}
+.homestay__empty svg {
+  width: 100%;
+}
+.homestay__empty span {
+  text-align: center;
+}
+.homestay .item {
+  border: 1px solid #eeecec !important;
+  display: flex;
+  position: relative;
+  padding: 10px 10px;
+}
+.homestay .item__picture {
+  display: block;
+}
+.homestay .item__picture--heart {
+  top: 5px;
+  right: 5px;
+  position: absolute;
+  z-index: 1;
+}
+.homestay .item__info {
+  padding-top: 10px;
+  padding-left: 10px;
+  display: block;
+  flex: 1 1 70%;
+}
+.homestay .item__info--name .item__title {
+  font-size: 18px;
+  display: flex;
+  text-decoration: none;
+  color: #000;
+  font-weight: bold;
+}
+.homestay .item__info--name .item__title--contain:hover {
+  color: #F65E39;
+}
+.homestay .item__info--type {
+  color: #777777;
+  font-size: 13px;
+  font-weight: bold;
+}
+.homestay .item__info--subcontent {
+  display: flex;
+  justify-content: space-between;
+}
+.homestay .item__info--subcontent .subcontent__left {
+  font-size: 14px;
+}
+.homestay .item__info--subcontent .subcontent__left--location {
+  padding: 10px 0px;
+  text-decoration: none;
+  color: #000;
+  font-weight: bold;
+}
+.homestay .item__info--subcontent .subcontent__left--room {
+  margin-bottom: 10px;
+}
+.homestay .item__info--subcontent .subcontent__right {
+  font-size: 18px;
+  padding-top: 30px;
+}
+.homestay .item__info--subcontent .subcontent__right--price {
+  text-align: right;
+}
+.homestay .item__info--subcontent .subcontent__right--price-sub {
+  margin-bottom: 5px;
+  border-radius: 2px;
+  background-color: #666;
+  color: #fff;
+  padding: 3px 8px;
+  position: relative;
+}
+.homestay .item__info--subcontent .subcontent__right--price-sub:before {
+  content: "";
+  position: absolute;
+  border: 5px solid transparent;
+  border-top-color: #666;
+  bottom: -10px;
+  right: 15px;
+}
+.homestay .item__info--subcontent .subcontent__right--price-num {
+  font-size: 24px;
+  font-weight: 600;
 }
 
 .guestpopup {

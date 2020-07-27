@@ -1,11 +1,11 @@
 
-import React, { useState,useEffect,useRef } from 'react';
+import React, { useState} from 'react';
 import InforUser from '../InforUser/InforUser';
 import MenuUser from './MenuUser';
 import MyBooking from '../MyBooking/MyBooking';
 
 const User = () => {
-    const [option, setOption] = useState(1);
+    const [option, setOption] = useState(2);
 
 
    const onOptionClick = (status) => {

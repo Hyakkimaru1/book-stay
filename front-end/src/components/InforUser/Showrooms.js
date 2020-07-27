@@ -34,24 +34,24 @@ class Showrooms extends Component {
                     <input onClick={()=>{document.getElementById("inputBirthday").focus();}} type="date" id="inputBirthday"  className="Showroom__info--input "></input>
                     <label for="inputSex" className="Showroom__info--label">Giới tính</label>
                     <div className="form">
-                        <div class="form__radio-group">
-                            <input type="radio" class="form__radio-input" id="male" name="gender"/>
-                            <label for="male" class="form__radio-label">
-                                <span class="form__radio-button"></span>
+                        <div className="form__radio-group">
+                            <input type="radio" className="form__radio-input" id="male" name="gender"/>
+                            <label for="male" className="form__radio-label">
+                                <span className="form__radio-button"></span>
                                 Nam
                             </label>
                         </div>
-                        <div class="form__radio-group">
-                            <input type="radio" class="form__radio-input" id="female" name="gender"/>
-                            <label for="female" class="form__radio-label">
-                                <span class="form__radio-button"></span>   
+                        <div className="form__radio-group">
+                            <input type="radio" className="form__radio-input" id="female" name="gender"/>
+                            <label for="female" className="form__radio-label">
+                                <span className="form__radio-button"></span>   
                                 Nữ
                             </label>
                         </div>
-                        <div class="form__radio-group">
-                            <input type="radio" class="form__radio-input" id="another" name="gender"/>
-                            <label for="another" class="form__radio-label">
-                                <span class="form__radio-button"></span>   
+                        <div className="form__radio-group">
+                            <input type="radio" className="form__radio-input" id="another" name="gender"/>
+                            <label for="another" className="form__radio-label">
+                                <span className="form__radio-button"></span>   
                                 Khác
                             </label>
                         </div>

@@ -29,7 +29,7 @@ const Login = () => {
         }  
     }
     return state.type === "logout" ? ( 
-        <div>
+        <div className="login" >
             <ToastContainer/>
             <label style={{display:'block'}} for="username">username</label>
             <input id="username" style={{display:'block'}} type="text" />

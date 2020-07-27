@@ -25,6 +25,8 @@ import {UserReducer} from './UserReducer';
 import ProtectHostCreate from './ProctectHostCreate';
 import Cookies from 'js-cookie';
 import $, { type } from 'jquery';
+import Signup from './components/Login/Signup';
+import ForgotPassword from './components/Login/ForgotPassword';
 const config = require('./config/default.json');
 
 function App() {
@@ -63,6 +65,7 @@ function App() {
   else 
   return (
     <Router>
+     
     <div>
     <UserContext.Provider value={[state, dispatch]}>
         {state.type==="login" && <NavBar>
@@ -75,20 +78,24 @@ function App() {
               </NavItem>
         </NavBar>}
         {state.type==="logout" && <NavBar>
-              <NavItem icon = {<Link to="/">🤓</Link>}/>
+              <NavItem icon = {<Link to="/forgotpw">🤓</Link>}/>
               <NavItem icon = {<Link to="/login">Login/Logup</Link>}/>
         </NavBar>}
-        <User/>
 
 
         <Switch>
             <Router exact path="/">
+              <User/>
+            
             </Router>
+            <Route path="/user"  children={<User/>} />
             <Route path="/rooms/:id"  children={<PageRoom />} />
             <ProtectHostCreate path="/host/create">
                 <PageCreateARoom />
             </ProtectHostCreate>
-            <Route path="/login" children={<Login></Login>} />
+            <Route path="/login" children={ <Login/>} />
+            <Route path="/signup" children={ <Signup/>} />
+            <Route path="/forgotpw" children={ <ForgotPassword/>} />
             <Router>
                 <h1>ERROR</h1>
                 <Link onClick={()=> {setCheckError(false)}} to="/">Public Page</Link>
