@@ -1,7 +1,10 @@
-import React,{useState,useEffect} from 'react';
+import React,{useState,useEffect, useContext} from 'react';
 import {RangeDayPicker} from './RangeDayPicker';
 import {checkWeekdays,checkNormalDays,checkDays} from '../../js/checkWeekdays';
+import { useHistory } from "react-router-dom";
 import numberWithComas from '../../js/numberWithCommas';
+import {UserContext} from '../../UserContext';
+import { toast } from 'react-toastify';
 import $ from 'jquery';
 
 var moment = require('moment');
@@ -24,7 +27,7 @@ const RoomSideBar = (props) => {
         caseNormal = props.data.giaNgayThuong;
         caseWeekend = props.data.giaNgayCuoiTuan;
     }  
-   
+    const [roomInvalid,setRoomInvalid] =useState([]);
     useEffect(
         () => {
             if (props.data){
@@ -32,22 +35,61 @@ const RoomSideBar = (props) => {
                 $.get(`${config.url}/room/owner/${props.data.id}`,val=>{
                     setUser(val);
                 }); 
-                setMaxGuest(props.data.soKhachToiDa);        
+                setMaxGuest(props.data.soKhachToiDa);
+                let tempRoomInvalid = [];
+                props.data.ngayHetPhong.map(val => {
+                    tempRoomInvalid.push(moment(new Date(val.ngayHetPhong)))
+                });
+                //console.log(tempRoomInvalid)
+                setRoomInvalid(tempRoomInvalid);
             }   
         },
         [props.data],
     );
 
-
+    //so khach
     const [quantity,setQuantity] = useState(1);
+    //Ngay bat dau
     const [startDay,setStartDay] = useState(null);
+    //Ket thuc
     const [endDate,setEndDate] = useState(null);
-    
-    
+    const [focused,setFocused] = useState(null);
+    const history = useHistory();
+    const handleFocused = (newFocused) => {
+        setFocused(newFocused);
+    }
 
     const showDay = ()=>{
-        console.log(checkWeekdays(startDay,endDate)) ;  
+        if (startDay!==null && endDate!==null && checkValidDate(startDay,endDate)){
+            console.log("AAAAAA");
+            history.push(`/checkout/room?id=${props.data.id}&checkin=${startDay.format("YYYY-MM-DD")}&checkout=${endDate.format("YYYY-MM-DD")}&guest=${quantity}`);
+        }
+        else if (startDay===null){
+            setFocused('startDate');
+        }
+        else if (endDate===null) {
+            setFocused('endDate');
+        }
     };
+
+    const checkValidDate = (newStartDay,newEndDate)=>{
+        if (roomInvalid.length>0){
+            let check=true;
+            roomInvalid.map(val=>{ 
+                if (newStartDay!==null && newStartDay.isSame(val,'day'))
+                    {  
+                        check=false;
+                        return toast.error(`Rất xin lỗi nhưng ngày ${val.format('DD-MM-YYYY')} đã hết phòng`);   
+                    }
+                else if (newStartDay!==null && newEndDate!==null && newStartDay.isBefore(val, 'day') && newEndDate.isAfter(val,'day')){
+                    check= false;
+                    return toast.error(`Rất xin lỗi nhưng ngày ${val.format('DD-MM-YYYY')} đã hết phòng`); 
+                }
+                return null;
+            });
+            return check;
+        }
+    }
 
     return (
         <div className="room-sidebar">
@@ -56,8 +98,12 @@ const RoomSideBar = (props) => {
                     <p className="room-sidebar__pricing--fadeIn">
                         <span className="extra-bold">{numberWithComas(cast)}</span> <span className="p--small">/{checkDays(startDay,endDate)}đêm</span> 
                     </p>
-                    <RangeDayPicker onDatesChange={
+                    <RangeDayPicker
+                        handleFocused={handleFocused}
+                        focusedInput={focused} 
+                        onDatesChange={
                         (newStartDay,newEndDate)=>{
+                            checkValidDate(newStartDay,newEndDate);
                             setStartDay(newStartDay);
                             setEndDate(newEndDate);
                             setCast(checkNormalDays(newStartDay,newEndDate)*caseNormal+checkWeekdays(newStartDay,newEndDate)*caseWeekend);
@@ -87,14 +133,14 @@ const RoomSideBar = (props) => {
                         </p>
                     </div>
                     <div className="room-sidebar__pricing--bookNow">
-                        <button className="bt-bookNow">
-                            <p onClick={showDay}><i className="fas fa-bolt"></i>&nbsp;&nbsp;đặt ngay</p>
+                        <button onClick={showDay} className="bt-bookNow">
+                            <p><i className="fas fa-bolt"></i>&nbsp;&nbsp;đặt ngay</p>
                         </button>
                     </div>
                 </div>
                 <div className="room-sidebar__host">
                     <div style={styleHr}></div>
-                    <a href="/" style={{textDecoration: 'none', cursor: 'pointer'}}>
+                    <div onClick={()=> history.push(`/host/${user.id}`)}  style={{ cursor: 'pointer'}}>
                         <div className="room-sidebar__host--img">
                             <img className="room-sidebar__host--img-show" alt="" src={user.avatar} />
                         </div>
@@ -102,7 +148,7 @@ const RoomSideBar = (props) => {
                             <p className="room-sidebar__host--name-main" >{user.ten}</p>
                             <p  className="room-sidebar__host--name-detail" >Tham gia {moment(user.timeCreate).format('MM/YYYY')}</p>
                         </div>
-                    </a>
+                    </div>
                 </div>
                 <div className="room-sidebar__call px--12 px--lg--24 w--100">
                    <div className="room-sidebar__call--bg">

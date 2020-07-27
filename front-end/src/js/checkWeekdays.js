@@ -1,4 +1,5 @@
 var moment = require('moment');
+const config = require('../config/default.json');
 
 function checkWeekdays(start, end) {
     start = moment(start); // use a clone
@@ -37,5 +38,18 @@ function checkDays(start, end) {
   return normalDays+' ';
 }
 
+function cast(newStartDay,newEndDate,caseNormal,caseWeekend){
+  return checkNormalDays(newStartDay,newEndDate)*caseNormal+checkWeekdays(newStartDay,newEndDate)*caseWeekend
+}
 
-export {checkWeekdays,checkNormalDays,checkDays}
+function castService(newStartDay,newEndDate,caseNormal,caseWeekend){
+  return (checkNormalDays(newStartDay,newEndDate)*caseNormal+checkWeekdays(newStartDay,newEndDate)*caseWeekend)*config.castService;
+}
+
+function castTotal(newStartDay,newEndDate,caseNormal,caseWeekend){
+  const castTotal = cast(newStartDay,newEndDate,caseNormal,caseWeekend);
+  return castTotal+castTotal*config.castService;
+}
+
+
+export {checkWeekdays,checkNormalDays,checkDays,cast,castService,castTotal}

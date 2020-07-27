@@ -11,7 +11,7 @@ module.exports = {
   singleUsername: async username =>{
     const rows = await db.load(`select * from nguoidung where email = "${username}"`);
     if (rows.length === 0)
-      return null;
+      return null; 
     return rows[0];
   } ,
   addUser: entity =>db.add('nguoidung',entity),
@@ -33,4 +33,6 @@ module.exports = {
 
 
 };
+
+ // updateUser: (entity, condition) => db.patch('nguoidung',entity,{id: condition}),
 

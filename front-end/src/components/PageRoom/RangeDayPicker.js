@@ -6,12 +6,18 @@ export class RangeDayPicker extends React.Component {
         this.state = {
           startDate: null,
           endDate: null,
-          focusedInput: null,
+          focusedInput: this.props.focusedInput,
         }
         this.onDatesChange = this.onDatesChange.bind(this)
         this.onFocusChange = this.onFocusChange.bind(this)
       }
   
+      componentWillReceiveProps(props){
+        this.setState({
+          focusedInput:props.focusedInput,
+        });
+      }
+
       onDatesChange({ startDate, endDate }) {
         this.setState({
           startDate,
@@ -24,6 +30,9 @@ export class RangeDayPicker extends React.Component {
         this.setState({
           focusedInput,
         });
+        if (this.props.handleFocused){
+          this.props.handleFocused(focusedInput);
+        }
       }
   
       render() {

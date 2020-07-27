@@ -1,0 +1,70 @@
+.InfWhoBook{
+    line-height: 2.5rem;
+    &__room{
+        padding: 2rem;
+        background-color: #F6F6F6;
+        text-align: center;
+        transition: all .3s;
+        &:hover{
+            cursor: pointer;
+        }
+        &--img{
+            border-radius: .5rem;
+            height: 20rem;
+            overflow: hidden;
+            &-img{
+                height: 20rem;
+            }
+        }
+        &--name{
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: black;
+        }
+        &--add{
+            font-size: 1.5rem;
+            color: #999;
+        }
+        &--nameadd{
+            background-color: white;
+            padding: 1rem;
+            border-radius: 1rem;
+            margin-top: 1rem;
+        }
+
+        &--line{
+            border: none;
+            border-top: 1px solid #dbdbdb;
+            width: 80%;
+            margin: 1rem auto;
+        }
+    }
+
+    &__who{
+        padding: 2rem;
+        background-color: #F6F6F6;
+        text-align: left;
+        display: grid;
+        grid-template-columns: auto auto;
+        grid-gap: 2rem;
+    }
+
+    &__label{
+        cursor: context-menu;
+        font-size: 1.7rem;
+        color: #666;
+    }
+    &__contain{
+        cursor: context-menu;
+        font-size: 2rem;
+        color: black;
+        background-color: white;
+        border: none;
+        padding: 2rem;
+        border-radius: .5rem;
+    }
+    
+    &__date{
+        color: #f65e39;
+    }
+}

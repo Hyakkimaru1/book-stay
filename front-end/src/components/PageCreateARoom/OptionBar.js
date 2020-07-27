@@ -11,11 +11,9 @@ const OptionBar = (props) => {
         if (id!=='form_create_room_5'){ 
             if (props.current==="form_create_room_1"){ 
                 if (!props.checkNameRoomFill()){
-                    console.log('false');
                     document.getElementById('navCreate_fill_1').classList.add("navCreate__info--hide");
                 }
                 else {
-                    console.log('true');
                     document.getElementById('navCreate_fill_1').classList.remove("navCreate__info--hide");
                 }
             }

@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom';
 
 function ProtectHostCreate({ children, ...rest }) {
-    const [state, dispatch] = useContext(UserContext);
+    const [state] = useContext(UserContext);
     return (
       <Route
         {...rest}

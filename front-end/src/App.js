@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React, { useState, useReducer,useEffect, useContext } from 'react';
+import React, { useState, useReducer,useEffect } from 'react';
 import './App.css';
 import './style.css';
 import PageRoom from './components/PageRoom/PageRoom';
@@ -9,29 +9,36 @@ import NavBar from './components/NavBar/NavBar';
 import NavItem from './components/NavBar/NavItem';
 import DropdownMenu from './components/NavBar/DropdownMenu';
 import User from './components/User/User';
-
-
-
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,Redirect
+  Link
 } from 'react-router-dom';
 import {ReactComponent as CaretIcon} from '../src/icons/caret.svg';
 import { UserContext } from './UserContext';
 import Login from './components/Login/Login';
 import {UserReducer} from './UserReducer';
 import ProtectHostCreate from './ProctectHostCreate';
+import ProtectHostFixRoom from './ProtectHostFixRoom';
+import ProtectBooked from './ProtectBooked';
 import Cookies from 'js-cookie';
 import $, { type } from 'jquery';
 import Signup from './components/Login/Signup';
 import ForgotPassword from './components/Login/ForgotPassword';
+import $ from 'jquery';
+import PageBookRoom from './components/PageBookRoom/PageBookRoom';
+import MomoQR from './components/Payment.js/MomoQR';
+import PageHostInf from './components/PageHostInf/PageHostInf';
+import InfWhoBook from './components/ListBookRoom.js/InfWhoBook';
+import ManageRooms from './components/ManageRooms.js/ManageRooms';
+import ListBookRoom from './components/ListBookRoom.js/ListBookRoom';
 const config = require('./config/default.json');
 
 function App() {
-  const [checkError,setCheckError] = useState(true);
+  //const [checkError,setCheckError] = useState(true);
   const [state, dispatch] = useReducer(UserReducer, null);
+
   //Begin when go on web check login or not
   useEffect(() => {
     if(Cookies.get('token')){
@@ -44,6 +51,10 @@ function App() {
           success: function( id ) {
               dispatch( {
                   id:id.id,
+                  avt:id.avt,
+                  email:id.email,
+                  ten:id.ten,
+                  sdt:id.sdt,
                   type:"login"
               });
           }
@@ -59,8 +70,7 @@ function App() {
        type: "logout"
       });
     }
-    console.log(state);
-  }, [Cookies]);
+  }, []);
   if (!state) return null;
   else 
   return (
@@ -70,7 +80,7 @@ function App() {
     <UserContext.Provider value={[state, dispatch]}>
         {state.type==="login" && <NavBar>
               <NavItem icon = {<Link to="/">🤓</Link>}/>
-              <NavItem icon = "Huynh Duy" img="https://i.ytimg.com/vi/beffsLKXCV4/hq720.jpg?sqp=-oaymwEZCNAFEJQDSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLBXk56VfwsPMTWE3wY1WAKa1Mg7Qg"/>
+              <NavItem icon = {state.ten} img="https://i.ytimg.com/vi/beffsLKXCV4/hq720.jpg?sqp=-oaymwEZCNAFEJQDSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLBXk56VfwsPMTWE3wY1WAKa1Mg7Qg"/>
               <NavItem icon = {<CaretIcon/>}>
               <DropdownMenu></DropdownMenu>
               </NavItem>
@@ -83,7 +93,7 @@ function App() {
         </NavBar>}
 
 
-        <Switch>
+        {/* <Switch>
             <Router exact path="/">
               <User/>
             
@@ -95,10 +105,44 @@ function App() {
             </ProtectHostCreate>
             <Route path="/login" children={ <Login/>} />
             <Route path="/signup" children={ <Signup/>} />
-            <Route path="/forgotpw" children={ <ForgotPassword/>} />
+            <Route path="/forgotpw" children={ <ForgotPassword/>} /> */}
+        
+        <Switch>
+            <Router exact path="/">
+              <User/>
+            </Router>
+
+            <Route exact strict path="/rooms/:id"  children={<PageRoom />} />
+
+            <Route exact strict path="/host/reservations/:id"  children={<InfWhoBook />} />
+
+            <Route strict path="/host/reservations" children={<ListBookRoom/>}/>
+            
+            <Route exact strict path="/host/manage" children={<ManageRooms/>}/>
+            
+           
+            
+            <ProtectHostCreate  path="/host/create">
+                <PageCreateARoom />
+            </ProtectHostCreate>
+            
+            <ProtectHostFixRoom  path="/host/fix/:id">
+                <PageCreateARoom />
+            </ProtectHostFixRoom>
+
+            <Route exact strict path="/host/:id"  children={<PageHostInf />} />
+
+            <ProtectBooked path="/checkout/room">
+                <PageBookRoom/>
+            </ProtectBooked>
+
+            <Route path="/payment/momo" children={<MomoQR/>}/>
+
+            <Route path="/login" children={<Login></Login>} />
+
             <Router>
                 <h1>ERROR</h1>
-                <Link onClick={()=> {setCheckError(false)}} to="/">Public Page</Link>
+               <Link to="/">Public Page</Link>
             </Router>
         </Switch>
       </UserContext.Provider>
@@ -106,6 +150,5 @@ function App() {
     </Router>
   );
 }
-
 
 export default App;

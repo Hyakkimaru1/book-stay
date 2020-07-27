@@ -11,8 +11,33 @@ var Cookies = require('js-cookie');
 const router = express.Router();
 
 
-router.get('/profile', (req, res) => {
-    res.send('aaaaaaab');
+router.post('/profile',verifyToken, async (req, res) => {
+    jwt.verify(req.token,privateKey,async (err,authData)=>{
+        if (err){
+            res.sendStatus(404);
+        } else {
+            const row = await userModels.single(authData.user.id);
+            delete row.pass;
+            delete row.id;
+            delete row.timeCreate;
+            res.send(row);
+        }
+    });
+});
+
+router.post('/profile/update',verifyToken, async (req, res) => {
+    jwt.verify(req.token,privateKey,async (err,authData)=>{
+        if (err){
+            res.sendStatus(404);
+        } else {
+            const row = await userModels.updateUser(req.body,authData.user.id);
+            if (row.insertId!==null && row.insertId!== undefined)
+            {
+                res.send('oke');
+            }
+            else res.sendStatus(400);
+        }
+    });
 });
 
 router.post('/login', async (req, res) => {
@@ -25,14 +50,15 @@ router.post('/login', async (req, res) => {
         const rs = bcrypt.compareSync(req.body.password, row.pass);
         if (rs)
             {
-                delete row.sdt;
                 delete row.pass;
-                delete row.avatar;
                 delete row.gioitinh;
                 delete row.diachi;
                 delete row.timeCreate;
                 jwt.sign({user:row}, privateKey, function(err, token) {
-                    res.send({token,id:row.id});
+                    if (err){
+                        res.send(500);
+                    }
+                    res.send({token,id:row.id,ten:row.ten,email:row.email,sdt:row.sdt,avt:row.avatar});
                 });
             } 
         else res.sendStatus(403);
@@ -122,7 +148,7 @@ router.post('/loginAgain',verifyToken, async (req, res) => {
         if (err){
             res.sendStatus(404);
         } else {
-            res.send({id:authData.user.id});
+            res.send({id:authData.user.id,ten:authData.user.ten,email:authData.user.email,sdt:authData.user.sdt,avt:authData.user.avt});
         }
     });
 });
