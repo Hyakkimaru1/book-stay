@@ -16,6 +16,34 @@ function BookHomestay(props) {
     var type = 1;
     const id = 1;
 
+    function all(all, type) {
+        switch (type) {
+            case 'Tất cả chỗ đặt':
+                return all.filter(a => a.trangthai == 1);
+                break;
+            case 'Chờ xác nhận':
+                return all.filter(a => a.trangthai == 1);
+                break;
+            case 'Chờ thanh toán':
+                return all.filter(a => a.trangthai == 1);
+                break;
+            case 'Đã chấp nhận':
+                return all.filter(a => a.trangthai == 1);
+                break;
+            case 'Từ chối':
+                return all.filter(a => a.trangthai == 1);
+                break;
+            case 'Thành công':
+                return all.filter(a => a.trangthai == 1);
+                break;
+            case 'Không thành công':
+                return all.filter(a => a.trangthai == 1);
+                break;
+            default:
+                return all
+        }
+        return all;
+    }
     useEffect(() => {
         $.ajax({
             url: `${config.url}/user/mybooking/${id}`,
@@ -26,7 +54,7 @@ function BookHomestay(props) {
                 withCredentials: false
             }, success: (result) => {
                 setAllBooked(result);
-                 console.log(result);   
+                console.log(result);
 
             }
         });
@@ -42,7 +70,7 @@ function BookHomestay(props) {
                     <ul>
                         {
                             myBooked.map(p => {
-                                return <BookItem name = {p.ten} diaChi = {p.diaChi} gia = {p.gia} soPhong={p.soPhong}/>
+                                return <BookItem name={p.ten} diaChi={p.diaChi} gia={p.gia} soPhong={p.soPhong} />
 
                             })
                         }

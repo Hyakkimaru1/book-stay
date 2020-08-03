@@ -29,10 +29,7 @@ const Signup = () => {
             .fail(function() {
                 toast.error('Bạn đã có tài khoản đăng ký với email này!');
             }); 
-        } 
-
-
-        
+        }  
     }
 
 

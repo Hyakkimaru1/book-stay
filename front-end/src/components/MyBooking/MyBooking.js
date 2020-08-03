@@ -86,7 +86,7 @@ const MyBooking = () => {
                 </div>
                 <div className="mybooking__contain--detail">
                     <div className="mybooking__contain--detail-infor">
-                        {!homestay ? <BookHomestay /> : <BookCar />}
+                        {!homestay ? <BookHomestay select={select} /> : <BookCar />}
                     </div>
                 </div>
 

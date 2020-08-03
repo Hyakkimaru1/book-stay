@@ -1,0 +1,19 @@
+.HostReBar {
+    &__top {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 18px;
+
+        color: rgb(105, 104, 104);
+        &--step {
+            display: flex;
+            &-item {
+                padding: 0 15px;
+                border-right: rgb(204, 203, 203) 2px solid;
+                cursor: pointer;
+                &.active {
+                    color: $color-main;
+                }
+            }
+        }
+    }
+}
