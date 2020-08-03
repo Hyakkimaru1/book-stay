@@ -1,5 +1,4 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
 import {ReactComponent as Empty} from '../../icons/journal.svg';
 function BookCar(props) {
     return (

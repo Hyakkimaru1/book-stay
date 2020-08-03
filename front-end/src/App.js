@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React, { useState, useReducer,useEffect } from 'react';
+import React, { useState, useReducer, useEffect } from 'react';
 import './App.css';
 import './style.css';
 import PageRoom from './components/PageRoom/PageRoom';
@@ -15,16 +15,20 @@ import {
   Route,
   Link
 } from 'react-router-dom';
-import {ReactComponent as CaretIcon} from '../src/icons/caret.svg';
+import { ReactComponent as CaretIcon } from '../src/icons/caret.svg';
 import { UserContext } from './UserContext';
+import { UserReducer } from './UserReducer';
+import $, { type } from 'jquery';
+import Cookies from 'js-cookie';
+
+
 import Login from './components/Login/Login';
 import ForgotPassword from './components/Login/ForgotPassword';
-import {UserReducer} from './UserReducer';
 import ProctectUser from './ProctectUser';
+import Signup from './components/Login/Signup';
+import ProtectHostRegister from './ProctectHostRegister';
 import ProtectHostFixRoom from './ProtectHostFixRoom';
 import ProtectBooked from './ProtectBooked';
-import Cookies from 'js-cookie';
-import $ from 'jquery';
 import PageBookRoom from './components/PageBookRoom/PageBookRoom';
 import MomoQR from './components/Payment.js/MomoQR';
 import PageHostInf from './components/PageHostInf/PageHostInf';
@@ -34,73 +38,96 @@ import ListBookRoom from './components/ListBookRoom.js/ListBookRoom';
 import { ToastContainer } from 'react-toastify';
 import OutOfRoom from './components/ManageRooms.js/OutOfRoom/OutOfRoom';
 import NewPassword from './components/Login/NewPassword';
+import HostRegister from './components/HostRegister/HostRegister.js';
+
 const config = require('./config/default.json');
 
 function App() {
   //const [checkError,setCheckError] = useState(true);
   const [state, dispatch] = useReducer(UserReducer, null);
+  const [hostBar, setHostBar] = useState(false);
+
+  const handleBar = (e) =>{
+    setHostBar(true);
+  }
 
   //Begin when go on web check login or not
   useEffect(() => {
-    if(Cookies.get('token')){
+    if (Cookies.get('token')) {
       $.ajax({
-          url: `${config.url}/user/loginAgain`,
-          type: 'post',
-          xhrFields: {
-              withCredentials: true
-          },
-          success: function( id ) {
-              dispatch( {
-                  id:id.id,
-                  avt:id.avt,
-                  email:id.email,
-                  ten:id.ten,
-                  sdt:id.sdt,
-                  type:"login"
-              });
-          }
-      })
-      .fail(function() {
-          dispatch( {
-              type: "logout"
+        url: `${config.url}/user/loginAgain`,
+        type: 'post',
+        xhrFields: {
+          withCredentials: true
+        },
+        success: function (id) {
+          dispatch({
+            id: id.id,
+            avt: id.avt,
+            email: id.email,
+            ten: id.ten,
+            sdt: id.sdt,
+            type: "login",
+           
           });
-      });
+        }
+      })
+        .fail(function () {
+          dispatch({
+            type: "logout"
+          });
+        });
     }
     else {
-      dispatch ({
-       type: "logout"
+      dispatch({
+        type: "logout"
       });
     }
   }, []);
   if (!state) return null;
-  else 
-  return (
-    <Router>
-    <div>
-    <ToastContainer></ToastContainer>
-    <UserContext.Provider value={[state, dispatch]}>
-        {state.type==="login" && <NavBar>
-              <NavItem icon = {<Link to="/">🤓</Link>}/>
-              <NavItem icon = {state.ten} img="https://i.ytimg.com/vi/beffsLKXCV4/hq720.jpg?sqp=-oaymwEZCNAFEJQDSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLBXk56VfwsPMTWE3wY1WAKa1Mg7Qg"/>
-              <NavItem icon = {<CaretIcon/>}>
-              <DropdownMenu></DropdownMenu>
+  else
+    return (
+      <Router>
+        <div>
+          <ToastContainer/>
+          <UserContext.Provider value={[state, dispatch]}>
+            {state.type === "login" && (!hostBar ?   <NavBar>
+              <NavItem icon={<Link to="/">🤓</Link>} />
+              <NavItem icon={state.ten} img="https://i.ytimg.com/vi/beffsLKXCV4/hq720.jpg?sqp=-oaymwEZCNAFEJQDSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLBXk56VfwsPMTWE3wY1WAKa1Mg7Qg" />
+              <NavItem icon={<CaretIcon />}>
+                <DropdownMenu></DropdownMenu>
               </NavItem>
-              <NavItem icon = {<Link to="/" onClick={()=>dispatch({type:'logout'})}>Logout</Link>}>
+              <NavItem icon={<Link to="/" onClick={() => dispatch({ type: 'logout' })}>Logout</Link>}>
               </NavItem>
-        </NavBar>}
-        {state.type==="logout" && <NavBar>
-              <NavItem icon = {<Link to="/">🤓</Link>}/>
-              <NavItem icon = {<Link to="/login">Login/Logup</Link>}/>
-        </NavBar>}
-        
-        <Switch>
+            </NavBar>: <div></div>)}
+            {state.type === "logout" && <NavBar>
+              <NavItem icon={<Link to="/forgotpw">🤓</Link>} />
+              <NavItem icon={<Link to="/login">Login/Logup</Link>} />
+            </NavBar>}
+
+
+            {/* <Switch>
             <Router exact path="/">
               <User/>
             </Router>
+            <Route path="/user"  children={<User/>} />
+            <Route path="/rooms/:id"  children={<PageRoom />} />
+            <ProtectHostCreate path="/host/create">
+                <PageCreateARoom />
+            </ProtectHostCreate>
+            <Route path="/login" children={ <Login/>} />
+            <Route path="/signup" children={ <Signup/>} />
+            <Route path="/forgotpw" children={ <ForgotPassword/>} /> */}
 
-            <Route exact strict path="/rooms/:id"  children={<PageRoom />} />
+            <Switch>
+              <Router exact path="/">
+              <HostRegister hostBar={handleBar} />
+                {/* <User /> */}
+              </Router>
+              <Route path="/user" children={<User />} />
+              <Route exact strict path="/rooms/:id" children={<PageRoom />} />
 
-            <Route exact strict path="/host/reservations/:id"  children={<InfWhoBook />} />
+              <Route exact strict path="/host/reservations/:id" children={<InfWhoBook />} />
 
             <ProctectUser  strict path="/host/reservations">
                 <Route  children={<ListBookRoom/>}/>
@@ -109,6 +136,10 @@ function App() {
             <ProctectUser exact strict path="/host/managerooms">
               <Route  children={<ManageRooms/>}/>
             </ProctectUser>
+            
+            <ProtectHostRegister path="/host/register">
+                <HostRegister hostBar={handleBar} />
+              </ProtectHostRegister>
 
             <ProctectUser  strict path="/host/outofroom/:id">
                 <Route  children={<OutOfRoom/>}/>
@@ -120,30 +151,31 @@ function App() {
             
             <ProtectHostFixRoom  path="/host/fix/:id">
                 <PageCreateARoom />
-            </ProtectHostFixRoom>
+              </ProtectHostFixRoom>
 
-            <Route exact strict path="/host/:id"  children={<PageHostInf />} />
+              <Route exact strict path="/host/:id" children={<PageHostInf />} />
 
-            <ProtectBooked path="/checkout/room">
-                <PageBookRoom/>
-            </ProtectBooked>
+              <ProtectBooked path="/checkout/room">
+                <PageBookRoom />
+              </ProtectBooked>
 
-            <Route path="/payment/momo" children={<MomoQR/>}/>
+              <Route path="/payment/momo" children={<MomoQR />} />
 
-            <Route path="/login" children={<Login></Login>} />
+              <Route path="/login" children={<Login></Login>} />
+              <Route path="/signup" children={<Signup></Signup>} />
 
             <Route path="/forgotpassword" children={<ForgotPassword/>} />
             <Route path="/newpassword" children={<NewPassword/>} />
             
             <Router>
                 <h1>ERROR</h1>
-               <Link to="/">Public Page</Link>
-            </Router>
-        </Switch>
-      </UserContext.Provider>
-    </div>
-    </Router>
-  );
+                <Link to="/">Public Page</Link>
+              </Router>
+            </Switch>
+          </UserContext.Provider>
+        </div>
+      </Router>
+    );
 }
 
 export default App;

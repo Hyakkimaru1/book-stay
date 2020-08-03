@@ -1,7 +1,6 @@
 import React, {useState, Component } from 'react';
 
-import {ReactComponent as DownIcon} from '../../icons/down-arrow.svg';
-import Select from 'react-select';
+// import {ReactComponent as DownIcon} from '../../icons/down-arrow.svg';
 
 
  const MBDropdown = (props) => {
@@ -23,10 +22,6 @@ import Select from 'react-select';
             <li className="mybooking__dropdown--item" onClick={handleChange}>
              
               {props.children}
-            
-               
-                
-         
             </li>
         )
 

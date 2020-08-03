@@ -8,11 +8,11 @@
     "database": "bookstay"
   },
   "paginate": {
-    "limit":5
+    "limit": 5
   },
-  "newProduct":{
+  "newProduct": {
     "time": 10
   },
   "secret": "book-stay-secret-key",
-  "urlWebBackEnd": ""
+  "urlWebBackEnd":""
 }

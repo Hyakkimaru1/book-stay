@@ -43,7 +43,7 @@ class InforUser extends Component {
         {name:"Thông tin tài khoản",info:"Cá nhân hóa tài khoản bằng việc cập nhật thông tin của bạn"}
         :{name:"Thay đổi mật khẩu",info:"Đổi mật khẩu ít nhất 6 tháng 1 lần để bảo vệ tài khoản của bạn"};
         return (
-            <div style={{backgroundColor:'#F8F8F8'}}>
+            <div className="Box" style={{backgroundColor:'#F8F8F8'}}>
                 <div className="row">
                 <ToastContainer/>
                 <div className="col-3-of-4">

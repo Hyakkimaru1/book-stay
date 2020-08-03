@@ -1,6 +1,5 @@
 import React, {useState, useEffect } from 'react';
-import {ReactComponent as Plus} from '../../icons/plus.svg';
-import {ReactComponent as Minus} from '../../icons/minus.svg';
+
 
 const GuestPopup = (props) => {
 
@@ -22,13 +21,13 @@ const GuestPopup = (props) => {
 
     if(child<=0) {
         document.getElementById("child-decrease").classList.add("is-disabled");
-        setChild(0)
+        setChild(0);
     }
     else document.getElementById("child-decrease").classList.remove("is-disabled");
 
     if(baby<=0) {
         document.getElementById("baby-decrease").classList.add("is-disabled");
-        setBaby(0)
+        setBaby(0);
     }
     else document.getElementById("baby-decrease").classList.remove("is-disabled");
 
@@ -37,7 +36,12 @@ const GuestPopup = (props) => {
     props.Total(sum,baby);
         
     }, [adult,child,baby,sum])
-       
+       const clearAll = ()=>
+       {
+           setAdult(0);
+           setBaby(0);
+           setChild(0);
+       }
 
     return (
         <div className="guestpopup">
@@ -118,10 +122,10 @@ const GuestPopup = (props) => {
 
             <div className="guestpopup__item mt-3">
                
-            <span role="button" id="erase" class="guestpopup__item--erase " onClick={()=>setBaby(baby-1)}>
+            <span role="button" id="erase" class="guestpopup__item--erase " onClick={clearAll}>
                 Xóa
                 </span>
-                <span role="button" id="apply" class="guestpopup__item--apply " onClick={()=>setBaby(baby-1)}>
+                <span role="button" id="apply" class="guestpopup__item--apply " >
                 Áp dụng
                 </span>
 

@@ -23,5 +23,18 @@ module.exports = {
   },
   addRecoveryKey: entity =>db.add('recoverykey',entity),
   removeRecoveryKey: condition => db.del('recoverykey',condition),
-  getRecoveryKey: (id,key) => db.load(`select * from recoverykey where user = '${id}' and keyRecovery = ${key}`),
+  getRecoveryKey: (id,key) => db.load(`select * from recoverykey where user = '${id}' and keyRecovery = ${key}`),addUser: entity =>db.add('nguoidung',entity),
+  
+  patchByEmail: entity => {
+    const condition = { email: entity.email };
+    delete entity.email;
+    return db.patch('nguoidung', entity, condition);
+  },
+  allBooking: async id =>{
+    const rows = db.load(`SELECT * FROM danhsachdatphong d, phong p
+    WHERE d.phong = p.id AND nguoidat = "${id}"`);
+    if (rows.length === 0)
+    return null;
+  return rows;
+  },
 };
