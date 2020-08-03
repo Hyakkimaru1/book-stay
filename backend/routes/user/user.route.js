@@ -40,6 +40,7 @@ router.post('/profile/update',verifyToken, async (req, res) => {
 
 router.post('/login', async (req, res) => {
     if (req.body){
+        // check is user or admin
         const row = await userModels.singleUsername(req.body.username);
         if (!row){
             res.sendStatus(404);
@@ -51,6 +52,8 @@ router.post('/login', async (req, res) => {
                 delete row.gioitinh;
                 delete row.diachi;
                 delete row.timeCreate;
+                //if admin will send token admin
+                //jwt.sign({user:row,admin:true}, privateKey, function(err, token)
                 jwt.sign({user:row}, privateKey, function(err, token) {
                     if (err){
                         res.send(500);
@@ -76,6 +79,59 @@ router.post('/loginAgain',verifyToken, async (req, res) => {
     });
 });
 
+router.post('/forgotpassword', async (req, res) => {
+    const row = await userModels.getUserByEmail(req.body.email);
+    if (row){
+        const currentDate = new Date();
+        const countDownTime = new Date(currentDate.getTime()+5*60000);
+        const randomnumber = Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
+        const result = await userModels.addRecoveryKey( {user:row.id,keyRecovery:randomnumber});
+        const x = setTimeout(async() => {
+            await userModels.removeRecoveryKey({id:result.insertId});
+        }, 4*60000);
+        res.send({time:countDownTime,id:row.id});
+    }
+    else res.sendStatus(404);
+});
+
+router.post('/confirmkey', async (req, res) => {
+    if (isNaN(req.body.key))
+    {
+        res.sendStatus(400);
+    }
+    else {
+        const row = await userModels.getRecoveryKey(req.body.id,req.body.key);
+        if (row.length>0){
+            userModels.removeRecoveryKey({user:req.body.id});
+            jwt.sign({id:req.body.id}, privateKey, {expiresIn: '1h'},function(err, token) {
+                if (err){
+                    res.send(500);
+                }
+                else {
+                    res.send({token});
+                }
+            });
+        }
+        else res.sendStatus(404);
+    }
+});
+
+router.post('/changepassword', async (req, res) => {
+    jwt.verify(req.body.token,privateKey,async (err,authData)=>{
+        if (err){
+            res.sendStatus(404);
+        } else {
+            const hash = bcrypt.hashSync(req.body.password);
+            const row = await userModels.updateUser({pass:hash},authData.id);
+            if (row.affectedRows>0){
+                res.sendStatus(200);
+            }
+            else {
+                res.sendStatus(503);
+            }
+        }
+    });
+});
 
 //verify the token
 function verifyToken(req,res,next){

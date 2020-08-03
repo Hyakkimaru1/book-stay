@@ -5,10 +5,11 @@ import OptionBar from './OptionBar';
 import PriceCal from './PriceCal';
 import $ from 'jquery';
 import Previews from './Previews';
-import { ToastContainer, toast } from 'react-toastify';
-
+import { toast } from 'react-toastify';
+import Swal from 'sweetalert2';
 import 'react-toastify/dist/ReactToastify.css';
 import CheckAgain from './CheckAgain';
+import { withRouter } from "react-router-dom";
 
 const config = require('../../config/default.json');
 class PageCreateARoom extends Component {
@@ -265,40 +266,60 @@ class PageCreateARoom extends Component {
             delete dataSend.tiennghi;
             //check update or create a new room
             if (this.props.id){
-                $.ajax({
-                    url:`${config.url}/host/roomowner/${this.props.id}/update`,
-                    type:'post',
-                    data:dataSend,
-                    xhrFields: {
-                        withCredentials: true
-                    }, success: ()=>{
-                        if (typeof this.state.hinhAnh !== 'string'){
-                            const data = new FormData();
-                            for(var temp = 0; temp<this.state.hinhAnh.length; temp++) {
-                                data.append('file', this.state.hinhAnh[temp])
-                            }
-                            $.ajax({ 
-                                url: `${config.url}/host/upload/${this.props.id}`, 
-                                type: 'post', 
-                                data: data, 
-                                contentType: false, 
-                                processData: false, 
-                                success: function(response){ 
-                                    if(response === "oke"){
-                                        toast.success('Cập nhật thành công');
-                                    } 
-                                    else{ 
-                                        toast.error('Cập nhật thất bại');
-                                    } 
-                                },
-                                error: function() {
-                                    toast.error('Cập nhật ảnh thất bại');
+                const currentComponents = this;
+                Swal.fire({
+                    title: 'Bạn có chắc muốn thay đổi?',
+                    text: "Điều này sẽ làm thay đổi phòng bạn đã đăng!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Đồng ý!',
+                    cancelButtonText:'Cân nhắc lại'
+                  }).then((result) => {
+                    if (result.value) {
+                        $.ajax({
+                            url:`${config.url}/host/roomowner/${this.props.id}/update`,
+                            type:'post',
+                            data:dataSend,
+                            xhrFields: {
+                                withCredentials: true
+                            }, success: ()=>{
+                                if (this.state.hinhAnh.length>0 && typeof this.state.hinhAnh[0] !== 'string'){
+                                    const data = new FormData();
+                                    for(var temp = 0; temp<this.state.hinhAnh.length; temp++) {
+                                        data.append('file', this.state.hinhAnh[temp])
+                                    }
+                                    $.ajax({ 
+                                        url: `${config.url}/host/upload/${this.props.id}`, 
+                                        type: 'post', 
+                                        data: data, 
+                                        contentType: false, 
+                                        processData: false, 
+                                        success: function(response){ 
+                                            if(response === "oke"){
+                                                toast.success('Cập nhật thành công');
+                                                currentComponents.props.history.push('/host/managerooms');   
+                                            } 
+                                            else{ 
+                                                toast.error('Cập nhật thất bại');
+                                            } 
+                                        },
+                                        error: function() {
+                                            toast.error('Cập nhật ảnh thất bại');
+                                        }
+                                    });
+                                }else {
+                                    toast.success('Cập nhật thành công');
+                                    this.props.history.push('/host/managerooms');
                                 }
-                            });
-                        } 
-                }});
+                        }});
+                    }
+                  })
+                
             }
             else {
+                const currentComponents = this;
                 $.ajax({
                     url:`${config.url}/host/upload`,
                     type:'post',
@@ -320,6 +341,7 @@ class PageCreateARoom extends Component {
                                 success: function(response){ 
                                     if(response === "oke"){ 
                                         toast.success('Đăng tải thành công') ;
+                                        currentComponents.props.history.push('/host/managerooms');
                                     } 
                                     else{ 
                                         toast.error('Đăng tải thất bại');
@@ -371,7 +393,7 @@ class PageCreateARoom extends Component {
             isCheckAgain={this.state.isCheckAgain}
             onChange={this.onChange}/>;
         return (
-            <div name="form_create_room">
+            <div style={{marginTop:'10rem'}} name="form_create_room">
                 <OptionBar checkNameRoomFill={this.checkNameRoomFill} 
                  checkMoreInfFill={this.checkMoreInfFill}
                  checkImgsFill={this.checkImgsFill}
@@ -382,7 +404,6 @@ class PageCreateARoom extends Component {
                  onClick={this.chooseOption} 
                  current={this.state.option}
                  updateInfFill={this.updateInfFill.bind(this)}/>
-                <ToastContainer/>
                 <div className="container">
                     {bodyPage}
                     <div className="CreateRoom__bt">
@@ -402,4 +423,4 @@ class PageCreateARoom extends Component {
     }
 }
 
-export default PageCreateARoom;
+export default withRouter(PageCreateARoom);

@@ -40,7 +40,6 @@ const RoomSideBar = (props) => {
                 props.data.ngayHetPhong.map(val => {
                     tempRoomInvalid.push(moment(new Date(val.ngayHetPhong)))
                 });
-                //console.log(tempRoomInvalid)
                 setRoomInvalid(tempRoomInvalid);
             }   
         },
@@ -61,7 +60,6 @@ const RoomSideBar = (props) => {
 
     const showDay = ()=>{
         if (startDay!==null && endDate!==null && checkValidDate(startDay,endDate)){
-            console.log("AAAAAA");
             history.push(`/checkout/room?id=${props.data.id}&checkin=${startDay.format("YYYY-MM-DD")}&checkout=${endDate.format("YYYY-MM-DD")}&guest=${quantity}`);
         }
         else if (startDay===null){
@@ -89,6 +87,7 @@ const RoomSideBar = (props) => {
             });
             return check;
         }
+        return true;
     }
 
     return (

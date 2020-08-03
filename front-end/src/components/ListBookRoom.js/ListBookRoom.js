@@ -3,8 +3,10 @@ import $ from 'jquery';
 import ItemListBookRoom from './ItemListBookRoom';
 import { UserContext } from '../../UserContext';
 import queryString from 'query-string';
+import { useLocation } from 'react-router-dom';
 const config = require('../../config/default.json');
-const ListBookRoom = () => {
+const ListBookRoom = (props) => {
+    const location = useLocation();
     const [state] = useContext(UserContext);
     const [data, setData] = useState(null);
     const typingTimeoutRef = useRef(null);
@@ -18,8 +20,10 @@ const ListBookRoom = () => {
     useEffect(() => {
         let arrayListFilters = [{ten:'Tất cả',id:-1}]; 
         $.get(`${config.url}/host/roomowner/${state.user}`,val => {
-            val.map(item => arrayListFilters.push(item));
-            setListFilter(arrayListFilters);
+            if (val){
+                val.map(item => arrayListFilters.push(item));
+                setListFilter(arrayListFilters);
+            }
         });    
     }, []);
 
@@ -44,6 +48,26 @@ const ListBookRoom = () => {
             //history.push('/ERROR');
         });
     }, [filters]);
+
+    useEffect(() => {
+        if (location.search!==""){
+            const res = location.search.split("=");
+            if (!isNaN(res[1])){
+                if (listFilter){
+                    listFilter.map((val,i)=>{
+                        if (val.id==res[1])
+                            return setItemActive(i)
+                        return;
+                    });
+                }
+                
+                setFilters({
+                    page:1,
+                    filter:res[1]
+                });
+            }
+        }
+    }, [listFilter]);
 
     const handleChange = e => {
         const keyValue = e.target.value;
@@ -93,7 +117,7 @@ const ListBookRoom = () => {
                     <div class="navbarsearch__wrapper--box" style={{position:'relative',transition:'all 1s'}}>
                         <div className="ListBookRoom__filter" id="list_filter">
                             { listFilter && listFilter.map((val,i) => 
-                                <div onClick={() => handleClickChooseFilter(val.id,i)} style={i===itemActive?{color:'#f68a39'}:{color:'#222'}} className="ListBookRoom__filter--item">
+                                <div onClick={() => handleClickChooseFilter(val.id,i)} style={i==itemActive?{color:'#f68a39'}:{color:'#222'}} className="ListBookRoom__filter--item">
                                     {val.ten}
                                 </div>)
                             }

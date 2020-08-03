@@ -16,6 +16,11 @@ module.exports = {
   FROM phong JOIN img on img.phong = phong.id 
   WHERE nguoiDang = ${id} AND trangThai=1
   GROUP BY phong.id`),
+  getRoomManage: id => db.load(`
+  SELECT phong.*,img.img 
+  FROM phong JOIN img on img.phong = phong.id 
+  WHERE nguoiDang = ${id}
+  GROUP BY phong.id`),
   getVoteInRoom: (id,idRoom) => db.load(`SELECT danhGia FROM phong JOIN danhgia ON phong.id = danhgia.phong WHERE nguoiDang = ${id} AND phong = ${idRoom}`),
   //need to check the status that user paid or not `danhsachdatphong.trangthai = 0` 
   getWhoBookTheRoomD: (id,idHost) => db.load(`SELECT phong.diaChi, phong.id as idphong,phong.ten as tenphong, img.img, nguoidung.ten as tennguoidat, nguoidung.sdt as sdtnguoidat, nguoidung.email as emailnguoidat, danhsachdatphong.*,COUNT(*) 

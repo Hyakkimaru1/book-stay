@@ -3,13 +3,17 @@ import { UserContext } from '../../UserContext';
 import $ from 'jquery';
 import { ToastContainer, toast } from 'react-toastify';
 import Cookies from 'js-cookie';
-import { Redirect, useLocation, useHistory } from 'react-router-dom';
+import { Redirect, useLocation, useHistory,Link } from 'react-router-dom';
+import Avatar from '../../icons/Avatar.svg';
+import Bg from '../../icons/bg.svg';
+import Wave from '../../icons/wave.png'
 
 const config = require('../../config/default.json');
 
 const Login = () => {
     const [state,dispatch] = useContext(UserContext);
     const location = useLocation();
+    const history = useHistory();
     const handleClick = () => {
         const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
@@ -33,13 +37,40 @@ const Login = () => {
         }  
     }
     return state.type === "logout" ? ( 
-        <div>
-            <ToastContainer/>
-            <label style={{display:'block'}} for="username">username</label>
-            <input id="username" style={{display:'block'}} type="text" />
-            <label style={{display:'block'}} for="password">password</label>
-            <input id="password" style={{display:'block'}} type="password"/>
-            <button onClick={(handleClick)} style={{display:'block'}} type="">hehe</button>
+        <div className="Login">
+            <img className="Login-wave" src={Wave} alt="" />
+            <div className="Login-container" alt="">
+                <div className="Login-img">
+                    <img src={Bg} />
+                </div>
+                <div className="login-content">
+                <form className="Login__form" action="index.html">
+                        <img src={Avatar} />
+                        <h2 className="title">Welcome</h2>
+                        <div className="input-div one">
+                        <div className="i">
+                                <i style={{fontSize: '1.6rem'}} className="fas fa-user"></i>
+                        </div>
+                        <div className="div">
+                            <input id="username" placeholder="Tên đăng nhập" type="text" className="input Login__input" />
+                            <label for="username" className="Login__label">Tên đăng nhập</label>
+                        </div>
+                        </div>
+                        <div className="input-div pass">
+                        <div className="i"> 
+                                <i style={{fontSize: '1.6rem'}} className="fas fa-lock"></i>
+                        </div>
+                        <div className="div">
+                            <input id="password" placeholder="Mật khẩu" type="password" className="input Login__input" />
+                            <label for="password" className="Login__label">Mật khẩu</label>
+                        </div>
+                        </div>
+                        <Link to={{pathname:"/forgotpassword",state:location.state}} style={{textDecoration: 'none'}}><p className="Login__a">Quên mật khẩu?</p></Link>
+                        <p onClick={handleClick} className="Login__btn">Đăng nhập</p>
+                        <p className="Login__createAcc">Bạn chưa có tài khoản? <strong className="Login__createAcc--link">Đăng ký ngay</strong></p>
+                    </form>
+                </div>
+            </div>
         </div>
     ) : <Redirect to={ location.state ? location.state.from : '/'}></Redirect>;
 }

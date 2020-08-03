@@ -12,21 +12,17 @@ const config = require('../../config/default.json');
 
 const PageRoom = () => {
     const { id } = useParams();
-    const [checkLength,setCheckLength] = useState(true);
+    const [checkRoomValid,setCheckRoomValid] = useState(true);
     useEffect(() => {
         $.get(`${config.url}/room/isRoom/${id}`, (data) => {
             if (!data.val){
-                setCheckLength(false);
+                setCheckRoomValid(false);
             }
         });
-        /*
-        history.push({
-            pathname: `/rooms/${id}`,
-          });
-        console.log(history); */
+        window.scrollTo(0, 0);
     }, [id]);
 
-    if (!isNaN(id) && checkLength)
+    if (!isNaN(id) && checkRoomValid)
     {  return (
         <div>
             <div id="loader" className="loaderBackground">
@@ -34,7 +30,6 @@ const PageRoom = () => {
             </div>
             
             <div>
-                <ToastContainer/>
                 <Slide id={id}/>
                 <BodyPage id={id}/>
                 <div className="cozy__title row" style={{ padding: '.2rem' }}>
