@@ -116,6 +116,32 @@
                         margin-bottom: 10px;
                     }
 
+                    &--rating {
+                        & .bt__default {
+                            margin-left: 15px;
+                            background-color: rgb(247, 112, 78);
+
+                            height: 25px;
+                            text-align: center;
+                            padding: 0 1rem;
+
+                        }
+
+                        & .bt__default:hover {
+                            margin-left: 15px;
+                            background-color: rgb(246, 75, 33);
+
+                        }
+
+                    }
+
+                }
+
+                & .subcontent__mid {
+                    position: absolute;
+                    bottom: 10px;
+                    right: 30%;
+
                 }
 
                 & .subcontent__right {

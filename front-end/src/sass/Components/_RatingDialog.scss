@@ -1,0 +1,69 @@
+.rating {
+    font-size: 25px;
+
+    &__room {
+        margin-top: 10px;
+        display: flex;
+
+        &--name {
+            font-weight: 600;
+            margin-left: 10px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 15px;
+            align-self: flex-start;
+        }
+    }
+
+    &__content {
+        &--text {
+            overflow: hidden;
+            overflow-wrap: break-word;
+            height: 100px;
+            width: 100%;
+        }
+    }
+
+    &__star {
+        margin: 5px 0;
+        text-align: center;
+    }
+
+    & .MuiRating-sizeLarge {
+        font-size: 4rem;
+    }
+
+    &__button {
+        margin-right: 15px;
+        margin-bottom: 15px;
+        & .bt__default {
+            border-radius: 0.5px;
+            padding: 8px 20px;
+            text-transform: uppercase;
+        }
+
+        & .bt__close {
+            font-size: 4rem;
+            padding: 8px 20px;
+            box-sizing: border-box;
+            width: 140px;
+            text-transform: uppercase;
+            font-size: 15px;
+            font-weight: 400;
+            cursor: pointer;
+            color: #555;
+            margin-right: 6px;
+            line-height: 1;
+            background: none;
+            border: none;
+        }
+    }
+}
+
+.MuiTypography-h6 {
+    font-size: 2rem !important;
+    color: $color-main;
+}
+
+.MuiDialogTitle-root {
+    padding-bottom: 5px !important;
+}
