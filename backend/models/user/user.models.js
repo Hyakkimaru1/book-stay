@@ -28,11 +28,11 @@ module.exports = {
     return null;
   return rows;
   },
-
-
+  sendFeedback: entity =>db.add('danhgia',entity),
+  updateUser: (entity, condition) => db.patch('nguoidung',entity,{id: condition}),
 
 
 };
 
- // updateUser: (entity, condition) => db.patch('nguoidung',entity,{id: condition}),
+ // 
 

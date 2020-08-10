@@ -9,7 +9,7 @@ var transporter = mailer.createTransport({ // config mail server
 });
 
 module.exports = {
-    sendOTP: email =>{
+    sendOTP: email => {
         const data = {};
         data.otp = '';
         data.email = email;
