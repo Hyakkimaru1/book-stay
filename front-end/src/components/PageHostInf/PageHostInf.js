@@ -20,7 +20,6 @@ const PageHostInf = () => {
             }
         });
         $.get(`${config.url}/host/roomowner/${id}`,val => {
-            console.log(val);
             if (val !== "false"){
                 setRooms(val);
             }
@@ -50,7 +49,7 @@ const PageHostInf = () => {
                     star=star/val.danhgia.length;
                     return <CardDetail id={val.id} ten={val.ten} diaChi={val.diaChi} giaNgayThuong={val.giaNgayThuong} img={val.img} soKhachToiDa={val.soKhachToiDa} soPhong={val.soPhong} soGiuong={val.soGiuong} star={parseInt(star, 10)}/>
                  }
-                 return <CardDetail/>
+                 return <CardDetail id={val.id} ten={val.ten} diaChi={val.diaChi} giaNgayThuong={val.giaNgayThuong} img={val.img} soKhachToiDa={val.soKhachToiDa} soPhong={val.soPhong} soGiuong={val.soGiuong}/>
                  
              })}
             </div>

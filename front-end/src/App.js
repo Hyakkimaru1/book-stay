@@ -23,20 +23,22 @@ import Cookies from 'js-cookie';
 
 
 import Login from './components/Login/Login';
+import ForgotPassword from './components/Login/ForgotPassword';
+import ProctectUser from './ProctectUser';
 import Signup from './components/Login/Signup';
 import ProtectHostRegister from './ProctectHostRegister';
-import ProtectHostCreate from './ProctectHostCreate';
 import ProtectHostFixRoom from './ProtectHostFixRoom';
 import ProtectBooked from './ProtectBooked';
-import ForgotPassword from './components/Login/ForgotPassword';
 import PageBookRoom from './components/PageBookRoom/PageBookRoom';
 import MomoQR from './components/Payment.js/MomoQR';
 import PageHostInf from './components/PageHostInf/PageHostInf';
 import InfWhoBook from './components/ListBookRoom.js/InfWhoBook';
 import ManageRooms from './components/ManageRooms.js/ManageRooms';
 import ListBookRoom from './components/ListBookRoom.js/ListBookRoom';
+import { ToastContainer } from 'react-toastify';
+import OutOfRoom from './components/ManageRooms.js/OutOfRoom/OutOfRoom';
+import NewPassword from './components/Login/NewPassword';
 import HostRegister from './components/HostRegister/HostRegister.js';
-
 
 const config = require('./config/default.json');
 
@@ -86,10 +88,9 @@ function App() {
   else
     return (
       <Router>
-
         <div>
+          <ToastContainer/>
           <UserContext.Provider value={[state, dispatch]}>
-
             {state.type === "login" && (!hostBar ?   <NavBar>
               <NavItem icon={<Link to="/">🤓</Link>} />
               <NavItem icon={state.ten} img="https://i.ytimg.com/vi/beffsLKXCV4/hq720.jpg?sqp=-oaymwEZCNAFEJQDSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLBXk56VfwsPMTWE3wY1WAKa1Mg7Qg" />
@@ -131,19 +132,27 @@ function App() {
 
               <Route exact strict path="/host/reservations/:id" children={<InfWhoBook />} />
 
-              <Route strict path="/host/reservations" children={<ListBookRoom />} />
+            <ProctectUser  strict path="/host/reservations">
+                <Route  children={<ListBookRoom/>}/>
+            </ProctectUser>
 
-              <Route exact strict path="/host/manage" children={<ManageRooms />} />
-
-              <ProtectHostRegister path="/host/register">
+            <ProctectUser exact strict path="/host/managerooms">
+              <Route  children={<ManageRooms/>}/>
+            </ProctectUser>
+            
+            <ProtectHostRegister path="/host/register">
                 <HostRegister hostBar={handleBar} />
               </ProtectHostRegister>
 
-              <ProtectHostCreate path="/host/create">
-                <PageCreateARoom />
-              </ProtectHostCreate>
+            <ProctectUser  strict path="/host/outofroom/:id">
+                <Route  children={<OutOfRoom/>}/>
+            </ProctectUser>
 
-              <ProtectHostFixRoom path="/host/fix/:id">
+            <ProctectUser  path="/host/create">
+                <PageCreateARoom />
+            </ProctectUser>
+            
+            <ProtectHostFixRoom  path="/host/fix/:id">
                 <PageCreateARoom />
               </ProtectHostFixRoom>
 
@@ -158,7 +167,10 @@ function App() {
               <Route path="/login" children={<Login></Login>} />
               <Route path="/signup" children={<Signup></Signup>} />
 
-              <Router>
+            <Route path="/forgotpassword" children={<ForgotPassword/>} />
+            <Route path="/newpassword" children={<NewPassword/>} />
+            
+            <Router>
                 <h1>ERROR</h1>
                 <Link to="/">Public Page</Link>
               </Router>

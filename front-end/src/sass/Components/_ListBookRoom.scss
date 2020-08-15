@@ -39,6 +39,11 @@
         display: grid; 
         grid-template-columns: auto auto auto;
     }
+    &__gridManage{
+        display: grid; 
+        grid-template-columns: auto auto;
+        grid-gap: 1rem;
+    }
 
     &__showmore{
         flex: 1 24%;
@@ -50,6 +55,19 @@
             }
             outline: none;
             padding: 1rem 7.4rem;
+            font-weight: 700;
+            border-radius: .4rem;
+            border: none;
+            color: white;
+            background-color: $color-main;
+        }
+
+        &--btManage{
+            &:hover{
+                cursor: pointer;
+            }
+            outline: none;
+            padding: 1rem 4rem;
             font-weight: 700;
             border-radius: .4rem;
             border: none;
@@ -98,5 +116,16 @@
             cursor: pointer;
         }
         box-shadow: 0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    }
+    &__img{
+        flex: 1 24%;
+        border-radius: .5rem;
+        overflow: hidden;
+        max-height: 18rem;
+        margin-right: 2rem;
+        &--img{
+            width: 25.6rem;
+            height: 18rem;
+        }
     }
 }

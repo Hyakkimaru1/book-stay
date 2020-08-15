@@ -20,11 +20,11 @@ const InfWhoBook = () => {
                     withCredentials: true
                 },
                 success: function( val ) {
-                    console.log(val);
+                   setInf(val);
                 }
             })
             .fail(function() {
-                //history.push('/ERROR');
+                history.push('/ERROR');
             });
     }, [id]);
    

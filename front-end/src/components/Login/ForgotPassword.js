@@ -1,112 +1,83 @@
-import React, { useState } from 'react';
-import { ToastContainer, toast  } from 'react-toastify';
+import React, { useContext, useState} from 'react';
+import { UserContext } from '../../UserContext';
 import $ from 'jquery';
-import { Redirect} from 'react-router-dom';
-
+import {toast } from 'react-toastify';
+import { Redirect, useLocation, Link } from 'react-router-dom';
+import Avatar from '../../icons/forgetpassword.svg';
+import Wave from '../../icons/wave.png'
+import Confirm from './Confirm';
+import NewPassword from './NewPassword';
 
 const config = require('../../config/default.json');
 
 const ForgotPassword = () => {
-    const [openOtp, setOpenOtp] = useState({mail:'', otp:0});
-    const [openResetpw, setOpenResetpw] = useState({resetpw:false, redirect:false})
-    const forgotpwClick = () =>{
-
-        const email = document.getElementById("email").value;
-        
-        
-        if (email !== "" )
+    const [state] = useContext(UserContext);
+    const location = useLocation();
+    const [option,setOption] = useState(1);
+    const [time,setTime] = useState(null);
+    const [token,setToken] = useState(null);
+    const handleClick = () => {
+        const emailConfirm = document.getElementById('emailConfirm').value;
+        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(emailConfirm))
         {
-            
-            $.post(`${config.url}/user/forgotpw`,{email},
-             (val)=>{          
-                      console.log(val.otp);
-                   setOpenOtp({mail: email, otp:val.otp});
-                    toast.success('Điền mã OTP nhận được trong mail để lấy lại mật khẩu');
-            })
-            .fail(function() {
-                toast.error('Sai email!');
-            }); 
-        }
-
-    }
-
-     
-    const sendOtpClick = () =>{
-        const otp = document.getElementById("otp").value;
-        if(otp === openOtp.otp)
-        {
-                setOpenResetpw({resetpw:true});
-                
-                console.log(otp);
-        }
-
-        
-
-    }
-
-    const resetPwClick = ()=>{
-        const pass = document.getElementById("newpw").value;
-        const confirmpass = document.getElementById("confirmpw").value;
-        const email = openOtp.mail;
-       
-        if (pass === confirmpass)
-        {
-            $.post(`${config.url}/user/resetpw`,{email,pass},
+            $.post(`${config.url}/user/forgotpassword`,{email:emailConfirm},
                 (val)=>{
-                    toast.success('Thay đổi mật khẩu thành công! Vui lòng đăng nhập lại!');
-                    setOpenResetpw({redirect:true})
-                   
+                    setTime(val);
+                    setOption(2);
             })
             .fail(function() {
-                toast.error('Sai tài khoản hoặc mật khẩu');
+                toast.error('Sai địa chỉ email');
             }); 
-        }  
-        else{
-            toast.error('Password dont match!');
+            
         }
-
-
-       
+        else {
+            $("span").show().delay(2000).fadeOut();
+        }
+        
     }
-
-
-    return openResetpw.redirect? 
-    <Redirect to={ '/login'}></Redirect>
-    :
-    (!openResetpw.resetpw ? (
-        <div className="login">
-            <ToastContainer/>
-            <h2>Quên mật khẩu</h2>
-            <label for="email"> Nhập email:</label>
-            <input id="email"></input>
-            <button type="button" onClick={forgotpwClick}>Lấy lại mật khẩu</button>
-            {openOtp.otp  && <div>
-                <label for="otp"> Nhập OTP:</label>
-            <input id="otp"></input>
-            <button type="button" onClick={sendOtpClick}>Gửi</button>
+    const handleChangeOption = () => {
+        setOption(1);
+    }
+    const handleChangeOption2 = (newToken) => {
+        setOption(3);
+        setToken(newToken.token);
+    }
+    let resultReturn;
+    if (option===1){
+        resultReturn = <div className="login-content">
+        <form className="Login__form" action="index.html">
+                <img src={Avatar} />
+                <h2 className="title">Yêu cầu đặt lại mật khẩu</h2>
+                <div className="input-div one">
+                <div className="i">
+                        <i style={{fontSize: '1.6rem'}} className="fas fa-envelope"></i>
+                </div>
+                <div className="div">
+                    <input id="emailConfirm" placeholder="Nhập email của bạn" type="text" className="input Login__input" />
+                    <label for="emailConfirm" className="Login__label">Nhập email của bạn</label>
+                    <span className="Login__errorEmail" >Nhập đúng cú pháp</span>
+                </div>
+                </div>
+                <Link to={{pathname:"/login",state:location.state}} style={{textDecoration: 'none'}}><p className="Login__a">Chuyển sang đăng nhập</p></Link>
+                <p onClick={handleClick} className="Login__btn">Yêu cầu đặt lại</p>
+                <p className="Login__createAcc">Bạn chưa có tài khoản? <strong className="Login__createAcc--link">Đăng ký ngay</strong></p>
+            </form>
+        </div>;
+    } 
+    else if (option==2) {
+        resultReturn = <Confirm time={time} onClick2={handleChangeOption2} onClick={handleChangeOption}/>;
+    }
+    else {
+        resultReturn = <NewPassword token={token}/>;
+    }
+    return state.type === "logout" ? ( 
+        <div className="Login">
+            <img className="Login-wave" src={Wave} alt="" />
+            <div className="Login__forgotpassword" alt="">
+                {resultReturn}
             </div>
-            
-             }
-            
-
         </div>
-    ):
-        <div className="login"style={{display:'block'}}>
-            <h2>Đặt lại mật khẩu</h2>
-            <label for="newpw"> Nhập mật khẩu mới:</label>
-            <input id="newpw"type="password"></input>
-            <label for="confirmpw"> Nhập lại mật khẩu:</label>
-            <input id="confirmpw"type="password"></input>
-            <button type="button" onClick={resetPwClick}>Xác nhận</button>
-             
-           
-        </div>   
-
-    )  
-   
-};
-
-
-
+    ) : <Redirect to={ location.state ? location.state.from : '/'}></Redirect>;
+}
 
 export default ForgotPassword;

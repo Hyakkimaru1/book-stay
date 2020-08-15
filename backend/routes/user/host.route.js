@@ -117,7 +117,6 @@ router.get('/roomowner/:id',async (req,res) => {
     }
     else {
         let row = await hostModels.getRoomByHost(req.params.id);
-        let room = [];
         if (row.length>0)
         {
             for (let i = 0; i < row.length; i++) {
@@ -129,6 +128,17 @@ router.get('/roomowner/:id',async (req,res) => {
             res.send('false');
         }
     }
+});
+
+router.get('/managerooms',verifyToken,async (req,res) => {
+    jwt.verify(req.token,privateKey, async (err,authData)=>{
+        if (err){
+            res.sendStatus(404);
+        } else {
+            let row = await hostModels.getRoomManage(authData.user.id);
+            res.send(row);
+        }
+    });
 });
 
 router.post('/roomowner/:id/update',verifyToken,async (req,res) => {
@@ -160,8 +170,12 @@ router.post('/roomowner/:id/update',verifyToken,async (req,res) => {
                     if (tiennghicuaphong){
                         const resultRemove = await roomModel.removeAllTienNghi(req.params.id);
                         for (let val = 0;val<tiennghicuaphong.length;val++){
-                            await roomModel.addTienNghiCuaPhong({'phong':req.params.id,'tiennghi':tiennghicuaphong[val]});
-                        }
+                                try {
+                                    await roomModel.addTienNghiCuaPhong({'phong':req.params.id,'tiennghi':tiennghicuaphong[val]});
+                            
+                                } catch (error) {
+                                }
+                            }
                     }
                     res.sendStatus(200);
                 }
@@ -172,6 +186,63 @@ router.post('/roomowner/:id/update',verifyToken,async (req,res) => {
         });
     }
 });
+
+router.post('/roomowner/:id/updateStatus',verifyToken,async (req,res) => {
+    if (isNaN(req.params.id)){
+        res.send('false');
+    }
+    else {
+        jwt.verify(req.token,privateKey, async (err,authData)=>{
+            if (err){
+                res.sendStatus(404);
+            } else {
+                //make a router for admin then check this
+                req.body.nguoiDang = authData.user.id;
+                const checkAdd = await roomModel.single(req.params.id);
+                if (authData.admin){
+                    let entity;
+                    if (req.body.trangThai==='true'){
+                        entity={trangThai:1};
+                    }
+                    else {
+                        entity={trangThai:2};
+                    }
+                    let setStatusForRoom = await roomModel.updateRoom(entity,req.params.id);
+                    if (setStatusForRoom.affectedRows>0){
+                        res.sendStatus(200);
+                    }
+                    else res.sendStatus(500);
+                }
+                else{
+                    if (checkAdd.nguoiDang!=authData.user.id)
+                    {
+                        res.sendStatus(403);
+                    }
+                    else {
+                        if (checkAdd.trangThai!==2){
+                            let entity;
+                            if (req.body.trangThai==='true'){
+                                entity={trangThai:1};
+                            }
+                            else {
+                                entity={trangThai:0};
+                            }
+                            let setStatusForRoom = await roomModel.updateRoom(entity,req.params.id);
+                            if (setStatusForRoom.affectedRows>0){
+                                res.sendStatus(200);
+                            }
+                            else res.sendStatus(500);
+                        }
+                        else {
+                            res.sendStatus(403);
+                        }
+                    }
+                }
+            }
+        });
+    }
+});
+
 
 router.get('/reservations',verifyToken, async(req, res) => {
     jwt.verify(req.token,privateKey, async (err,authData)=>{
@@ -194,14 +265,7 @@ router.get('/reservations',verifyToken, async(req, res) => {
             let num_page = page[0].num_page;
             const more = num_page%paginate.limit !== 0 ? 1 : 0;
             num_page = Math.floor(num_page/paginate.limit) + more;
-            if (!req.query.filter && result.length > 0) {
-                
-                res.send([result,num_page]);
-            }
-            else if (req.query.filter) {
-                res.send([result,num_page]);
-            }
-            else res.sendStatus(404);
+            res.send([result,num_page]);
         }
     });
     
@@ -222,4 +286,74 @@ router.get('/reservations/:id',verifyToken, async(req, res) => {
     });
     
 });
+
+router.get('/outofroom/:id',verifyToken, async(req, res) => {
+    if (isNaN(req.params.id))
+        res.sendStatus(404);
+    jwt.verify(req.token,privateKey, async (err,authData)=>{
+        if (err){
+            res.sendStatus(404);
+        } else {
+            const[row,ngayHetPhong] = await Promise.all([productModel.single(req.params.id),productModel.checkRoomInvalidNow(req.params.id,moment(new Date()).format('YYYY-MM-DD'))]);
+            if (row){
+                if(row.nguoiDang===authData.user.id)
+                {
+                    row.ngayHetPhong=ngayHetPhong;
+                    res.send(row);
+                }
+                else res.sendStatus(403);
+            }
+            else res.sendStatus(404);
+        }
+    });
+});
+
+router.post('/outofroom/:id',verifyToken, async(req, res) => {
+    if (isNaN(req.params.id))
+        res.sendStatus(404);
+    jwt.verify(req.token,privateKey, async (err,authData)=>{
+        if (err){
+            res.sendStatus(404);
+        } else {
+            const row = await roomModel.single(req.params.id);
+            if (row){
+                if(row.nguoiDang===authData.user.id)
+                {
+                    const result = await roomModel.removeOutOfRoom(req.body);
+                    if (result.affectedRows>0){
+                        res.sendStatus(200);
+                    }
+                    else res.sendStatus(503);
+                }
+                else res.sendStatus(403);
+            }
+            else res.sendStatus(404);
+        }
+    });
+});
+
+router.post('/addoutofroom',verifyToken, async(req, res) => {
+    if (isNaN(req.body.phong))
+        res.sendStatus(404);
+    jwt.verify(req.token,privateKey, async (err,authData)=>{
+        if (err){
+            res.sendStatus(404);
+        } else {
+            const row = await roomModel.single(req.body.phong);
+            if (row){
+                if(row.nguoiDang===authData.user.id)
+                {
+                    const result = await roomModel.addOutOfRoom(req.body);
+                    if (result.affectedRows>0){
+                        res.sendStatus(200);
+                    }
+                    else res.sendStatus(503);
+                }
+                else res.sendStatus(403);
+            }
+            else res.sendStatus(404);
+        }
+    });
+});
+
 module.exports = router;
