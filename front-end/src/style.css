@@ -2140,83 +2140,6 @@ input:checked+.slider:before {
 
 .mybooking__dropdown {
     display: block;
-    <<<<<<< HEAD
-}
-
-
-}
-.mybooking__info--tag .col-2-of-3 .col-1-of-3 {
-    width: 31%;
-    margin-bottom: 5px !important;
-}
-.mybooking__info--tag .col-2-of-3 .col-2-of-3 {
-    margin-bottom: 5px !important;
-}
-.mybooking__info--tag-box {
-    background-color: #ffffff;
-    padding: 22px 28px;
-    border-radius: 8px;
-    width: 100%;
-}
-.mybooking__info--tag-box span {
-    margin-right: 10px;
-}
-.mybooking__info--tag-boxdate {
-    background-color: #ffffff;
-    padding: 18px 28px;
-    padding-bottom: 0px;
-    border-radius: 8px;
-    width: 100%;
-}
-.mybooking__info--tag-boxdate span {
-    margin-right: 10px;
-}
-.mybooking__frommonth {
-    width: 100%;
-}
-.mybooking__frommonth--range .HHcsf .DateInput_input {
-    padding: 8px 0rem 3px !important;
-    font-size: 15px !important;
-}
-.mybooking__frommonth--range .HHcsf .DateInput {
-    width: 80px;
-}
-.mybooking__frommonth--range .HHcsf .DateRangePickerInput_arrow_svg {
-    fill: #565a5c;
-    height: 39px;
-    width: 14px;
-}
-.mybooking__frommonth--range .DateRangePickerInput__withBorder {
-    cursor: pointer;
-    border: 0px !important;
-    font-family: Arial, Helvetica, sans-serif;
-    border-radius: 6px;
-    width: 230px;
-}
-.mybooking__place {
-    cursor: pointer;
-    display: flex;
-    width: 100%;
-}
-.mybooking__place--select {
-    display: block;
-    position: relative;
-    width: 100%;
-}
-.mybooking__place--icon {
-    position: absolute;
-    right: 0;
-    top: 0;
-}
-.mybooking__textbelow {
-    font-size: 10px;
-    color: #5ceca2;
-}
-.mybooking__month {
-    font-size: 10px;
-}
-.mybooking__dropdown {
-    display: block;
     position: absolute;
     top: 195px;
     width: 200px;
@@ -2231,62 +2154,7 @@ input:checked+.slider:before {
     box-sizing: border-box;
     margin: 5px 0;
 }
-.mybooking__dropdown--item {
-    font-size: 16px;
-    padding: 0 15px;
-    position: relative;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    color: #222;
-    height: 34px;
-    line-height: 34px;
-    box-sizing: border-box;
-    cursor: pointer;
-}
-.mybooking__dropdown--item:hover {
-    background-color: #f5f7fa;
-    cursor: pointer;
-}
-.mybooking__contain {
-    max-width: 114rem;
-    margin: 0 auto;
-}
-.mybooking__contain--typebar {
-    border-bottom: 2px solid #ffffff;
-}
-.mybooking__contain--typebar-type {
-    padding: 10px 0px;
-    height: 100%;
-}
-.mybooking__contain--typebar-type a {
-    font-size: 15px;
-    cursor: pointer;
-    padding: 13px 0px;
-    margin-right: 30px;
-}
-.mybooking__contain--typebar-type span {
-    padding-left: 5px;
-}
-.mybooking__contain--typebar-active {
-    border-bottom: 2px solid #f65e39;
-    color: #f65e39;
-}
-=======position: absolute;
-top: 195px;
-width: 200px;
-transform: translate(0%);
-z-index: 2007;
-padding: 1rem;
-overflow: hidden;
-border: 1px solid #e4e7ed;
-border-radius: 4px;
-background-color: #fff;
-box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-box-sizing: border-box;
-margin: 5px 0;
 
-}
 .mybooking__dropdown--item {
     font-size: 16px;
     padding: 0 15px;
@@ -2300,39 +2168,48 @@ margin: 5px 0;
     box-sizing: border-box;
     cursor: pointer;
 }
+
 .mybooking__dropdown--item:hover {
     background-color: #f5f7fa;
     cursor: pointer;
 }
+
 .mybooking__contain {
     max-width: 114rem;
     margin: 0 auto;
 }
+
 .mybooking__contain--typebar {
     border-bottom: 2px solid #ffffff;
 }
+
 .mybooking__contain--typebar-type {
     padding: 10px 0px;
     height: 100%;
 }
+
 .mybooking__contain--typebar-type a {
     font-size: 15px;
     cursor: pointer;
     padding: 13px 0px;
     margin-right: 30px;
 }
+
 .mybooking__contain--typebar-type span {
     padding-left: 5px;
 }
+
 .mybooking__contain--typebar-active {
     border-bottom: 2px solid #f65e39;
     color: #f65e39;
 }
->>>>>>>bb9b830df8bd2c98a5e296f2c657b7c81a3a18e9 .homestay .row {
+
+.homestay .row {
     flex-wrap: wrap;
     box-sizing: border-box;
     margin: 10px 0;
 }
+
 .homestay__list {
     display: flex;
     flex-direction: column;
@@ -2343,12 +2220,15 @@ margin: 5px 0;
     width: 50%;
     opacity: 50%;
 }
+
 .homestay__list svg {
     width: 100%;
 }
+
 .homestay__list span {
     text-align: center;
 }
+
 .homestay__empty {
     display: flex;
     flex-direction: column;
@@ -2359,33 +2239,40 @@ margin: 5px 0;
     width: 50%;
     opacity: 50%;
 }
+
 .homestay__empty svg {
     width: 100%;
 }
+
 .homestay__empty span {
     text-align: center;
 }
+
 .homestay .item {
     border: 1px solid #eeecec !important;
     display: flex;
     position: relative;
     padding: 10px 10px;
 }
+
 .homestay .item__picture {
     display: block;
 }
+
 .homestay .item__picture--heart {
     top: 5px;
     right: 5px;
     position: absolute;
     z-index: 1;
 }
+
 .homestay .item__info {
     padding-top: 10px;
     padding-left: 10px;
     display: block;
     flex: 1 1 70%;
 }
+
 .homestay .item__info--name .item__title {
     font-size: 18px;
     display: flex;
@@ -2393,37 +2280,46 @@ margin: 5px 0;
     color: #000;
     font-weight: bold;
 }
+
 .homestay .item__info--name .item__title--contain:hover {
     color: #F65E39;
 }
+
 .homestay .item__info--type {
     color: #777777;
     font-size: 13px;
     font-weight: bold;
 }
+
 .homestay .item__info--subcontent {
     display: flex;
     justify-content: space-between;
 }
+
 .homestay .item__info--subcontent .subcontent__left {
     font-size: 14px;
 }
+
 .homestay .item__info--subcontent .subcontent__left--location {
     padding: 10px 0px;
     text-decoration: none;
     color: #000;
     font-weight: bold;
 }
+
 .homestay .item__info--subcontent .subcontent__left--room {
     margin-bottom: 10px;
 }
+
 .homestay .item__info--subcontent .subcontent__right {
     font-size: 18px;
     padding-top: 30px;
 }
+
 .homestay .item__info--subcontent .subcontent__right--price {
     text-align: right;
 }
+
 .homestay .item__info--subcontent .subcontent__right--price-sub {
     margin-bottom: 5px;
     border-radius: 2px;
@@ -2432,6 +2328,7 @@ margin: 5px 0;
     padding: 3px 8px;
     position: relative;
 }
+
 .homestay .item__info--subcontent .subcontent__right--price-sub:before {
     content: "";
     position: absolute;
@@ -2440,14 +2337,14 @@ margin: 5px 0;
     bottom: -10px;
     right: 15px;
 }
+
 .homestay .item__info--subcontent .subcontent__right--price-num {
     font-size: 24px;
     font-weight: 600;
 }
+
 .guestpopup {
-    font-family: Arial,
-    Helvetica,
-    sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     display: block;
     position: absolute;
     top: 55px;
@@ -2464,15 +2361,19 @@ margin: 5px 0;
     box-sizing: border-box;
     margin: 5px 0;
 }
+
 .guestpopup .mt-1 {
     top: 1rem;
 }
+
 .guestpopup .mt-3 {
     margin-top: 2rem;
 }
+
 .guestpopup .mt-4 {
     margin-top: 2.5rem;
 }
+
 .guestpopup__item {
     display: flex;
     justify-content: space-between;
@@ -2487,9 +2388,11 @@ margin: 5px 0;
     box-sizing: border-box;
     cursor: pointer;
 }
+
 .guestpopup__item .mt-6 {
     margin-top: 6px;
 }
+
 .guestpopup__item--input {
     display: inline-block;
     position: relative;
@@ -2498,19 +2401,24 @@ margin: 5px 0;
     height: 40px;
     top: -2px;
 }
+
 .guestpopup__item--input span {
     margin-top: 2px;
     position: absolute;
 }
+
 .guestpopup__item--input-increase {
     right: 1px;
 }
+
 .guestpopup__item--input-increase p:hover {
     color: #f65e39;
 }
+
 .guestpopup__item--input-number {
     text-align: center;
 }
+
 .guestpopup__item--input-decrease,
 .guestpopup__item--input-increase {
     font-size: 25px;
@@ -2519,23 +2427,29 @@ margin: 5px 0;
     width: 40px;
     text-align: center;
 }
+
 .guestpopup__item--input-decrease p:hover {
     color: #f65e39;
 }
+
 .guestpopup__item--input .is-disabled {
     cursor: not-allowed;
     opacity: 0.2;
 }
+
 .guestpopup__item--input .is-disabled p:hover {
     color: black;
 }
+
 .guestpopup__item--title p {
     height: fit-content;
     margin-top: 3px;
 }
+
 .guestpopup__item--title .small-text {
     font-size: 10px;
 }
+
 .guestpopup__item--erase,
 .guestpopup__item--apply {
     font-size: 15px;
@@ -2544,19 +2458,21 @@ margin: 5px 0;
     width: 80px;
     text-align: center;
 }
+
 .guestpopup__item--apply {
     border: 1px solid #3a72f5;
 }
+
 .guestpopup__item--erase:hover {
     background-color: #fa6a46;
 }
+
 .guestpopup__item--apply:hover {
     background-color: #729df3;
 }
+
 .guestpopup {
-    font-family: Arial,
-    Helvetica,
-    sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     display: block;
     position: absolute;
     top: 55px;
@@ -2573,15 +2489,19 @@ margin: 5px 0;
     box-sizing: border-box;
     margin: 5px 0;
 }
+
 .guestpopup .mt-1 {
     top: 1rem;
 }
+
 .guestpopup .mt-3 {
     margin-top: 2rem;
 }
+
 .guestpopup .mt-4 {
     margin-top: 2.5rem;
 }
+
 .guestpopup__item {
     display: flex;
     justify-content: space-between;
@@ -2596,9 +2516,11 @@ margin: 5px 0;
     box-sizing: border-box;
     cursor: pointer;
 }
+
 .guestpopup__item .mt-6 {
     margin-top: 6px;
 }
+
 .guestpopup__item--input {
     display: inline-block;
     position: relative;
@@ -2607,19 +2529,24 @@ margin: 5px 0;
     height: 40px;
     top: -2px;
 }
+
 .guestpopup__item--input span {
     margin-top: 2px;
     position: absolute;
 }
+
 .guestpopup__item--input-increase {
     right: 1px;
 }
+
 .guestpopup__item--input-increase p:hover {
     color: #f65e39;
 }
+
 .guestpopup__item--input-number {
     text-align: center;
 }
+
 .guestpopup__item--input-decrease,
 .guestpopup__item--input-increase {
     font-size: 25px;
@@ -2628,23 +2555,29 @@ margin: 5px 0;
     width: 40px;
     text-align: center;
 }
+
 .guestpopup__item--input-decrease p:hover {
     color: #f65e39;
 }
+
 .guestpopup__item--input .is-disabled {
     cursor: not-allowed;
     opacity: 0.2;
 }
+
 .guestpopup__item--input .is-disabled p:hover {
     color: black;
 }
+
 .guestpopup__item--title p {
     height: fit-content;
     margin-top: 3px;
 }
+
 .guestpopup__item--title .small-text {
     font-size: 10px;
 }
+
 .guestpopup__item--erase,
 .guestpopup__item--apply {
     font-size: 15px;
@@ -2653,15 +2586,19 @@ margin: 5px 0;
     width: 80px;
     text-align: center;
 }
+
 .guestpopup__item--apply {
     border: 1px solid #3a72f5;
 }
+
 .guestpopup__item--erase:hover {
     background-color: #fa6a46;
 }
+
 .guestpopup__item--apply:hover {
     background-color: #729df3;
 }
+
 .PageHostInf__inf {
     padding-top: 2.4rem;
     padding-bottom: 3.6rem;
@@ -2670,72 +2607,88 @@ margin: 5px 0;
     padding-right: 1.2rem;
     text-align: center;
 }
+
 .PageHostInf__inf--img {
     width: 6.8rem;
     height: 6.8rem;
     border-radius: 50%;
 }
+
 .PageHostInf__inf--name {
     font-size: 2.5rem;
 }
+
 .PageHostInf__inf--time {
     font-size: 1.6rem;
     color: #999;
 }
+
 .PageHostInf__inf--intro {
     font-size: 1.6rem;
     color: #666;
 }
+
 .PageHostInf__inf--hr {
     border: none;
     border-top: 1px solid #e9e9e9;
 }
+
 .PageHostInf__rooms {
     display: grid;
     grid-row-gap: 4rem;
     grid-template-columns: auto auto auto;
 }
+
 .InfWhoBook {
     line-height: 2.5rem;
 }
+
 .InfWhoBook__room {
     padding: 2rem;
     background-color: #F6F6F6;
     text-align: center;
     transition: all .3s;
 }
+
 .InfWhoBook__room:hover {
     cursor: pointer;
 }
+
 .InfWhoBook__room--img {
     border-radius: .5rem;
     height: 20rem;
     overflow: hidden;
 }
+
 .InfWhoBook__room--img-img {
     height: 20rem;
 }
+
 .InfWhoBook__room--name {
     font-size: 2.4rem;
     font-weight: 700;
     color: black;
 }
+
 .InfWhoBook__room--add {
     font-size: 1.5rem;
     color: #999;
 }
+
 .InfWhoBook__room--nameadd {
     background-color: white;
     padding: 1rem;
     border-radius: 1rem;
     margin-top: 1rem;
 }
+
 .InfWhoBook__room--line {
     border: none;
     border-top: 1px solid #dbdbdb;
     width: 80%;
     margin: 1rem auto;
 }
+
 .InfWhoBook__who {
     padding: 2rem;
     background-color: #F6F6F6;
@@ -2744,11 +2697,13 @@ margin: 5px 0;
     grid-template-columns: auto auto;
     grid-gap: 2rem;
 }
+
 .InfWhoBook__label {
     cursor: context-menu;
     font-size: 1.7rem;
     color: #666;
 }
+
 .InfWhoBook__contain {
     cursor: context-menu;
     font-size: 2rem;
@@ -2758,15 +2713,18 @@ margin: 5px 0;
     padding: 2rem;
     border-radius: .5rem;
 }
+
 .InfWhoBook__date {
     color: #f65e39;
 }
+
 .ListBookRoom {
     padding: 2rem 3rem;
     margin-top: 3rem;
     border-radius: .8rem;
     background-color: white;
 }
+
 .ListBookRoom__status {
     background-color: #28CA6E;
     display: inline-block;
@@ -2774,11 +2732,13 @@ margin: 5px 0;
     padding: .2rem .4rem;
     border-radius: .4rem;
 }
+
 .ListBookRoom__body {
     display: flex;
     justify-content: space-between;
     margin-top: 2rem;
 }
+
 .ListBookRoom__name {
     flex: 1 30%;
     font-size: 2.5rem;
@@ -2786,32 +2746,39 @@ margin: 5px 0;
     padding-right: 4rem;
     border-right: 1px solid #CCC;
 }
+
 .ListBookRoom__detail {
     flex: 1 45%;
     padding-left: 5rem;
     border-right: 1px solid #CCC;
 }
+
 .ListBookRoom__detail--label {
     color: #999;
     font-size: 1.2rem;
 }
+
 .ListBookRoom__detail--containt {
     font-size: 1.6rem;
 }
+
 .ListBookRoom__grid {
     display: grid;
     grid-template-columns: auto auto auto;
 }
+
 .ListBookRoom__gridManage {
     display: grid;
     grid-template-columns: auto auto;
     grid-gap: 1rem;
 }
+
 .ListBookRoom__showmore {
     flex: 1 24%;
     padding-left: 3rem;
     padding-top: 2rem;
 }
+
 .ListBookRoom__showmore--bt {
     outline: none;
     padding: 1rem 7.4rem;
@@ -2821,9 +2788,11 @@ margin: 5px 0;
     color: white;
     background-color: #f68a39;
 }
+
 .ListBookRoom__showmore--bt:hover {
     cursor: pointer;
 }
+
 .ListBookRoom__showmore--btManage {
     outline: none;
     padding: 1rem 4rem;
@@ -2833,9 +2802,11 @@ margin: 5px 0;
     color: white;
     background-color: #f68a39;
 }
+
 .ListBookRoom__showmore--btManage:hover {
     cursor: pointer;
 }
+
 .ListBookRoom__button {
     width: 5rem;
     padding: .4rem 0;
@@ -2847,6 +2818,7 @@ margin: 5px 0;
     outline: none;
     cursor: pointer;
 }
+
 .ListBookRoom__normalBt {
     border: 1px solid #f68a39;
     outline: none;
@@ -2858,6 +2830,7 @@ margin: 5px 0;
     border-radius: .5rem;
     cursor: pointer;
 }
+
 .ListBookRoom__filter {
     display: none;
     background-color: white;
@@ -2869,13 +2842,14 @@ margin: 5px 0;
     font-weight: 500;
     max-height: 30rem;
     overflow: auto;
-    box-shadow: 0 10px 16px 0 rgba(0, 0, 0, 0.2),
-    0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    box-shadow: 0 10px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
+
 .ListBookRoom__filter--item {
     margin-bottom: .5rem;
     cursor: pointer;
 }
+
 .ListBookRoom__img {
     flex: 1 24%;
     border-radius: .5rem;
@@ -2883,45 +2857,55 @@ margin: 5px 0;
     max-height: 18rem;
     margin-right: 2rem;
 }
+
 .ListBookRoom__img--img {
     width: 25.6rem;
     height: 18rem;
 }
+
 .OutOfRoom {
     text-align: center;
 }
+
 .OutOfRoom__header {
     display: flex;
     justify-content: center;
 }
+
 .OutOfRoom__header--sel {
     font-size: 1.6rem;
     padding: 1rem;
     color: #777;
     border-radius: .5rem;
 }
+
 .OutOfRoom__title {
     font-size: 2rem;
     color: #777;
     margin: 2rem 0;
 }
+
 .OutOfRoom__containBT {
     display: flex;
     justify-content: center;
     flex-direction: column;
 }
+
 .OutOfRoom__bt:hover {
     transform: translateX(-3px);
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
 }
+
 .OutOfRoom__bt:hover::after {
     transform: scaleX(1.4) scaleY(1.6);
     opacity: 0;
 }
+
 .OutOfRoom__bt:active {
     transform: translateX(-1px);
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4);
 }
+
 .OutOfRoom__body {
     display: grid;
     margin-top: 2rem;
@@ -2929,19 +2913,23 @@ margin: 5px 0;
     grid-gap: 2rem;
     padding: 1rem;
 }
+
 .OutOfRoom__item {
     padding: 2rem 0;
     border-radius: .8rem;
     background-color: white;
     font-size: 1.6rem;
 }
+
 .OutOfRoom__item--date {
     display: inline-block;
 }
+
 .OutOfRoom__item--show {
     display: inline-block;
     padding-left: 5rem;
 }
+
 .OutOfRoom__item--invalid {
     display: inline-block;
     background-color: #28CA6E;
@@ -2950,6 +2938,7 @@ margin: 5px 0;
     padding: .2rem .4rem;
     border-radius: .4rem;
 }
+
 .Login-wave {
     position: fixed;
     top: 10%;
@@ -2957,6 +2946,7 @@ margin: 5px 0;
     height: 100%;
     z-index: -1;
 }
+
 .Login-container {
     height: 100vh;
     display: grid;
@@ -2964,32 +2954,39 @@ margin: 5px 0;
     grid-gap: 7rem;
     padding: 0 3.2rem;
 }
+
 .Login-img {
     display: flex;
     justify-content: flex-end;
     align-items: center;
 }
+
 .login-content {
     display: flex;
     justify-content: flex-start;
     align-items: center;
     text-align: center;
 }
+
 .Login-img img {
     width: 500px;
 }
+
 .Login__form {
     width: 360px;
 }
+
 .login-content img {
     height: 100px;
 }
+
 .login-content h2 {
     margin: 15px 0;
     color: #333;
     text-transform: uppercase;
     font-size: 3.6rem;
 }
+
 .login-content .input-div {
     position: relative;
     display: grid;
@@ -2998,36 +2995,44 @@ margin: 5px 0;
     padding: 5px 0;
     border-bottom: 2px solid #d9d9d9;
 }
+
 .login-content .input-div.one {
     margin-top: 0;
 }
+
 .i {
     color: #d9d9d9;
     display: flex;
     justify-content: center;
     align-items: center;
 }
+
 .i i {
     transition: .3s;
 }
+
 .input-div>div {
     position: relative;
     height: 45px;
 }
+
 .Login__input::placeholder {
     color: #999;
     font-size: 18px;
 }
+
 .Login__input::-webkit-input-placeholder {
     /* Edge */
     color: #999;
     font-size: 18px;
 }
+
 .Login__input:-ms-input-placeholder {
     /* Internet Explorer */
     color: #999;
     font-size: 18px;
 }
+
 .input-div:before,
 .input-div:after {
     content: '';
@@ -3038,23 +3043,29 @@ margin: 5px 0;
     background-color: #f65e39;
     transition: .4s;
 }
+
 .input-div:before {
     right: 50%;
 }
+
 .input-div:after {
     left: 50%;
 }
+
 .input-div.focus:before,
 .input-div.focus:after {
     width: 50%;
 }
+
 .input-div.focus>div>h5 {
     top: -5px;
     font-size: 15px;
 }
+
 .input-div.focus>.i>i {
     color: #f65e39;
 }
+
 .input-div>div>input {
     position: absolute;
     left: 0;
@@ -3067,12 +3078,13 @@ margin: 5px 0;
     padding: .7rem 1rem;
     font-size: 2rem;
     color: #555;
-    font-family: 'poppins',
-    sans-serif;
+    font-family: 'poppins', sans-serif;
 }
+
 .input-div.pass {
     margin-bottom: 4px;
 }
+
 .Login__a {
     display: block;
     text-align: right;
@@ -3082,9 +3094,11 @@ margin: 5px 0;
     transition: .3s;
     cursor: pointer;
 }
+
 .Login__a:hover {
     color: #f65e39;
 }
+
 .Login__btn {
     display: flex;
     justify-content: center;
@@ -3104,9 +3118,11 @@ margin: 5px 0;
     cursor: pointer;
     transition: .5s;
 }
+
 .Login__btn:hover {
     background-position: right;
 }
+
 .Login__createAcc {
     display: block;
     text-align: center;
@@ -3115,12 +3131,15 @@ margin: 5px 0;
     font-size: 1.6rem;
     transition: .3s;
 }
+
 .Login__createAcc--link {
     cursor: pointer;
 }
+
 .Login__createAcc--link:hover {
     color: #f65e39;
 }
+
 .Login__label {
     position: absolute;
     left: 10px;
@@ -3130,17 +3149,20 @@ margin: 5px 0;
     transition: .3s;
     opacity: 1;
 }
+
 .Login__input:placeholder-shown~.Login__label {
     opacity: 0;
     visibility: hidden;
     transform: translateY(-2rem);
 }
+
 .Login__forgotpassword {
     height: 100vh;
     display: grid;
     place-items: center;
     padding: 0 3.2rem;
 }
+
 .Login__errorEmail {
     display: none;
     color: red;
@@ -3149,17 +3171,20 @@ margin: 5px 0;
     top: 150%;
     left: -7%;
 }
+
 .Login__countdown {
     display: block;
     color: red;
     font-size: 1.6rem;
     margin-bottom: 2rem;
 }
+
 @media screen and (max-width: 1050px) {
     .Login-container {
         grid-gap: 5rem;
     }
 }
+
 @media screen and (max-width: 1000px) {
     .Login__form {
         width: 290px;
@@ -3172,6 +3197,7 @@ margin: 5px 0;
         width: 400px;
     }
 }
+
 @media screen and (max-width: 900px) {
     .Login-container {
         grid-template-columns: 1fr;
@@ -3186,21 +3212,27 @@ margin: 5px 0;
         justify-content: center;
     }
 }
-margin-top: 80px;
-font-family: Arial,
-Helvetica,
-sans-serif;
-font-size: 18px;
 
+.HostRegister {
+    margin-top: 80px;
 }
+
+.HostReBar__top {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    color: #696868;
+}
+
 .HostReBar__top--step {
     display: flex;
 }
+
 .HostReBar__top--step-item {
     padding: 0 15px;
     border-right: #cccbcb 2px solid;
     cursor: pointer;
 }
+
 .HostReBar__top--step-item.active {
     color: #f68a39;
 }
