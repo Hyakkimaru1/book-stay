@@ -121,10 +121,13 @@ function App() {
 
             <Switch>
               <Router exact path="/">
-              <HostRegister hostBar={handleBar} />
-                {/* <User /> */}
+              {/* <HostRegister hostBar={handleBar} /> */}
+                <User />
               </Router>
-              <Route path="/user" children={<User />} />
+              <ProtectBooked path="/user">
+              <User />
+              </ProtectBooked>
+              {/* <Route path="/user" children={<User />} /> */}
               <Route exact strict path="/rooms/:id" children={<PageRoom />} />
 
               <Route exact strict path="/host/reservations/:id" children={<InfWhoBook />} />

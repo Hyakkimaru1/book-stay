@@ -5,14 +5,16 @@ import HostRegisterBar from './HostRegisterBar';
 import { Children } from 'react';
 
 const HostRegister = (props) => {
-   
+   useEffect(() => {
+       props.hostBar();
+   }, []);
 
     return (
         <div className="HostRegister">
           
             <div >
-            <HostRegisterBar></HostRegisterBar>
-                aaaa
+            <HostRegisterBar ></HostRegisterBar>
+             
             </div>
 
         </div>
