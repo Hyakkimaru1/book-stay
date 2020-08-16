@@ -38,30 +38,35 @@ const PageInfoBook = (props) => {
         }
     }
     const handleOnClick = () => {
-        const datphonggiup = document.getElementById("datphonggiup").checked;
-        let dataSend = {
-            phong: getUrlParameter('id',location.search),
-            gia: props.gia,
-            nguoidat:state.user,
-            ngaycheckin: dateIn.format('YYYY-MM-DD'),
-            ngaycheckout:dateOut.format('YYYY-MM-DD'),
-            sokhach:getUrlParameter('guest',location.search)
-        } ;
-        if (datphonggiup){
-            dataSend.ten = document.getElementById("PageBook__name").value;
-            dataSend.sdt = document.getElementById("PageBook__name2").value;
-            dataSend.email = document.getElementById("PageBook__name3").value;
+        if (state.user && props.user.id == state.user ){
+            toast.error(`Bạn đang là chủ phòng`); 
+        } 
+        else{
+            const datphonggiup = document.getElementById("datphonggiup").checked;
+            let dataSend = {
+                phong: getUrlParameter('id',location.search),
+                gia: props.gia,
+                nguoidat:state.user,
+                ngaycheckin: dateIn.format('YYYY-MM-DD'),
+                ngaycheckout:dateOut.format('YYYY-MM-DD'),
+                sokhach:getUrlParameter('guest',location.search)
+            } ;
+            if (datphonggiup){
+                dataSend.ten = document.getElementById("PageBook__name").value;
+                dataSend.sdt = document.getElementById("PageBook__name2").value;
+                dataSend.email = document.getElementById("PageBook__name3").value;
+            }
+            else {
+                dataSend.ten = document.getElementById("PageBook__nameMain").value;
+                dataSend.sdt = document.getElementById("PageBook__nameMain2").value;
+                dataSend.email = document.getElementById("PageBook__nameMain3").value;
+            }
+            $.post(`${config.url}/room/book`,dataSend, (val) => {
+                props.onClick(val.idBook);
+            }).fail(function() {
+                toast.error('Thất bại');
+            });
         }
-        else {
-            dataSend.ten = document.getElementById("PageBook__nameMain").value;
-            dataSend.sdt = document.getElementById("PageBook__nameMain2").value;
-            dataSend.email = document.getElementById("PageBook__nameMain3").value;
-        }
-        $.post(`${config.url}/room/book`,dataSend, () => {
-            props.onClick();
-        }).fail(function() {
-            toast.error('Thất bại');
-          });
     }
     
     return (

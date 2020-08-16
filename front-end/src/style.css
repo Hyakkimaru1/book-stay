@@ -822,7 +822,6 @@ input:checked + .slider:before {
   margin: 0 auto;
   transition: top 0.3s; }
   .navbar-nav {
-    padding-top: 20px;
     max-width: 100%;
     height: 100%;
     display: flex;
@@ -2290,3 +2289,34 @@ input:checked + .slider:before {
       cursor: pointer; }
       .HostReBar__top--step-item.active {
         color: #f68a39; }
+
+.searchBox {
+  margin-left: 2rem;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border-radius: .5rem; }
+  .searchBox__icon {
+    margin-right: 1rem; }
+  .searchBox__text {
+    outline: none;
+    border: none;
+    width: 40rem; }
+  .searchBox__manage {
+    padding-top: 2rem;
+    display: grid;
+    grid-template-columns: auto auto auto auto; }
+    .searchBox__manage--text {
+      grid-column-start: 3;
+      outline: none;
+      border: none;
+      width: 25rem; }
+
+.Home {
+  margin-top: 10rem; }
+  .Home__background {
+    text-align: center; }
+    .Home__background--img {
+      border-radius: 2rem;
+      width: 114rem; }

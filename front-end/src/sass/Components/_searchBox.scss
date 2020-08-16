@@ -1,0 +1,27 @@
+.searchBox{
+    margin-left: 2rem;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border-radius: .5rem;
+    &__icon{
+        margin-right: 1rem;
+    }
+    &__text{
+        outline: none;
+        border: none;
+        width: 40rem;
+    }
+    &__manage{
+        padding-top: 2rem;
+        display: grid;
+        grid-template-columns: auto auto auto auto ;
+        &--text{
+            grid-column-start: 3;
+            outline: none;
+            border: none;
+            width: 25rem;
+        }
+    }
+}

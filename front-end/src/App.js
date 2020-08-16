@@ -39,6 +39,7 @@ import { ToastContainer } from 'react-toastify';
 import OutOfRoom from './components/ManageRooms.js/OutOfRoom/OutOfRoom';
 import NewPassword from './components/Login/NewPassword';
 import HostRegister from './components/HostRegister/HostRegister.js';
+import Home from './components/Home/Home.js';
 
 const config = require('./config/default.json');
 
@@ -67,6 +68,7 @@ function App() {
             email: id.email,
             ten: id.ten,
             sdt: id.sdt,
+            admin:id.admin,
             type: "login",
            
           });
@@ -93,7 +95,7 @@ function App() {
           <UserContext.Provider value={[state, dispatch]}>
             {state.type === "login" && (!hostBar ?   <NavBar>
               <NavItem icon={<Link to="/">🤓</Link>} />
-              <NavItem icon={state.ten} img="https://i.ytimg.com/vi/beffsLKXCV4/hq720.jpg?sqp=-oaymwEZCNAFEJQDSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLBXk56VfwsPMTWE3wY1WAKa1Mg7Qg" />
+              <NavItem icon={state.ten} img={state.avt} />
               <NavItem icon={<CaretIcon />}>
                 <DropdownMenu></DropdownMenu>
               </NavItem>
@@ -120,9 +122,11 @@ function App() {
             <Route path="/forgotpw" children={ <ForgotPassword/>} /> */}
 
             <Switch>
-              <Router exact path="/">
-              <HostRegister hostBar={handleBar} />
-                {/* <User /> */}
+              <Router exact path="/" children={<Home/>} />
+
+              <Router exact path="/hostbar">
+                <HostRegister hostBar={handleBar} />
+                  {/* <User /> */}
               </Router>
               <Route path="/user" children={<User />} />
               <Route exact strict path="/rooms/:id" children={<PageRoom />} />

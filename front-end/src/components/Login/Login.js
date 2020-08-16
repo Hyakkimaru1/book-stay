@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { UserContext } from '../../UserContext';
 import $ from 'jquery';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
 import { Redirect, useLocation, useHistory,Link } from 'react-router-dom';
 import Avatar from '../../icons/Avatar.svg';
@@ -28,6 +28,7 @@ const Login = () => {
                         email:val.email,
                         ten:val.ten,
                         sdt:val.sdt,
+                        admin:val.admin,
                         type:"login"
                     });
             })

@@ -34,9 +34,12 @@ function ProtectHostFixRoom({ children, ...rest }) {
                   withCredentials: true
               },
               success: function( val ) {
-                  if (val.nguoiDang!=state.user){
-                    history.push('/ERROR');
+                  if (!state.admin){
+                    if (val.nguoiDang!=state.user){
+                      history.push('/ERROR');
+                    }
                   }
+                  
                   const newData = {
                     option: "form_create_room_1",
                     prev:"",

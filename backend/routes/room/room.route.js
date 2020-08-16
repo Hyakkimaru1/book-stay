@@ -1,5 +1,6 @@
 const express = require('express');
 const productModel = require('../../models/room/room.models');
+const momoModel = require('../../models/momo/momo.models');
 const moment = require('moment');
 const router = express.Router();
 const dayByDay = require('../../public/js/getDayByDay');
@@ -79,7 +80,7 @@ router.get('/search',async (req,res)=>{
         try {
             res.send(row[0]);
         } catch (error) {
-            console.error(error);
+            //console.error(error);
         }
     }
 });
@@ -102,10 +103,6 @@ router.post('/book', async (req,res) => {
             }
         });
         if (row.insertId>0){
-            res.sendStatus(200);
-            //set time out 10 minutes
-           
-            // failling
             setTimeout(async() => {
                 const resultUserPaid = await productModel.getNguoiDatPhong(row.insertId);
                  // if user didn't pay, clear data and change status of NguoiDatPhong to -1 
@@ -115,11 +112,45 @@ router.post('/book', async (req,res) => {
                         await productModel.removeOutOfRoom({id:val});
                     });
                 }
-            }, 10*60000); // 10 minutes 
+            }, 15*60000); // 10 minutes 
+            res.send({idBook: row.insertId});
         }
         else res.sendStatus(400);
     }
     
 });
+
+router.post('/momo',async (req,res)=>{
+    const row = await productModel.getNguoiDatPhong(req.body.id);
+    if (row.length>0 && row[0].trangthai === 0){
+        //getQR from momo then send to user 
+        const getQR = await momoModel.sendRequest(row[0].id.toString(),row[0].id.toString(),row[0].gia.toString(),'dat phong book-stay');
+        if (getQR !==''){
+            res.send({urlQR:getQR});
+        }
+        else {
+            res.sendStatus(503);
+        }
+    }
+    else {
+        res.sendStatus(403);
+    }
+    
+})
+
+router.post('/momoResponsePaid',async (req,res)=>{
+    const resultUserPaid = await productModel.getNguoiDatPhong(req.body.orderId);
+    // if user didn't pay, clear data and change status of NguoiDatPhong to -1 
+    if (resultUserPaid.length > 0 ){
+        if ( req.body.errorCode == 0){
+            await productModel.updateNguoiDatPhong({trangthai:1,transId:req.body.transId},req.body.orderId);
+        }
+        else {
+            await productModel.updateNguoiDatPhong({trangthai:-1,transId:req.body.transId},req.body.orderId); 
+        }
+    } 
+    res.sendStatus(200);
+})
+
 
 module.exports = router;

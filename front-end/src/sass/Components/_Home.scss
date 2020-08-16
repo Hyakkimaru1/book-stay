@@ -1,0 +1,10 @@
+.Home{
+    margin-top: 10rem;
+    &__background{
+        text-align: center;
+        &--img{
+            border-radius: 2rem;
+            width: 114rem;
+        }
+    }
+}

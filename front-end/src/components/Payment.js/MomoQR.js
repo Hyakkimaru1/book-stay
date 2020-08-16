@@ -1,5 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import $ from 'jquery';
+import {  toast } from 'react-toastify';
+import { useLocation, useHistory } from 'react-router-dom';
 
+const config = require('../../config/default.json');
 const center = {
     position: 'absolute',
     top: '50%',
@@ -8,10 +12,20 @@ const center = {
 }
 
 const MomoQR = () => {
-
-    const setTime = () => {
-        setTimeout();
-    }
+    const location = useLocation();
+    const history = useHistory();
+    useEffect(() => {
+        if (location.state&&location.state.idbook){
+            $.post(`${config.url}/room/momo`,{id:location.state.idbook}, (val) => {
+                window.location.href = val.urlQR;
+            }).fail(function() {
+                toast.error('Hết thời gian thanh toán');
+            });
+        }
+        else {
+            history.push('/ERROR');
+        }
+    }, []);
 
     return (
         <div style={center}>

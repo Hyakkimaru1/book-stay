@@ -1,8 +1,9 @@
-import React, { useEffect, useState,useContext } from 'react';
+import React, { useEffect, useState,useContext,useRef } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import ItemRoom from './ItemRoom';
 import $ from 'jquery';
 import moment from 'moment';
+import queryString from 'query-string';
 import { UserContext } from '../../UserContext';
 
 const config = require('../../config/default.json');
@@ -13,31 +14,52 @@ const ManageRooms = () => {
     const [state] = useContext(UserContext);
     const history = useHistory();
     const [data,setData] = useState(null);
-
+    const typingTimeoutRef = useRef(null);
+    const [filters,setFilters] = useState({});
     useEffect(() => {
         if (state.user === null){
             history.push('/ERROR');
         }
+        const paramString = queryString.stringify(filters);
         $.ajax({
-            url:`${config.url}/host/managerooms`,
+            url:`${config.url}/host/managerooms?`+paramString,
             type:'get',
             xhrFields: {
                 withCredentials: true
             }, success: (val)=>{
-                console.log(val);
                 setData(val);
             }});
-    }, []);
+    }, [filters]);
 
     const handleClickAdd = () => {
         history.push('/host/create');
     }
 
+    const handleChange = e => {
+        const keyValue = e.target.value;
+        if (typingTimeoutRef.current){
+            clearTimeout(typingTimeoutRef.current);
+        }
+
+        typingTimeoutRef.current = setTimeout(() => {
+            setFilters({
+                ...filters,
+                title_like:keyValue
+            })  
+        },300);
+    }
+
     return (
         <div style={{backgroundColor: '#F8F8F8'}}>
             <div style={{marginTop:'10rem'}} className="row">
-                <div style={{display:'flex',justifyContent:'flex-end'}}>
-                    <button onClick={handleClickAdd} style={{marginTop:'2rem',backgroundColor:'#f68a39'}} type="" class="bt__default OutOfRoom__bt"> <i class="fas fa-plus"></i> Thêm</button>
+                <div class="searchBox__manage">
+                    <div class="searchBox" style={{gridColumnStart: '3',marginRight: '4rem'}}>
+                                    <i class="fas fa-search fa-lg searchBox__icon"></i>
+                                    <input type="text" onChange={handleChange}  placeholder="Tìm kiếm" class="searchBox__manage--text"/>
+                        </div>
+                        <div style={{display:'flex',justifyContent:'flex-end'}}>
+                        <button onClick={handleClickAdd} style={{backgroundColor:'#f68a39'}} type="" class="bt__default OutOfRoom__bt"> <i class="fas fa-plus"></i> Thêm</button>
+                    </div>
                 </div>
                 <div>
                     {

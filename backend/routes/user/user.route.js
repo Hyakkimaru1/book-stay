@@ -1,5 +1,6 @@
 const express = require('express');
 const userModels = require('../../models/user/user.models');
+const adminModels = require('../../models/admin/admin.models');
 const jwt = require('jsonwebtoken');
 const nodeMailer = require('../../models/user/sendMail.models')
 
@@ -44,27 +45,51 @@ router.post('/login', async (req, res) => {
     if (req.body){
         // check is user or admin
         
-        const row = await userModels.singleUsername(req.body.username);
-        if (!row){
-            res.sendStatus(404);
+        const rowAdmin = await adminModels.singleUsername(req.body.username);
+        if (rowAdmin){
+            const rs = bcrypt.compareSync(req.body.password, rowAdmin.pass);
+            if (rs)
+                {
+                    delete rowAdmin.pass;
+                    //if admin will send token admin
+                    //jwt.sign({user:row,admin:true}, privateKey, function(err, token)
+    
+                    jwt.sign({user:rowAdmin,admin:true}, privateKey, function(err, token) {
+                        if (err){
+                            res.send(500);
+                        }
+                        res.send({token,id:rowAdmin.id,ten:rowAdmin.email,email:rowAdmin.email,avt:"https://cdn.luxstay.com/users_avatar_default/default-avatar.png",admin:true});
+                    });
+                } 
+            else res.sendStatus(403);
         }
-        const rs = bcrypt.compareSync(req.body.password, row.pass);
-        if (rs)
-            {
-                delete row.pass;
-                delete row.gioitinh;
-                delete row.diachi;
-                delete row.timeCreate;
-                //if admin will send token admin
-                //jwt.sign({user:row,admin:true}, privateKey, function(err, token)
-                jwt.sign({user:row}, privateKey, function(err, token) {
-                    if (err){
-                        res.send(500);
-                    }
-                    res.send({token,id:row.id,ten:row.ten,email:row.email,sdt:row.sdt,avt:row.avatar});
-                });
-            } 
-        else res.sendStatus(403);
+        else {
+            const row = await userModels.singleUsername(req.body.username);
+        
+            if (!row){
+                res.sendStatus(404);
+            }
+            else {
+                const rs = bcrypt.compareSync(req.body.password, row.pass);
+                if (rs)
+                    {
+                        delete row.pass;
+                        delete row.gioitinh;
+                        delete row.diachi;
+                        delete row.timeCreate;
+                        //if admin will send token admin
+                        //jwt.sign({user:row,admin:true}, privateKey, function(err, token)
+        
+                        jwt.sign({user:row}, privateKey, function(err, token) {
+                            if (err){
+                                res.send(500);
+                            }
+                            res.send({token,id:row.id,ten:row.ten,email:row.email,sdt:row.sdt,avt:row.avatar,admin:false});
+                        });
+                    } 
+                else res.sendStatus(403);
+            }
+        }
     }
     else {
         res.sendStatus(403);
@@ -123,35 +148,39 @@ router.post('/forgotpw', async (req, res) =>{
     
     });
 
-
-
-    router.post('/resetpw', async (req, res) =>{
-        if (req.body) {
-          console.log(req.body);
-            const entity = req.body;
-            entity.pass = bcrypt.hashSync(req.body.pass, 10);
-            const row = await userModels.patchByEmail(entity);
-           
-            if(!row){
-                res.sendStatus(404);
-            }
+router.post('/resetpw', async (req, res) =>{
+    if (req.body) {
         
-            else{
-                
-                res.send({id:1});
-                
-            }
+        const entity = req.body;
+        entity.pass = bcrypt.hashSync(req.body.pass, 10);
+        const row = await userModels.patchByEmail(entity);
+        
+        if(!row){
+            res.sendStatus(404);
         }
-        else  res.sendStatus(403);
-        
-        });
+    
+        else{
+            
+            res.send({id:1});
+            
+        }
+    }
+    else  res.sendStatus(403);
+    
+    });
 
 router.post('/loginAgain',verifyToken, async (req, res) => {
     jwt.verify(req.token,privateKey,(err,authData)=>{
         if (err){
             res.sendStatus(404);
         } else {
-            res.send({id:authData.user.id,ten:authData.user.ten,email:authData.user.email,sdt:authData.user.sdt,avt:authData.user.avt});
+            if (authData.admin){
+                res.send({id:authData.user.id,ten:authData.user.email,sdt:'',avt:'https://cdn.luxstay.com/users_avatar_default/default-avatar.png',admin:true});
+            }
+            else {
+                res.send({id:authData.user.id,ten:authData.user.ten,email:authData.user.email,sdt:authData.user.sdt,avt:authData.user.avatar,admin:false});
+            }
+            
         }
     });
 });
@@ -162,10 +191,14 @@ router.post('/forgotpassword', async (req, res) => {
         const currentDate = new Date();
         const countDownTime = new Date(currentDate.getTime()+5*60000);
         const randomnumber = Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
-        const result = await userModels.addRecoveryKey( {user:row.id,keyRecovery:randomnumber});
-        const x = setTimeout(async() => {
-            await userModels.removeRecoveryKey({id:result.insertId});
-        }, 4*60000);
+
+        const [result,resultSendMail] = await Promise.all([userModels.addRecoveryKey( {user:row.id,keyRecovery:randomnumber}),
+        nodeMailer.sendKeyToEmail(row.email,randomnumber)]);
+        if (resultSendMail){
+            const x = setTimeout(async() => {
+                await userModels.removeRecoveryKey({id:result.insertId});
+            }, 4*60000);
+        }
         res.send({time:countDownTime,id:row.id});
     }
     else res.sendStatus(404);
