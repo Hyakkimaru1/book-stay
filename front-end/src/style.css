@@ -1448,6 +1448,8 @@ input:checked + .slider:before {
         .mybooking__info--tag .col-2-of-3 .col-1-of-3 {
           width: 31%;
           margin-bottom: 5px !important; }
+        .mybooking__info--tag .col-2-of-3 .col-2-of-3 {
+          margin-bottom: 5px !important; }
       .mybooking__info--tag-box {
         background-color: #ffffff;
         padding: 22px 28px;
@@ -1620,6 +1622,19 @@ input:checked + .slider:before {
           font-weight: bold; }
         .homestay .item__info--subcontent .subcontent__left--room {
           margin-bottom: 10px; }
+        .homestay .item__info--subcontent .subcontent__left--rating .bt__default {
+          margin-left: 15px;
+          background-color: #f7704e;
+          height: 25px;
+          text-align: center;
+          padding: 0 1rem; }
+        .homestay .item__info--subcontent .subcontent__left--rating .bt__default:hover {
+          margin-left: 15px;
+          background-color: #f64b21; }
+      .homestay .item__info--subcontent .subcontent__mid {
+        position: absolute;
+        bottom: 10px;
+        right: 30%; }
       .homestay .item__info--subcontent .subcontent__right {
         font-size: 18px;
         padding-top: 30px; }
@@ -2001,6 +2016,71 @@ input:checked + .slider:before {
       width: 25.6rem;
       height: 18rem; }
 
+.rating {
+  font-size: 25px; }
+  .rating__room {
+    margin-top: 10px;
+    display: flex; }
+    .rating__room--name {
+      font-weight: 600;
+      margin-left: 10px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 15px;
+      align-self: flex-start; }
+  .rating__content--text {
+    overflow: hidden;
+    overflow-wrap: break-word;
+    height: 100px;
+    width: 100%; }
+  .rating__star {
+    margin: 5px 0;
+    text-align: center; }
+  .rating .MuiRating-sizeLarge {
+    font-size: 4rem; }
+  .rating__button {
+    margin-right: 15px;
+    margin-bottom: 15px; }
+    .rating__button .bt__default {
+      border-radius: 0.5px;
+      padding: 8px 20px;
+      text-transform: uppercase; }
+    .rating__button .bt__close {
+      font-size: 4rem;
+      padding: 8px 20px;
+      box-sizing: border-box;
+      width: 140px;
+      text-transform: uppercase;
+      font-size: 15px;
+      font-weight: 400;
+      cursor: pointer;
+      color: #555;
+      margin-right: 6px;
+      line-height: 1;
+      background: none;
+      border: none; }
+
+.MuiTypography-h6 {
+  font-size: 2rem !important;
+  color: #f68a39; }
+
+.MuiDialogTitle-root {
+  padding-bottom: 5px !important; }
+
+.HostReBar__top {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  color: #696868; }
+  .HostReBar__top--step {
+    display: flex; }
+    .HostReBar__top--step-item {
+      padding: 0 15px;
+      border-right: #cccbcb 2px solid;
+      cursor: pointer; }
+      .HostReBar__top--step-item.active {
+        color: #f68a39; }
+
 .OutOfRoom {
   text-align: center; }
   .OutOfRoom__header {
@@ -2274,12 +2354,11 @@ input:checked + .slider:before {
   .login-content {
     justify-content: center; } }
 
-.HostRegister {
-  margin-top: 80px; }
-
 .HostReBar__top {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 18px;
+  display: flex;
+  align-items: center;
   color: #696868; }
   .HostReBar__top--step {
     display: flex; }

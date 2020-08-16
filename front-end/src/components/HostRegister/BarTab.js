@@ -8,25 +8,25 @@ const BarTab = (props) => {
     }
     return (
         <div className="HostReBar__top--step">
+            {/* {
+                Children.map(props.child, (child, i) => {
+                    let className = props.active == i ? "HostReBar__top--step-item active" : "HostReBar__top--step-item"
+                    return (
+                        <div className={className} onClick={() => { props.onChange(child.key) }} style={i === child.length - 1 ? { border: 'none' } : {}}>
+                            {child}
+                        </div>
 
-            <div className="HostReBar__top--step-item" key='1' onClick={() => { props.onChange('1') }} >
-                Bước 1: Thông tin chỗ nghỉ
-                    </div>
-            <div className="HostReBar__top--step-item" key='2' onClick={() => { props.onChange('2') }}  >
-                Bước 2: Hình ảnh chỗ nghỉ
-                     </div>
-            <div className="HostReBar__top--step-item" key='3' onClick={() => { props.onChange('3') }} style={{ border: "none" }} >
-                Bước 3: Giá và quy định nhận chỗ
-                    </div>
+                    )
+                })
+            } */}
 
-
-
-            {/* Children.map(props.children, (child, i) => {
-
+          {  Children.map(props.children, (child, i) => {
+            let className = (props.active == i+1) ? "HostReBar__top--step-item active" : "HostReBar__top--step-item";
+            let style = (i === props.children.length - 1) ? { border: "none" } : {}
                 return (
 
                     <div
-                        className="HostReBar__top--step-item" style={(i === props.children.length - 1) ? { border: "none" } : {}}
+                        className={className} style={style}
                         onClick={() => { props.onChange(child.key) }}
                     >
 
@@ -34,7 +34,7 @@ const BarTab = (props) => {
 
                     </div>
                 )
-            }) */}
+            })}
 
 
 

@@ -49,9 +49,8 @@ function BookHomestay(props) {
             url: `${config.url}/user/mybooking/${id}`,
             type: 'get',
             //contentType: 'application/json; charset=utf-8',
-
             xhrFields: {
-                withCredentials: false
+                withCredentials: true
             }, success: (result) => {
                 setAllBooked(result);
                 console.log(result);
@@ -70,7 +69,7 @@ function BookHomestay(props) {
                     <ul>
                         {
                             myBooked.map(p => {
-                                return <BookItem name={p.ten} diaChi={p.diaChi} gia={p.gia} soPhong={p.soPhong} />
+                                return <BookItem id={p.id} name={p.ten} diaChi={p.diaChi} gia={p.gia} soPhong={p.soPhong} />
 
                             })
                         }

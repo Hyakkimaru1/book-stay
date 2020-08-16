@@ -10,7 +10,7 @@ import { RangeDayPickerNav } from '../PageRoom/RangeDayPickerNav';
 const MyBooking = () => {
     const [open, setOpen] = useState(false);
 
-    const [homestay, setHomestay] = useState(false);
+    const [homestay, setHomestay] = useState(true);
     const [select, setSelect] = useState("Tất cả chỗ đặt");
 
 
@@ -86,7 +86,7 @@ const MyBooking = () => {
                 </div>
                 <div className="mybooking__contain--detail">
                     <div className="mybooking__contain--detail-infor">
-                        {!homestay ? <BookHomestay select={select} /> : <BookCar />}
+                        {homestay ? <BookHomestay select={select} /> : <BookCar />}
                     </div>
                 </div>
 
