@@ -3,10 +3,8 @@ import $ from 'jquery';
 import ItemListBookRoom from './ItemListBookRoom';
 import { UserContext } from '../../UserContext';
 import queryString from 'query-string';
-import { useLocation } from 'react-router-dom';
 const config = require('../../config/default.json');
-const ListBookRoom = (props) => {
-    const location = useLocation();
+const ListBookRoom = () => {
     const [state] = useContext(UserContext);
     const [data, setData] = useState(null);
     const typingTimeoutRef = useRef(null);
@@ -16,17 +14,13 @@ const ListBookRoom = (props) => {
     const [numPage,setNumPage] = useState([]);
     const [itemActive,setItemActive] = useState(0);
     const [listFilter,setListFilter] = useState(null);
-  
     useEffect(() => {
         let arrayListFilters = [{ten:'Tất cả',id:-1}]; 
         $.get(`${config.url}/host/roomowner/${state.user}`,val => {
-            if (val){
-                val.map(item => arrayListFilters.push(item));
-                setListFilter(arrayListFilters);
-            }
+            val.map(item => arrayListFilters.push(item));
+            setListFilter(arrayListFilters);
         });    
     }, []);
-
     useEffect(() => {
         const paramString = queryString.stringify(filters);
         $.ajax({
@@ -48,33 +42,11 @@ const ListBookRoom = (props) => {
             //history.push('/ERROR');
         });
     }, [filters]);
-
-    useEffect(() => {
-        if (location.search!==""){
-            const res = location.search.split("=");
-            if (!isNaN(res[1])){
-                if (listFilter){
-                    listFilter.map((val,i)=>{
-                        if (val.id==res[1])
-                            return setItemActive(i)
-                        return;
-                    });
-                }
-                
-                setFilters({
-                    page:1,
-                    filter:res[1]
-                });
-            }
-        }
-    }, [listFilter]);
-
     const handleChange = e => {
         const keyValue = e.target.value;
         if (typingTimeoutRef.current){
             clearTimeout(typingTimeoutRef.current);
         }
-
         typingTimeoutRef.current = setTimeout(() => {
             setFilters({
                 ...filters,
@@ -83,14 +55,12 @@ const ListBookRoom = (props) => {
             })  
         },300);
     }
-
     const handlePageChange = (number) => {
         setFilters({
             ...filters,
             page:number
         })
     }
-
     const handleClickChooseFilter = (id,index) => {
         setItemActive(index);
         setFilters({
@@ -100,7 +70,6 @@ const ListBookRoom = (props) => {
             });
         document.getElementById("list_filter").style.display = ""
     }
-
     const handleClickFilter = () => {
         if (document.getElementById("list_filter").style.display === ""){
             document.getElementById("list_filter").style.display = 'block';
@@ -109,7 +78,6 @@ const ListBookRoom = (props) => {
             document.getElementById("list_filter").style.display = ""
         }
     }
-
     return (
         <div style={{backgroundColor: '#F8F8F8'}}>
             <div style={{marginTop:'10rem'}} className="row">
@@ -117,7 +85,7 @@ const ListBookRoom = (props) => {
                     <div class="navbarsearch__wrapper--box" style={{position:'relative',marginTop:'2rem'}}>
                         <div className="ListBookRoom__filter" id="list_filter">
                             { listFilter && listFilter.map((val,i) => 
-                                <div onClick={() => handleClickChooseFilter(val.id,i)} style={i==itemActive?{color:'#f68a39'}:{color:'#222'}} className="ListBookRoom__filter--item">
+                                <div onClick={() => handleClickChooseFilter(val.id,i)} style={i===itemActive?{color:'#f68a39'}:{color:'#222'}} className="ListBookRoom__filter--item">
                                     {val.ten}
                                 </div>)
                             }
@@ -127,10 +95,10 @@ const ListBookRoom = (props) => {
                             width="25" height="25"
                             viewBox="0 0 172 172"
                             style={{fill:'#000000',cursor:'pointer'}}><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style={{mixBlendMode: 'normal'}}><path d="M0,172v-172h172v172z" fill="none"></path><g><path d="M165.55,141.9h-159.1c-1.1825,0 -2.15,-0.9675 -2.15,-2.15v0c0,-1.1825 0.9675,-2.15 2.15,-2.15h159.1c1.1825,0 2.15,0.9675 2.15,2.15v0c0,1.1825 -0.9675,2.15 -2.15,2.15zM6.45,86h159.1c1.1825,0 2.15,0.9675 2.15,2.15v0c0,1.1825 -0.9675,2.15 -2.15,2.15h-159.1c-1.1825,0 -2.15,-0.9675 -2.15,-2.15v0c0,-1.1825 0.9675,-2.15 2.15,-2.15zM165.55,34.4h-159.1c-1.1825,0 -2.15,-0.9675 -2.15,-2.15v0c0,-1.1825 0.9675,-2.15 2.15,-2.15h159.1c1.1825,0 2.15,0.9675 2.15,2.15v0c0,1.1825 -0.9675,2.15 -2.15,2.15z" fill="#e67e22"></path><path d="M75.25,19.35c-7.12447,0 -12.9,5.77553 -12.9,12.9c0,7.12447 5.77553,12.9 12.9,12.9c7.12447,0 12.9,-5.77553 12.9,-12.9c0,-7.12447 -5.77553,-12.9 -12.9,-12.9z" fill="#dff0fe"></path><path d="M75.25,21.5c5.9254,0 10.75,4.8246 10.75,10.75c0,5.9254 -4.8246,10.75 -10.75,10.75c-5.9254,0 -10.75,-4.8246 -10.75,-10.75c0,-5.9254 4.8246,-10.75 10.75,-10.75M75.25,17.2c-8.3119,0 -15.05,6.7381 -15.05,15.05c0,8.3119 6.7381,15.05 15.05,15.05c8.3119,0 15.05,-6.7381 15.05,-15.05c0,-8.3119 -6.7381,-15.05 -15.05,-15.05z" fill="#e67e22"></path><path d="M135.45,75.25c-7.12447,0 -12.9,5.77553 -12.9,12.9c0,7.12447 5.77553,12.9 12.9,12.9c7.12447,0 12.9,-5.77553 12.9,-12.9c0,-7.12447 -5.77553,-12.9 -12.9,-12.9z" fill="#dff0fe"></path><path d="M135.45,77.4c5.9254,0 10.75,4.8246 10.75,10.75c0,5.9254 -4.8246,10.75 -10.75,10.75c-5.9254,0 -10.75,-4.8246 -10.75,-10.75c0,-5.9254 4.8246,-10.75 10.75,-10.75M135.45,73.1c-8.3119,0 -15.05,6.7381 -15.05,15.05c0,8.3119 6.7381,15.05 15.05,15.05c8.3119,0 15.05,-6.7381 15.05,-15.05c0,-8.3119 -6.7381,-15.05 -15.05,-15.05z" fill="#e67e22"></path><g><path d="M49.45,126.85c-7.12447,0 -12.9,5.77553 -12.9,12.9c0,7.12447 5.77553,12.9 12.9,12.9c7.12447,0 12.9,-5.77553 12.9,-12.9c0,-7.12447 -5.77553,-12.9 -12.9,-12.9z" fill="#dff0fe"></path><path d="M49.45,129c5.9254,0 10.75,4.8246 10.75,10.75c0,5.9254 -4.8246,10.75 -10.75,10.75c-5.9254,0 -10.75,-4.8246 -10.75,-10.75c0,-5.9254 4.8246,-10.75 10.75,-10.75M49.45,124.7c-8.3119,0 -15.05,6.7381 -15.05,15.05c0,8.3119 6.7381,15.05 15.05,15.05c8.3119,0 15.05,-6.7381 15.05,-15.05c0,-8.3119 -6.7381,-15.05 -15.05,-15.05z" fill="#e67e22"></path></g></g></g></svg>
-                        <div class="searchBox">
+                       <div className="searchBox">
                             <i class="fas fa-search fa-lg searchBox__icon"></i>
                             <input type="text" onChange={handleChange} placeholder="Tìm kiếm" class="searchBox__text"/>
-                        </div>
+                       </div>
                     </div>
                 </div>
                 <div>
@@ -151,5 +119,4 @@ const ListBookRoom = (props) => {
         </div>
         );
 }
-
 export default React.memo(ListBookRoom);
