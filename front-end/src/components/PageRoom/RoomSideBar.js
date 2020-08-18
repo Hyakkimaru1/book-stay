@@ -19,7 +19,7 @@ const styleHr ={
 const RoomSideBar = (props) => {
     let caseNormal="0";
     let caseWeekend="0";
-    
+    const [state] = useContext(UserContext);
     const [cast,setCast] = useState(caseNormal);
     const [user,setUser] = useState({}); 
     const [maxGuest,setMaxGuest] = useState(0);
@@ -35,6 +35,7 @@ const RoomSideBar = (props) => {
                 $.get(`${config.url}/room/owner/${props.data.id}`,val=>{
                     setUser(val);
                 }); 
+                
                 setMaxGuest(props.data.soKhachToiDa);
                 let tempRoomInvalid = [];
                 props.data.ngayHetPhong.map(val => {
@@ -60,7 +61,12 @@ const RoomSideBar = (props) => {
 
     const showDay = ()=>{
         if (startDay!==null && endDate!==null && checkValidDate(startDay,endDate)){
-            history.push(`/checkout/room?id=${props.data.id}&checkin=${startDay.format("YYYY-MM-DD")}&checkout=${endDate.format("YYYY-MM-DD")}&guest=${quantity}`);
+            if (state.user && state.user == user.id || state.admin){
+                toast.error(`Bạn đang là chủ phòng`); 
+            }
+            else {
+                history.push(`/checkout/room?id=${props.data.id}&checkin=${startDay.format("YYYY-MM-DD")}&checkout=${endDate.format("YYYY-MM-DD")}&guest=${quantity}`);
+            }
         }
         else if (startDay===null){
             setFocused('startDate');

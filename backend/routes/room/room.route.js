@@ -1,5 +1,6 @@
 const express = require('express');
 const productModel = require('../../models/room/room.models');
+const momoModel = require('../../models/momo/momo.models');
 const moment = require('moment');
 const router = express.Router();
 const dayByDay = require('../../public/js/getDayByDay');
@@ -17,6 +18,62 @@ router.get('/:id', async (req, res,next) => {
         next();
     }
 });
+
+router.get('/homepage',async (req,res)=>{
+    const [row1,row2,HCM,HN,VT,HA,DN,NT,DL] = await Promise.all([productModel.getTheMostBook(),productModel.getJustBook(),
+    productModel.getRoomInHCM(),productModel.getRoomInHN(),productModel.getRoomInVT()
+    ,productModel.getRoomInHA(),productModel.getRoomInDN(),productModel.getRoomInNT(),productModel.getRoomInDL()]);
+    for (let index = 0;index < row1.length;index++){
+        const img = await productModel.getImgRoom(row1[index].id);
+        row1[index].img = img[0];
+        const comment = await productModel.getComment(row1[index].id);
+        let star = null;
+        if (comment.length>0){
+            star=0;
+            for (let index1 = 0 ;index1 < comment.length;index1++){
+                star+=comment[index1].danhGia;
+            }
+            star/=comment.length;
+            star = parseInt(star);
+        }
+        if (star){
+            row1[index].star = star;
+            row1[index].rates = comment.length;
+        }
+    }
+    for (let index = 0; index < row2.length;index++){
+        const img = await productModel.getImgRoom(row2[index].id);
+        row2[index].img = img[0];
+        const comment = await productModel.getComment(row2[index].id);
+        let star = null;
+        if (comment.length>0){
+            star=0;
+            for (let index1 = 0 ;index1 < comment.length;index1++){
+                star+=comment[index1].danhGia;
+            }
+            star/=comment.length;
+            star = parseInt(star);
+        }
+        if (star){
+            row2[index].star = star;
+            row2[index].rates = comment.length;
+        }
+    }
+    const data = {
+        rooms: {
+            hcm: HCM[0].rooms,
+            hn: HN[0].rooms,
+            vt: VT[0].rooms,
+            ha: HA[0].rooms,
+            dn: DN[0].rooms,
+            nt: NT[0].rooms,
+            dl: DL[0].rooms
+        },
+        mostBook: row1,
+        currentBook: row2
+    }
+    res.send(data);
+})
 
 router.get('/tiennghi/:id',async (req,res)=>{
     const row =  await productModel.getTienNghiPhong(req.params.id);
@@ -79,7 +136,7 @@ router.get('/search',async (req,res)=>{
         try {
             res.send(row[0]);
         } catch (error) {
-            console.error(error);
+            //console.error(error);
         }
     }
 });
@@ -102,10 +159,6 @@ router.post('/book', async (req,res) => {
             }
         });
         if (row.insertId>0){
-            res.sendStatus(200);
-            //set time out 10 minutes
-           
-            // failling
             setTimeout(async() => {
                 const resultUserPaid = await productModel.getNguoiDatPhong(row.insertId);
                  // if user didn't pay, clear data and change status of NguoiDatPhong to -1 
@@ -115,11 +168,45 @@ router.post('/book', async (req,res) => {
                         await productModel.removeOutOfRoom({id:val});
                     });
                 }
-            }, 10*60000); // 10 minutes 
+            }, 15*60000); // 10 minutes 
+            res.send({idBook: row.insertId});
         }
         else res.sendStatus(400);
     }
     
 });
+
+router.post('/momo',async (req,res)=>{
+    const row = await productModel.getNguoiDatPhong(req.body.id);
+    if (row.length>0 && row[0].trangthai === 0){
+        //getQR from momo then send to user 
+        const getQR = await momoModel.sendRequest(row[0].id.toString(),row[0].id.toString(),row[0].gia.toString(),'dat phong book-stay');
+        if (getQR !==''){
+            res.send({urlQR:getQR});
+        }
+        else {
+            res.sendStatus(503);
+        }
+    }
+    else {
+        res.sendStatus(403);
+    }
+    
+})
+
+router.post('/momoResponsePaid',async (req,res)=>{
+    const resultUserPaid = await productModel.getNguoiDatPhong(req.body.orderId);
+    // if user didn't pay, clear data and change status of NguoiDatPhong to -1 
+    if (resultUserPaid.length > 0 ){
+        if ( req.body.errorCode == 0){
+            await productModel.updateNguoiDatPhong({trangthai:1,transId:req.body.transId},req.body.orderId);
+        }
+        else {
+            await productModel.updateNguoiDatPhong({trangthai:-1,transId:req.body.transId},req.body.orderId); 
+        }
+    } 
+    res.sendStatus(200);
+})
+
 
 module.exports = router;

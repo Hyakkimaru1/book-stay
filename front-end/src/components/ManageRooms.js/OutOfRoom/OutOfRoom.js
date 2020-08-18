@@ -78,8 +78,10 @@ const OutOfRoom = () => {
             }
 
             $.get(`${config.url}/room/${id}`,val => {
-                if (val.nguoiDang!==state.user)
+                if (!state.admin){
+                    if (val.nguoiDang!==state.user)
                     history.push('/ERROR');
+                }
                 //Set data
                 setData(val);
             }).fail(()=>history.push('/ERROR'));

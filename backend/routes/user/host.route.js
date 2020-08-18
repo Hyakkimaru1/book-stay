@@ -135,8 +135,24 @@ router.get('/managerooms',verifyToken,async (req,res) => {
         if (err){
             res.sendStatus(404);
         } else {
-            let row = await hostModels.getRoomManage(authData.user.id);
-            res.send(row);
+            if (authData.admin){
+                if (req.query.title_like)
+                    res.redirect(`../admin/admin?title_like=${req.query.title_like}`);
+                else {
+                    res.redirect('../admin/admin');   
+                }
+            }
+            else {
+                let row;
+                if (req.query.title_like){
+                    row = await hostModels.getRoomManageSearch(authData.user.id,req.query.title_like);
+                }
+                else {
+                    row = await hostModels.getRoomManage(authData.user.id);
+                }
+               
+                res.send(row);
+            }
         }
     });
 });
@@ -150,12 +166,18 @@ router.post('/roomowner/:id/update',verifyToken,async (req,res) => {
             if (err){
                 res.sendStatus(404);
             } else {
-                req.body.nguoiDang = authData.user.id;
-                const checkAdd = await roomModel.single(req.params.id);
-                if (checkAdd.nguoiDang!=authData.user.id)
-                {
-                    res.sendStatus(403);
+                if (authData.admin){
+
                 }
+                else {
+                    req.body.nguoiDang = authData.user.id;
+                    const checkAdd = await roomModel.single(req.params.id);
+                    if (checkAdd.nguoiDang!=authData.user.id)
+                    {
+                        res.sendStatus(403);
+                    }
+                }
+                
                 let tiennghicuaphong
                 if (req.body.tiennghicuaphong){
                     tiennghicuaphong = [...req.body.tiennghicuaphong];
@@ -294,16 +316,23 @@ router.get('/outofroom/:id',verifyToken, async(req, res) => {
         if (err){
             res.sendStatus(404);
         } else {
-            const[row,ngayHetPhong] = await Promise.all([productModel.single(req.params.id),productModel.checkRoomInvalidNow(req.params.id,moment(new Date()).format('YYYY-MM-DD'))]);
-            if (row){
-                if(row.nguoiDang===authData.user.id)
-                {
-                    row.ngayHetPhong=ngayHetPhong;
-                    res.send(row);
-                }
-                else res.sendStatus(403);
+            if (authData.admin){
+                const[row,ngayHetPhong] = await Promise.all([productModel.single(req.params.id),productModel.checkRoomInvalidNow(req.params.id,moment(new Date()).format('YYYY-MM-DD'))]);
+                row.ngayHetPhong=ngayHetPhong;
+                res.send(row);
             }
-            else res.sendStatus(404);
+            else {
+                const[row,ngayHetPhong] = await Promise.all([productModel.single(req.params.id),productModel.checkRoomInvalidNow(req.params.id,moment(new Date()).format('YYYY-MM-DD'))]);
+                if (row){
+                    if(row.nguoiDang===authData.user.id)
+                    {
+                        row.ngayHetPhong=ngayHetPhong;
+                        res.send(row);
+                    }
+                    else res.sendStatus(403);
+                }
+                else res.sendStatus(404);
+            } 
         }
     });
 });
@@ -315,19 +344,29 @@ router.post('/outofroom/:id',verifyToken, async(req, res) => {
         if (err){
             res.sendStatus(404);
         } else {
-            const row = await roomModel.single(req.params.id);
-            if (row){
-                if(row.nguoiDang===authData.user.id)
-                {
-                    const result = await roomModel.removeOutOfRoom(req.body);
-                    if (result.affectedRows>0){
-                        res.sendStatus(200);
-                    }
-                    else res.sendStatus(503);
+            if (authData.admin){
+                const result = await roomModel.removeOutOfRoom(req.body);
+                if (result.affectedRows>0){
+                    res.sendStatus(200);
                 }
-                else res.sendStatus(403);
+                else res.sendStatus(503);
             }
-            else res.sendStatus(404);
+            else {
+                const row = await roomModel.single(req.params.id);
+                if (row){
+                    if(row.nguoiDang===authData.user.id)
+                    {
+                        const result = await roomModel.removeOutOfRoom(req.body);
+                        if (result.affectedRows>0){
+                            res.sendStatus(200);
+                        }
+                        else res.sendStatus(503);
+                    }
+                    else res.sendStatus(403);
+                }
+                else res.sendStatus(404);
+            }
+            
         }
     });
 });
@@ -339,19 +378,28 @@ router.post('/addoutofroom',verifyToken, async(req, res) => {
         if (err){
             res.sendStatus(404);
         } else {
-            const row = await roomModel.single(req.body.phong);
-            if (row){
-                if(row.nguoiDang===authData.user.id)
-                {
-                    const result = await roomModel.addOutOfRoom(req.body);
-                    if (result.affectedRows>0){
-                        res.sendStatus(200);
-                    }
-                    else res.sendStatus(503);
+            if (authData.admin){
+                const result = await roomModel.addOutOfRoom(req.body);
+                if (result.affectedRows>0){
+                    res.sendStatus(200);
                 }
-                else res.sendStatus(403);
+                else res.sendStatus(503);
             }
-            else res.sendStatus(404);
+            else {
+                const row = await roomModel.single(req.body.phong);
+                if (row){
+                    if(row.nguoiDang===authData.user.id)
+                    {
+                        const result = await roomModel.addOutOfRoom(req.body);
+                        if (result.affectedRows>0){
+                            res.sendStatus(200);
+                        }
+                        else res.sendStatus(503);
+                    }
+                    else res.sendStatus(403);
+                }
+                else res.sendStatus(404);
+            }
         }
     });
 });

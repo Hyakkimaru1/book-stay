@@ -13,7 +13,7 @@ module.exports = {
         const data = {};
         data.otp = '';
         data.email = email;
-
+        
         //generate random otp
         var i;
         var num;
@@ -40,10 +40,27 @@ module.exports = {
 
         return data;
     },
+    sendKeyToEmail: (email,key) =>{
+        var mainOptions = { // thiết lập đối tượng, nội dung gửi mail
+            from: 'Book-stay',
+            to: email,
+            subject: 'Mã xác minh tài khoản',
+            text: 'Mail được gửi từ book-stay',
+            html: '<p>You have got a otp for verifying your account</b><ul><li>OTP code:' + key + '</li></ul>'
+        }
+        transporter.sendMail(mainOptions, function (err, info) {
+            if (err) {
+                console.log(err);
+                return false;
+            } else {
+                console.log('Message sent: ' + info.response);
+                return true;
+            }
+        });
+    }
 
 
-
-
+ 
 
 
 

@@ -20,7 +20,7 @@ class StarRating extends Component {
                 <span style={ this.state.star>1?checked:null} className="fa fa-star"></span>
                 <span style={ this.state.star>2?checked:null} className="fa fa-star"></span>
                 <span style={ this.state.star>3?checked:null} className="fa fa-star"></span>
-                <span style={ this.state.star==='5'?checked:null} className="fa fa-star"></span>
+                <span style={ this.state.star=='5'?checked:null} className="fa fa-star"></span>
             </span>
         );
     }

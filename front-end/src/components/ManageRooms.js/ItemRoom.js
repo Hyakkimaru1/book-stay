@@ -73,49 +73,49 @@ const ItemRoom = (props) => {
     }, [trangThai]);
     if (props.data)
         return (
-            <div class="ListBookRoom">
-                <div class="ListBookRoom__body" style={{marginTop:'0rem'}}>
-                    <div class="ListBookRoom__img" >
-                        <img class="ListBookRoom__img--img" src={props.data.img} alt=""/>
+            <div className="ListBookRoom">
+                <div className="ListBookRoom__body" style={{marginTop:'0rem'}}>
+                    <div className="ListBookRoom__img" >
+                        <img className="ListBookRoom__img--img" src={props.data.img} alt=""/>
                     </div>
-                    <div class="ListBookRoom__name" style={{flex:'1 35%'}}>
+                    <div className="ListBookRoom__name" style={{flex:'1 35%'}}>
                         {props.data.ten}
                         <div>
-                            <p class="ListBookRoom__detail--label">Địa chỉ</p>
-                            <p class="ListBookRoom__detail--containt">{props.data.diaChi}</p>
+                            <p className="ListBookRoom__detail--label">Địa chỉ</p>
+                            <p className="ListBookRoom__detail--containt">{props.data.diaChi}</p>
                         </div>
                     </div>
-                    <div class="ListBookRoom__detail" style={{borderRight: 'none',flex:'1 40%'}}>
-                        <div class="ListBookRoom__gridManage">
+                    <div className="ListBookRoom__detail" style={{borderRight: 'none',flex:'1 40%'}}>
+                        <div className="ListBookRoom__gridManage">
                             <div>
-                                <p class="ListBookRoom__detail--label">Xem phòng</p>
-                                <button onClick={handleOnClickShow} class="ListBookRoom__showmore--btManage" type="">
+                                <p className="ListBookRoom__detail--label">Xem phòng</p>
+                                <button onClick={handleOnClickShow} className="ListBookRoom__showmore--btManage" type="">
                                     Xem chi tiết
                                 </button>
                             </div>
                             <div>
-                                <p class="ListBookRoom__detail--label">Sửa phòng</p>
-                                <button onClick={handleOnClickFix} class="ListBookRoom__showmore--btManage" type="">
+                                <p className="ListBookRoom__detail--label">Sửa phòng</p>
+                                <button onClick={handleOnClickFix} className="ListBookRoom__showmore--btManage" type="">
                                     Sửa phòng
                                 </button>
                             </div>
                             <div>
-                                <p class="ListBookRoom__detail--label">Quản lý hết phòng</p>
-                                <button onClick={handleChangeOutOfRoom} class="ListBookRoom__showmore--btManage" type="">
+                                <p className="ListBookRoom__detail--label">Quản lý hết phòng</p>
+                                <button onClick={handleChangeOutOfRoom} className="ListBookRoom__showmore--btManage" type="">
                                     &nbsp;&nbsp;&nbsp; Quản lý&nbsp;&nbsp;&nbsp;
                                 </button>
                             </div>
                             <div>
-                                <p class="ListBookRoom__detail--label">Xem danh sách đặt</p>
-                                <button onClick={handleChangeReservations} class="ListBookRoom__showmore--btManage" type="">
+                                <p className="ListBookRoom__detail--label">Xem danh sách đặt</p>
+                                <button onClick={handleChangeReservations} className="ListBookRoom__showmore--btManage" type="">
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Xem&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 </button>
                             </div>
                             <div style={{gridColumnStart: '1',gridColumnEnd: '3',textAlign:'center'}}>
-                                <p class="ListBookRoom__detail--label" style={{color:'black',fontSize:'1.4rem'}}>Hoạt động</p>
-                                <label class="switch">
+                                <p className="ListBookRoom__detail--label" style={{color:'black',fontSize:'1.4rem'}}>Hoạt động</p>
+                                <label className="switch">
                                     <input id={`toggleCheck${props.data.id}`} onChange={handleChangeToggle} type="checkbox" defaultChecked={props.data.trangThai===1?true:false}/>
-                                    <span class="slider round"></span>
+                                    <span className="slider round"></span>
                                 </label>
                             </div>
                         </div>

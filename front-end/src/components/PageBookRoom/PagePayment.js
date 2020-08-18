@@ -1,8 +1,7 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory,Link } from 'react-router-dom';
 
 const PagePayment = (props) => {
-    const history = useHistory();
     return (
         <div>
             <div className="PageBook__head">
@@ -23,7 +22,7 @@ const PagePayment = (props) => {
                 <img src="https://cdn.luxstay.com/images/logos/payments/momo.png"></img>
             </div>
             </div>
-            <button onClick= {()=> history.push("/payment/momo")} style={{marginTop:'4rem'}} className="bt__default">Thanh Toán Ngay</button>
+           <Link style={{textDecoration: 'none'}} to={{pathname:"/payment/momo",state:{idbook:props.idBook}}}><button style={{marginTop:'4rem'}} className="bt__default">Thanh Toán Ngay</button></Link>  
         </div>
     );
 }

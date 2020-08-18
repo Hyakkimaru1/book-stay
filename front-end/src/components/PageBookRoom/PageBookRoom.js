@@ -23,7 +23,8 @@ const PageBookRoom = () => {
     const dateOut = moment(getUrlParameter('checkout',location.search));
     const [data,setData] = useState(null);
     const [link,setLink] = useState(1);
-
+    const [user,setUser] = useState(null);
+    const [idBook,setIdBook] = useState(null);
     useEffect(() => {
         $.get(`${config.url}/room/search/${location.search}`,val => {
             if (val==='false')
@@ -32,17 +33,21 @@ const PageBookRoom = () => {
             }
             setData(val);
         });
+        const res = location.search.split('=').join('&').split('&');
+        $.get(`${config.url}/room/owner/${res[1]}`,val=>{
+            setUser(val);
+        }); 
     }, []);
 
-    const onClick = () =>{
+    const onClick = (newIdBook) =>{
         setLink(2);
+        setIdBook(newIdBook);
         window.scrollTo(0, 0);
     }
 
     return (
         <div style={{backgroundColor:'#F4F4F4'}}>
             <div className="PageBook row">
-                <ToastContainer/>
                 <div className="PageBook__link">
                     <span style={link === 1?{marginRight:'2rem',color:'#f65e39'}: {marginRight:'2rem'}} className="PageBook__link--item">1. Thông tin đặt chỗ</span>
                     <i class="fas fa-chevron-right"></i>
@@ -50,7 +55,7 @@ const PageBookRoom = () => {
                 </div>
                 <div className="col-2-of-3" id="pagebook_info">
                    {
-                     link === 1 ? <PageInfoBook  gia={data && castTotal(dateIn,dateOut,data.giaNgayThuong,data.giaNgayCuoiTuan)} onClick={onClick} /> : <PagePayment/>
+                     link === 1 ? <PageInfoBook user={user && user}  gia={data && castTotal(dateIn,dateOut,data.giaNgayThuong,data.giaNgayCuoiTuan)} onClick={onClick} /> : <PagePayment user={user&&user} idBook={idBook}/>
                    }
                 </div>
                 <div  className="col-1-of-3" style={{height:document.getElementById("pagebook_info")&&document.getElementById("pagebook_info").offsetHeight>800?document.getElementById("pagebook_info").offsetHeight:800}}>

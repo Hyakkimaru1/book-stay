@@ -22,9 +22,9 @@ const CardDetail = (props) => {
               <h3 className="card__body--name">{props.ten}</h3> 
               <div className="card__body--room">{props.soKhachToiDa} khách · {props.soPhong} phòng ngủ · {props.soGiuong} giường</div>
               <div className="card__body--price">{props.giaNgayThuong && numberWithCommas(props.giaNgayThuong)}₫/đêm</div>
-              <div className="card__body--place">{props.ten}</div>
+              <div className="card__body--place">{props.diaChi}</div>
             </div>
-            <footer className="start" style={{textAlign:'left'}}>{props.star && <StarRating star={props.star}/>}</footer>
+    <footer className="start" style={{display: 'flex',alignItems: 'center',justifyContent: 'flex-start'}}>{props.star && <StarRating star={props.star}/>} <span style={{fontSize:'1.4rem',marginLeft:'.8rem'}}>{props.rates}</span></footer>
           </div>
         </div>
       </div>

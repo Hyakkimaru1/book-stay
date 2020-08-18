@@ -5,7 +5,8 @@ var cors = require("cors");
 
 app.use(cookePaser());
 app.use(cors());
-app.use(cors({ credentials: true, origin: true }));
+app.use(cors({credentials: true, origin: true}));
+
 
 app.use(express.json());
 app.use(

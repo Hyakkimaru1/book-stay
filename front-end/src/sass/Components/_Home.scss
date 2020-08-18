@@ -1,0 +1,99 @@
+.Home{
+    margin-top: 10rem;
+    font-family: 'Poppins';
+    &__background{
+        text-align: center;
+        &--img{
+            border-radius: 2rem;
+            width: 114rem;
+        }
+    }
+    &__topplaces{
+        margin-top: 4rem;
+        &--title{
+            font-size: 2.5rem;
+        }
+        &--detail{
+            font-size: 1.6rem;
+            color: #6b6b6b;
+            margin-top: .8rem;
+        }
+        &--card{
+            width: 1615.6px;
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+            transition: all 1s;
+        }
+    }
+    &__button{
+        position: absolute;
+        top: 50%;
+        background: white;
+        display: flex;
+        width: 5rem;
+        height: 5rem;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        box-shadow: 0 0 7px -4px #000;
+        cursor: pointer;
+        transition: all .2s;
+        &--left{
+            left: -20px;
+            z-index: 1;
+            transform: translate(0,-50%);
+            opacity: 0;
+        }
+        
+        &--right{
+            right: -20px;
+            z-index: 1;
+            transform: translate(0,-50%);
+            
+        }
+        &:hover{
+            color: #fb9236;
+            transform: translate(-10%,-50%);
+        }
+        &:active{
+            color: #fb9236;
+            transform: translate(-5%,-50%);
+        }
+    }
+    &__card{
+        object-fit: cover;
+        overflow: hidden;
+        position: relative;
+        border-radius: .5rem;
+        width: 100%;
+        &::before{
+            content: "";
+            display: block;
+            padding-top: 125%;
+        }  
+        &--img{
+            cursor: pointer;
+            position: absolute;
+            left: 0;
+            top:0;
+            border-radius: .5rem;
+            width: 21.5rem;
+            height: 27rem;
+        }
+        &--name{
+            position: absolute;
+            bottom: 3rem;
+            left: 2rem;
+            & > h3{
+                font-size: 2.5rem;
+                color:white;
+                letter-spacing: .2rem;
+            } 
+            & > p {
+                color:hsla(0,0%,100%,.9);;
+                font-size:1.6rem;
+            }
+        }
+    }
+}
