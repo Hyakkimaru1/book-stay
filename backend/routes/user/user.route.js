@@ -43,97 +43,55 @@ router.post("/profile/update", verifyToken, async(req, res) => {
 router.post("/login", async(req, res) => {
     if (req.body) {
         // check is user or admin
-
-
-        const row = await userModels.singleUsername(req.body.username);
-        if (!row) {
-            res.sendStatus(404);
-        }
-        const rs = bcrypt.compareSync(req.body.password, row.pass);
-        if (rs) {
-            delete row.pass;
-            delete row.gioitinh;
-            delete row.diachi;
-            delete row.timeCreate;
-            //if admin will send token admin
-            //jwt.sign({user:row,admin:true}, privateKey, function(err, token)
-            jwt.sign({
-                user: row
-            }, privateKey, function(err, token) {
-                if (err) {
-                    res.send(500);
-                }
-                res.send({
-                    token,
-                    id: row.id,
-                    ten: row.ten,
-                    email: row.email,
-                    sdt: row.sdt,
-                    avt: row.avatar,
-                });
-            });
-        } else res.sendStatus(403);
-    } else {
-
+        
         const rowAdmin = await adminModels.singleUsername(req.body.username);
-        if (rowAdmin) {
+        if (rowAdmin){
             const rs = bcrypt.compareSync(req.body.password, rowAdmin.pass);
-            if (rs) {
-                delete rowAdmin.pass;
-                //if admin will send token admin
-                //jwt.sign({user:row,admin:true}, privateKey, function(err, token)
-
-                jwt.sign({
-                    user: rowAdmin,
-                    admin: true
-                }, privateKey, function(err, token) {
-                    if (err) {
-                        res.send(500);
-                    }
-                    res.send({
-                        token,
-                        id: rowAdmin.id,
-                        ten: rowAdmin.email,
-                        email: rowAdmin.email,
-                        avt: "https://cdn.luxstay.com/users_avatar_default/default-avatar.png",
-                        admin: true
-                    });
-                });
-            } else res.sendStatus(403);
-        } else {
-            const row = await userModels.singleUsername(req.body.username);
-
-            if (!row) {
-                res.sendStatus(404);
-            } else {
-                const rs = bcrypt.compareSync(req.body.password, row.pass);
-                if (rs) {
-                    delete row.pass;
-                    delete row.gioitinh;
-                    delete row.diachi;
-                    delete row.timeCreate;
+            if (rs)
+                {
+                    delete rowAdmin.pass;
                     //if admin will send token admin
                     //jwt.sign({user:row,admin:true}, privateKey, function(err, token)
-
-                    jwt.sign({
-                        user: row
-                    }, privateKey, function(err, token) {
-                        if (err) {
+    
+                    jwt.sign({user:rowAdmin,admin:true}, privateKey, function(err, token) {
+                        if (err){
                             res.send(500);
                         }
-                        res.send({
-                            token,
-                            id: row.id,
-                            ten: row.ten,
-                            email: row.email,
-                            sdt: row.sdt,
-                            avt: row.avatar,
-                            admin: false
-                        });
+                        res.send({token,id:rowAdmin.id,ten:rowAdmin.email,email:rowAdmin.email,avt:"https://cdn.luxstay.com/users_avatar_default/default-avatar.png",admin:true});
                     });
-                } else res.sendStatus(403);
+                } 
+            else res.sendStatus(403);
+        }
+        else {
+            const row = await userModels.singleUsername(req.body.username);
+        
+            if (!row){
+                res.sendStatus(404);
+            }
+            else {
+                const rs = bcrypt.compareSync(req.body.password, row.pass);
+                if (rs)
+                    {
+                        delete row.pass;
+                        delete row.gioitinh;
+                        delete row.diachi;
+                        delete row.timeCreate;
+                        //if admin will send token admin
+                        //jwt.sign({user:row,admin:true}, privateKey, function(err, token)
+        
+                        jwt.sign({user:row}, privateKey, function(err, token) {
+                            if (err){
+                                res.send(500);
+                            }
+                            res.send({token,id:row.id,ten:row.ten,email:row.email,sdt:row.sdt,avt:row.avatar,admin:false});
+                        });
+                    } 
+                else res.sendStatus(403);
             }
         }
+    }
+    else {
+        res.sendStatus(403);
     }
 });
 
@@ -211,33 +169,12 @@ router.post("/loginAgain", verifyToken, async(req, res) => {
         if (err) {
             res.sendStatus(404);
         } else {
-            res.send({
-                id: authData.user.id,
-                ten: authData.user.ten,
-                email: authData.user.email,
-                sdt: authData.user.sdt,
-                avt: authData.user.avt,
-            });
-            if (authData.admin) {
-                res.send({
-                    id: authData.user.id,
-                    ten: authData.user.email,
-                    sdt: '',
-                    avt: 'https://cdn.luxstay.com/users_avatar_default/default-avatar.png',
-                    admin: true
-                });
-            } else {
-                res.send({
-                    id: authData.user.id,
-                    ten: authData.user.ten,
-                    email: authData.user.email,
-                    sdt: authData.user.sdt,
-                    avt: authData.user.avatar,
-                    admin: false
-                });
+            if (authData.admin){
+                res.send({id:authData.user.id,ten:authData.user.email,sdt:'',avt:'https://cdn.luxstay.com/users_avatar_default/default-avatar.png',admin:true});
             }
-
-
+            else {
+                res.send({id:authData.user.id,ten:authData.user.ten,email:authData.user.email,sdt:authData.user.sdt,avt:authData.user.avatar,admin:false});
+            }
         }
     });
 });
