@@ -2,7 +2,7 @@ import React from 'react';
 
 const footer = () => {
     return (
-        <footer className="footer">
+        <footer id="footer" className="footer">
         <div className="footer__logo-box">
         <div className="footer__relative">
             <svg className="footer__logo" width="487" height="102" viewBox="0 0 487 102" fill="none" xmlns="http://www.w3.org/2000/svg">

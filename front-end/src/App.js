@@ -44,6 +44,7 @@ import Home from './components/Home/Home.js';
 import Footer from './components/Footer/Footer.js'
 import RecommendRooms from './components/RecommendRooms/RecommendRooms';
 import Admin from './components/Admin/Admin';
+import ErrorPage from './components/ErrorPage/ErrorPage';
 
 const config = require('./config/default.json');
 
@@ -126,6 +127,7 @@ function App() {
             <Route path="/forgotpw" children={ <ForgotPassword/>} /> */}
 
             <Switch>
+              
               <Route exact strict path="/" children={<Home/>} />
               <Route exact strict path="/vietnam/:country" children={<RecommendRooms/>}></Route>
               <Route exact path="/hostbar">
@@ -182,10 +184,9 @@ function App() {
             <Route path="/forgotpassword" children={<ForgotPassword/>} />
             <Route path="/newpassword" children={<NewPassword/>} />
             
-            <Router>
-                <h1>ERROR</h1>
-                <Link to="/">Public Page</Link>
-              </Router>
+            <Route>
+                <ErrorPage/>
+            </Route>
             </Switch>
           </UserContext.Provider>
           <Footer/>

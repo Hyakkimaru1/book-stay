@@ -1,6 +1,8 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 
 const Admin = () => {
+    const history = useHistory();
     return (
         <div className="admin">
             <div className="row">
@@ -10,7 +12,7 @@ const Admin = () => {
                 <div>
                 <i class="fas fa-users"></i>  Quản lý người dùng 
                 </div>
-                <div>
+                <div onClick={()=>{history.push('/host/managerooms')}}>
                 <i class="fas fa-home"></i> Quản lý các phòng
                 </div>
             </div>

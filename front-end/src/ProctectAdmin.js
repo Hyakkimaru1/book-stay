@@ -18,8 +18,7 @@ function ProctectUser({ children, ...rest }) {
           ) : (
             <Redirect
               to={{
-                pathname: "/login",
-                state: {from:location.pathname+location.search}
+                pathname: "/ERROR"
               }}
             />
           )
