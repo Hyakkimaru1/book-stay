@@ -136,7 +136,11 @@ router.get('/managerooms',verifyToken,async (req,res) => {
             res.sendStatus(404);
         } else {
             if (authData.admin){
-                res.redirect('../admin/admin')
+                if (req.query.title_like)
+                    res.redirect(`../admin/admin?title_like=${req.query.title_like}`);
+                else {
+                    res.redirect('../admin/admin');   
+                }
             }
             else {
                 let row;

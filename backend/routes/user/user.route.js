@@ -1,9 +1,11 @@
 const express = require('express');
 const userModels = require('../../models/user/user.models');
 const adminModels = require('../../models/admin/admin.models');
+const roomModels = require('../../models/room/room.models');
 const jwt = require('jsonwebtoken');
 const nodeMailer = require('../../models/user/sendMail.models')
-
+const dayByDay = require('../../public/js/getDayByDay');
+const momoModels = require('../../models/momo/momo.models');
 
 //private key for token
 const privateKey = require('../../config/default.json').secret;
@@ -286,7 +288,52 @@ router.post('/mybooking/feedback', verifyToken, async(req, res) => {
     });
 });
 
-
+router.post('/cancelbooking',verifyToken,(req,res)=>{
+    jwt.verify(req.token, privateKey, async(err, authData) => {
+        if (err) {
+            //console.log(req.body)
+            res.sendStatus(404);
+            console.log(err);
+        } else {
+            //body need id book
+            //
+            const row = await userModels.getDetailCancel(79);
+            if (row.length===0){
+                res.sendStatus(404);
+            }
+            else {
+                if (row[0].nguoidat==authData.user.id){
+                    const arrayDay = dayByDay(row[0].ngaycheckin,row[0].ngaycheckout);
+                    //adding short term out of room to table hetphong 
+                    let arrayIdOutOfRoom = [];
+                   
+                    arrayDay.map( async (val) => {
+                        const resultOFR = await roomModels.getOutOffRoom(row[0].phong,val);
+                        if (resultOFR.length>0){
+                            arrayIdOutOfRoom.push(resultOFR[0].id);
+                        }
+                    });
+                    const resultOFD = await roomModels.updateNguoiDatPhong({trangthai:-1},row[0].id);
+                    if (resultOFD.affectedRows===0){
+                        res.sendStatus(503);
+                    }
+                    else {
+                        //call momo to refund cast
+                        // const resultRefund = await momoModels.sendRequestRefund(row[0].id+"rf",row[0].id,row[0].gia,row[0].transId);
+                        arrayIdOutOfRoom.map( async (val) => {
+                            await roomModels.removeOutOfRoom({id:val});
+                        });
+                        res.sendStatus(200);
+                    }
+                   
+                }
+                else {
+                    res.sendStatus(403);
+                }
+            }
+        }
+    });
+})
 
 
 

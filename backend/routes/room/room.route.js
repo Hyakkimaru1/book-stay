@@ -19,6 +19,62 @@ router.get('/:id', async (req, res,next) => {
     }
 });
 
+router.get('/homepage',async (req,res)=>{
+    const [row1,row2,HCM,HN,VT,HA,DN,NT,DL] = await Promise.all([productModel.getTheMostBook(),productModel.getJustBook(),
+    productModel.getRoomInHCM(),productModel.getRoomInHN(),productModel.getRoomInVT()
+    ,productModel.getRoomInHA(),productModel.getRoomInDN(),productModel.getRoomInNT(),productModel.getRoomInDL()]);
+    for (let index = 0;index < row1.length;index++){
+        const img = await productModel.getImgRoom(row1[index].id);
+        row1[index].img = img[0];
+        const comment = await productModel.getComment(row1[index].id);
+        let star = null;
+        if (comment.length>0){
+            star=0;
+            for (let index1 = 0 ;index1 < comment.length;index1++){
+                star+=comment[index1].danhGia;
+            }
+            star/=comment.length;
+            star = parseInt(star);
+        }
+        if (star){
+            row1[index].star = star;
+            row1[index].rates = comment.length;
+        }
+    }
+    for (let index = 0; index < row2.length;index++){
+        const img = await productModel.getImgRoom(row2[index].id);
+        row2[index].img = img[0];
+        const comment = await productModel.getComment(row2[index].id);
+        let star = null;
+        if (comment.length>0){
+            star=0;
+            for (let index1 = 0 ;index1 < comment.length;index1++){
+                star+=comment[index1].danhGia;
+            }
+            star/=comment.length;
+            star = parseInt(star);
+        }
+        if (star){
+            row2[index].star = star;
+            row2[index].rates = comment.length;
+        }
+    }
+    const data = {
+        rooms: {
+            hcm: HCM[0].rooms,
+            hn: HN[0].rooms,
+            vt: VT[0].rooms,
+            ha: HA[0].rooms,
+            dn: DN[0].rooms,
+            nt: NT[0].rooms,
+            dl: DL[0].rooms
+        },
+        mostBook: row1,
+        currentBook: row2
+    }
+    res.send(data);
+})
+
 router.get('/tiennghi/:id',async (req,res)=>{
     const row =  await productModel.getTienNghiPhong(req.params.id);
     res.send(row);

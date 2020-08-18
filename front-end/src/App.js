@@ -25,6 +25,7 @@ import Cookies from 'js-cookie';
 import Login from './components/Login/Login';
 import ForgotPassword from './components/Login/ForgotPassword';
 import ProctectUser from './ProctectUser';
+import ProctectAdmin from './ProctectAdmin';
 import Signup from './components/Login/Signup';
 import ProtectHostRegister from './ProctectHostRegister';
 import ProtectHostFixRoom from './ProtectHostFixRoom';
@@ -40,6 +41,9 @@ import OutOfRoom from './components/ManageRooms.js/OutOfRoom/OutOfRoom';
 import NewPassword from './components/Login/NewPassword';
 import HostRegister from './components/HostRegister/HostRegister.js';
 import Home from './components/Home/Home.js';
+import Footer from './components/Footer/Footer.js'
+import RecommendRooms from './components/RecommendRooms/RecommendRooms';
+import Admin from './components/Admin/Admin';
 
 const config = require('./config/default.json');
 
@@ -122,12 +126,12 @@ function App() {
             <Route path="/forgotpw" children={ <ForgotPassword/>} /> */}
 
             <Switch>
-              <Router exact path="/" children={<Home/>} />
-
-              <Router exact path="/hostbar">
+              <Route exact strict path="/" children={<Home/>} />
+              <Route exact strict path="/vietnam/:country" children={<RecommendRooms/>}></Route>
+              <Route exact path="/hostbar">
                 <HostRegister hostBar={handleBar} />
                   {/* <User /> */}
-              </Router>
+              </Route>
               <ProtectBooked path="/user">
               <User />
               </ProtectBooked>
@@ -139,6 +143,10 @@ function App() {
             <ProctectUser  strict path="/host/reservations">
                 <Route  children={<ListBookRoom/>}/>
             </ProctectUser>
+            
+            <ProctectAdmin  strict path="/admin">
+                <Route  children={<Admin/>}/>
+            </ProctectAdmin>
 
             <ProctectUser exact strict path="/host/managerooms">
               <Route  children={<ManageRooms/>}/>
@@ -180,6 +188,7 @@ function App() {
               </Router>
             </Switch>
           </UserContext.Provider>
+          <Footer/>
         </div>
       </Router>
     );

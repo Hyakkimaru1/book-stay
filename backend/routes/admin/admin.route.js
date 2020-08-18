@@ -19,7 +19,14 @@ router.post('/momoResponseReturnMoney', async (req,res)=>{
 })
 
 router.get('/admin', async (req,res)=>{
-    row = await adminModels.getRoomAllManage();
+    let row;
+    if (req.query.title_like){
+        row = await adminModels.getRoomManageSearch(req.query.title_like);
+    }
+    else {
+        row = await adminModels.getRoomAllManage();
+    }
+   
     res.send(row);
 })
 

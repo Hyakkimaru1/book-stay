@@ -40,5 +40,10 @@ module.exports = {
   getRoomAllManage: id => db.load(`
   SELECT phong.*,img.img 
   FROM phong JOIN img on img.phong = phong.id 
-  GROUP BY phong.id`)
+  GROUP BY phong.id`),
+  getRoomManageSearch: (title_like) => db.load(`SELECT phong.*,img.img 
+  FROM phong JOIN img on img.phong = phong.id 
+  WHERE MATCH(phong.ten, phong.diaChi)
+  AGAINST ('${title_like}' IN NATURAL LANGUAGE MODE)
+  GROUP BY phong.id`),
 };

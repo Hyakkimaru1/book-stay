@@ -52,18 +52,18 @@ const ManageRooms = () => {
     return (
         <div style={{backgroundColor: '#F8F8F8'}}>
             <div style={{marginTop:'10rem'}} className="row">
-                <div class="searchBox__manage">
-                    <div class="searchBox" style={{gridColumnStart: '3',marginRight: '4rem'}}>
-                                    <i class="fas fa-search fa-lg searchBox__icon"></i>
-                                    <input type="text" onChange={handleChange}  placeholder="Tìm kiếm" class="searchBox__manage--text"/>
+                <div className="searchBox__manage">
+                    <div className="searchBox" style={{gridColumnStart: '3',marginRight: '4rem'}}>
+                                    <i className="fas fa-search fa-lg searchBox__icon"></i>
+                                    <input type="text" onChange={handleChange}  placeholder="Tìm kiếm" className="searchBox__manage--text"/>
                         </div>
                         <div style={{display:'flex',justifyContent:'flex-end'}}>
-                        <button onClick={handleClickAdd} style={{backgroundColor:'#f68a39'}} type="" class="bt__default OutOfRoom__bt"> <i class="fas fa-plus"></i> Thêm</button>
+                        <button onClick={handleClickAdd} style={{backgroundColor:'#f68a39'}} type="" className="bt__default OutOfRoom__bt"> <i className="fas fa-plus"></i> Thêm</button>
                     </div>
                 </div>
                 <div>
                     {
-                        data&&data.map((val,i)=><ItemRoom key="i" data={val}/>)
+                        data&&data.map((val,i)=><ItemRoom key={i} data={val}/>)
                     } 
                 </div>
             </div>

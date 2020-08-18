@@ -40,8 +40,7 @@ module.exports = {
     },
     sendFeedback: entity => db.add('danhgia', entity),
     updateUser: (entity, condition) => db.patch('nguoidung', entity, { id: condition }),
-
-
+    getDetailCancel: id => db.load(`SELECT * FROM danhsachdatphong WHERE id = ${id} and trangthai = 1 and ngaycheckin > CURRENT_DATE`),
 };
 
 //

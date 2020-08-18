@@ -110,6 +110,7 @@
         font-size: 2rem;
         font-weight: 500;
         max-height: 30rem;
+        z-index: 100;
         overflow: auto;
         &--item{
             margin-bottom: .5rem;
