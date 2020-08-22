@@ -15,7 +15,7 @@ class StarRating extends Component {
 
     render() {
         return (
-            <span>
+            <span style={{fontSize: '1.4rem'}}>
                 <span style={ this.state.star>0?checked:null} className="fa fa-star"></span>
                 <span style={ this.state.star>1?checked:null} className="fa fa-star"></span>
                 <span style={ this.state.star>2?checked:null} className="fa fa-star"></span>

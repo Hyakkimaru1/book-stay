@@ -23,12 +23,16 @@ const Login = () => {
                 (val)=>{
                     Cookies.set('token', val.token,{ expires: 10 });
                     dispatch({
-                        id:val.id,
-                        avt:val.avt,
-                        email:val.email,
-                        ten:val.ten,
-                        sdt:val.sdt,
+                        id: val.id,
+                        avt: val.avt,
+                        email: val.email,
+                        ten: val.ten,
+                        sdt: val.sdt,
                         admin:val.admin,
+                        diachi:val.diachi,
+                        gioitinh:val.gioitinh,
+                        gioithieu:val.gioithieu,
+                        ngaysinh:val.ngaysinh,
                         type:"login"
                     });
             })

@@ -31,7 +31,7 @@
     user-select: none;
     &:hover {
         filter: brightness(1.05);
-        cursor: context-menu;
+        cursor: pointer;
     }
     & svg { 
         fill: $text-color;

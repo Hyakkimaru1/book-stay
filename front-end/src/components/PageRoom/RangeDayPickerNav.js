@@ -37,7 +37,7 @@ export class RangeDayPickerNav extends React.Component {
               onDatesChange={this.onDatesChange}
               focusedInput={this.state.focusedInput}
               onFocusChange={this.onFocusChange}
-             
+              isOutsideRange={() => {}}
             />
           </div>
         )

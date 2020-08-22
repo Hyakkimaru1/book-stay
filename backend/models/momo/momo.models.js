@@ -1,4 +1,5 @@
 const https = require('https');
+const uuid = require('uuid');
 //parameters send to MoMo get get payUrl
 const endpoint = "https://test-payment.momo.vn/gw_payment/transactionProcessor"
 const hostname = "https://test-payment.momo.vn"
@@ -7,12 +8,17 @@ const partnerCode = "MOMO1P6420200501"
 const accessKey = "aQG2TO5DoUOl2ASC"
 const serectkey = "4Ojjmu1hPNJ18rqRBf3xVbhzD9Z1NBr3"
 const returnUrl = "http://localhost:3000/"
-const notifyurl = "https://7d902e390c85.ngrok.io/room/momoResponsePaid"
+var orderId = uuid.v4()
+var requestId = uuid.v4()
+const notifyurl = "https://50ded7ba411e.ngrok.io/room/momoResponsePaid"
 const requestType = "captureMoMoWallet"
 const requestTypeRefund = "refundMoMoWallet"
-const extraData = "idbook=" //pass empty value if your merchant does not have stores else merchantName=[storeName]; merchantId=[storeId] to identify a transaction map with a physical store
+//const extraData = "idbook=" //pass empty value if your merchant does not have stores else merchantName=[storeName]; merchantId=[storeId] to identify a transaction map with a physical store
 module.exports = {
-    sendRequest: async (orderId, requestId, amount, orderInfo) => {
+    sendRequest: async (amount, orderInfo,extraData) => {
+        orderId = uuid.v4();
+        requestId = uuid.v4();
+        const extraDataSend = "id="+extraData; 
         const rawSignature = "partnerCode=" + partnerCode + "&accessKey=" + accessKey + "&requestId=" + requestId + "&amount=" + amount + "&orderId=" + orderId + "&orderInfo=" + orderInfo + "&returnUrl=" + returnUrl + "&notifyUrl=" + notifyurl + "&extraData=" + extraData;
         //before sign HMAC SHA256 with format
         //partnerCode=$partnerCode&accessKey=$accessKey&requestId=$requestId&amount=$amount&orderId=$oderId&orderInfo=$orderInfo&returnUrl=$returnUrl&notifyUrl=$notifyUrl&extraData=$extraData
@@ -79,7 +85,9 @@ module.exports = {
                 req.end();
             })}
     },
-    sendRequestRefund: (orderId, requestId, amount, transId) => {
+    sendRequestRefund: (amount, transId) => {
+        orderId = uuid.v4();
+        requestId = uuid.v4();
         const rawSignature = "partnerCode=" + partnerCode + "&accessKey=" + accessKey + "&requestId=" + requestId + "&amount=" + amount + "&orderId=" + orderId + "&transId=" + transId + "&requestType=" + requestTypeRefund ;
         //before sign HMAC SHA256 with format
         //partnerCode=$partnerCode&accessKey=$accessKey&requestId=$requestId&amount=$amount&orderId=$oderId&orderInfo=$orderInfo&returnUrl=$returnUrl&notifyUrl=$notifyUrl&extraData=$extraData
@@ -98,6 +106,7 @@ module.exports = {
             amount: amount,
             orderId: orderId,
             transId: transId,
+            extraData : extraData,
             requestType: requestTypeRefund,
             signature: signature,
         })

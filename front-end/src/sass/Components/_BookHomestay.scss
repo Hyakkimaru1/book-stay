@@ -37,22 +37,59 @@
         }
     }
     & .item {
-        border: 1px solid rgb(238, 236, 236) !important;
+        background-color: white;
+        box-shadow: 0 4px 10px 0 #bec2c9;
+        margin-top: 2rem;
         display: flex;
         position: relative;
         padding: 10px 10px;
         &__picture {
             display: block;
-            &--src {}
+           
             &--heart {
-                top: 5px;
+                top: 7px;
                 right: 5px;
                 position: absolute;
-                z-index: 1;
+                z-index: 0;
+                display: flex;
+                flex-direction: row;
+                color: #737373;
+                text-align: center;
+                &-word{
+                    font-size: 1.2rem;
+                }
+                &-date{
+                    letter-spacing: .2rem;
+                    font-size: 1.6rem;
+                }
+            }
+        }
+        &__title{
+            &--incomplete{
+                background-color: #7e8d9a;
+                padding: .4rem .5rem;
+                border-radius: .2rem;
+                color: white;
+                width: 10%;
+            }
+            &--complete{
+                background-color: #28ca6e;
+                padding: .4rem .5rem;
+                border-radius: .2rem;
+                color: white;
+                width: 10%;
+                text-align: center;
+            }
+            &--wait{
+                background-color: #ffc107;
+                padding: .4rem .5rem;
+                border-radius: .2rem;
+                color: white;
+                width: 10%;
+                text-align: center;
             }
         }
         &__info {
-            padding-top: 10px;
             padding-left: 10px;
             display: block;
             flex: 1 1 70%;
@@ -63,6 +100,7 @@
                     text-decoration: none;
                     color: $color-black;
                     font-weight: bold;
+                    width: 38rem;
                     &--contain:hover {
                         color: #f65e39;
                     }
@@ -90,14 +128,13 @@
                     }
                     &--rating {
                         & .bt__default {
-                            margin-left: 15px;
+                            margin-right: 15px;
                             background-color: rgb(247, 112, 78);
                             height: 25px;
                             text-align: center;
                             padding: 0 1rem;
                         }
                         & .bt__default:hover {
-                            margin-left: 15px;
                             background-color: rgb(246, 75, 33);
                         }
                     }
@@ -115,7 +152,7 @@
                         &-sub {
                             margin-bottom: 5px;
                             border-radius: 2px;
-                            background-color: #666;
+                            background-color: #28ca6e;
                             color: #fff;
                             padding: 3px 8px;
                             position: relative;
@@ -123,7 +160,7 @@
                                 content: "";
                                 position: absolute;
                                 border: 5px solid transparent;
-                                border-top-color: #666;
+                                border-top-color: #28ca6e;
                                 bottom: -10px;
                                 right: 15px;
                             }

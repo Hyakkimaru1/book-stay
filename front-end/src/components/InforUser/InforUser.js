@@ -11,45 +11,33 @@ class InforUser extends Component {
         super(props);
         this.state={
             option: "ListOption1",
-            user: ""
+            user: props.user
         }
         this.setOption = this.setOption.bind(this);
-    }
-
-    componentWillMount(){
-        let inforUser = this;
-        $.ajax({
-            url: `${config.url}/user/profile`,
-            type: 'post',
-            xhrFields: {
-                withCredentials: true
-            },
-            success: function( val ) {
-                inforUser.setState({user:val});
-            }
-        })
-        .fail(function() {
-            console.log('false');
-        });
     }
 
     setOption(newOption){
         this.setState({option:newOption});
     }
 
+    componentWillReceiveProps(newProps){
+        if (newProps!=this.props){
+            this.setState({...this.state,user:newProps.user});
+        }
+    }
+
     render() {
-        const bodyShowroom = this.state.option==="ListOption1"?<Showrooms user={this.state.user} />:<ChangePass/>;
+        const bodyShowroom = this.state.option==="ListOption1"?<Showrooms user={this.state.user} onClick={this.props.onClick} />:<ChangePass/>;
         const info = this.state.option==="ListOption1"?
         {name:"Thông tin tài khoản",info:"Cá nhân hóa tài khoản bằng việc cập nhật thông tin của bạn"}
         :{name:"Thay đổi mật khẩu",info:"Đổi mật khẩu ít nhất 6 tháng 1 lần để bảo vệ tài khoản của bạn"};
         return (
             <div className="Box" style={{backgroundColor:'#F8F8F8'}}>
                 <div className="row">
-                <ToastContainer/>
                 <div className="col-3-of-4">
                     <div className="BoxStart">
                         <div className="BoxStart__img">
-                            <img className="BoxStart__img--img" src={this.state.user.avatar} alt=""/>
+                            <img className="BoxStart__img--img" src={this.state.user.avt} alt=""/>
                         </div>
                         <div className="BoxStart__name">
                             <div className="BoxStart__name--name">

@@ -3,6 +3,8 @@ const userModels = require('../../models/user/user.models');
 const adminModels = require('../../models/admin/admin.models');
 const roomModels = require('../../models/room/room.models');
 const jwt = require('jsonwebtoken');
+const multer = require('multer');
+const mkdirp = require('mkdirp');
 const nodeMailer = require('../../models/user/sendMail.models')
 const dayByDay = require('../../public/js/getDayByDay');
 const momoModels = require('../../models/momo/momo.models');
@@ -11,18 +13,36 @@ const momoModels = require('../../models/momo/momo.models');
 const privateKey = require("../../config/default.json").secret;
 var bcrypt = require("bcryptjs");
 var Cookies = require("js-cookie");
+const e = require('express');
 const router = express.Router();
+
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        const dir = './public/imgs/user/'+req.id;
+        mkdirp(dir, err => cb(err, dir))
+    },
+    filename: async function (req, file, cb) {
+        var newFileName = file.fieldname + '-'+file.originalname;
+        req.body.avatar = "http://localhost:3300/imgs/user/"+req.id+'/'+newFileName;
+        cb(null,newFileName);
+      }
+});
+
+var upload = multer({ storage: storage }).array('file');
 
 router.post("/profile", verifyToken, async(req, res) => {
     jwt.verify(req.token, privateKey, async(err, authData) => {
         if (err) {
             res.sendStatus(404);
         } else {
-            const row = await userModels.single(authData.user.id);
-            delete row.pass;
-            delete row.id;
-            delete row.timeCreate;
-            res.send(row);
+            if (!authData.admin){
+                const row = await userModels.single(authData.user.id);
+                delete row.pass;
+                delete row.id;
+                delete row.timeCreate;
+                res.send(row);
+            }
+            else res.sendStatus(404);
         }
     });
 });
@@ -32,10 +52,34 @@ router.post("/profile/update", verifyToken, async(req, res) => {
         if (err) {
             res.sendStatus(404);
         } else {
+            if (req.body.gioitinh===''){
+                req.body.gioitinh=1;
+            }
             const row = await userModels.updateUser(req.body, authData.user.id);
             if (row.insertId !== null && row.insertId !== undefined) {
-                res.send("oke");
+                res.sendStatus(200);
             } else res.sendStatus(400);
+        }
+    });
+});
+
+router.post("/profile/updateavt", verifyToken, async(req, res) => {
+    jwt.verify(req.token, privateKey, async(err, authData) => {
+        if (err) {
+            res.sendStatus(404);
+        } else {
+            req.id = authData.user.id;
+            upload(req, res,async function  (err) {
+                if (err instanceof multer.MulterError) {
+                    return res.status(500).json(err)
+                } else if (err) {
+                    return res.status(500).json(err)
+                }
+            const row = await userModels.updateUser({avatar:req.body.avatar}, authData.user.id);
+            if (row.insertId !== null && row.insertId !== undefined) {
+                res.sendStatus(200);
+            } else res.sendStatus(400);
+            });
         }
     });
 });
@@ -43,7 +87,6 @@ router.post("/profile/update", verifyToken, async(req, res) => {
 router.post("/login", async(req, res) => {
     if (req.body) {
         // check is user or admin
-        
         const rowAdmin = await adminModels.singleUsername(req.body.username);
         if (rowAdmin){
             const rs = bcrypt.compareSync(req.body.password, rowAdmin.pass);
@@ -74,7 +117,6 @@ router.post("/login", async(req, res) => {
                     {
                         delete row.pass;
                         delete row.gioitinh;
-                        delete row.diachi;
                         delete row.timeCreate;
                         //if admin will send token admin
                         //jwt.sign({user:row,admin:true}, privateKey, function(err, token)
@@ -83,7 +125,7 @@ router.post("/login", async(req, res) => {
                             if (err){
                                 res.send(500);
                             }
-                            res.send({token,id:row.id,ten:row.ten,email:row.email,sdt:row.sdt,avt:row.avatar,admin:false});
+                            res.send({token,id:row.id,diachi:row.diachi,ngaysinh:row.ngaysinh,gioithieu:row.gioithieu,gioitinh:row.gioitinh,ten:row.ten,email:row.email,sdt:row.sdt,avt:row.avatar,admin:false});
                         });
                     } 
                 else res.sendStatus(403);
@@ -165,15 +207,17 @@ router.post("/resetpw", async(req, res) => {
 
 
 router.post("/loginAgain", verifyToken, async(req, res) => {
-    jwt.verify(req.token, privateKey, (err, authData) => {
+    jwt.verify(req.token, privateKey, async (err, authData) => {
         if (err) {
             res.sendStatus(404);
         } else {
             if (authData.admin){
-                res.send({id:authData.user.id,ten:authData.user.email,sdt:'',avt:'https://cdn.luxstay.com/users_avatar_default/default-avatar.png',admin:true});
+                const rowAdmin = await adminModels.single(authData.user.id);
+                res.send({id:authData.user.id,ten:rowAdmin.email,email:rowAdmin.email,avt:"https://cdn.luxstay.com/users_avatar_default/default-avatar.png",admin:true});
             }
             else {
-                res.send({id:authData.user.id,ten:authData.user.ten,email:authData.user.email,sdt:authData.user.sdt,avt:authData.user.avatar,admin:false});
+                const row = await userModels.single(authData.user.id);
+                res.send({id:row.id,diachi:row.diachi,ngaysinh:row.ngaysinh,gioithieu:row.gioithieu,gioitinh:row.gioitinh,ten:row.ten,email:row.email,sdt:row.sdt,avt:row.avatar,admin:false});
             }
         }
     });
@@ -253,6 +297,35 @@ router.post("/changepassword", async(req, res) => {
     });
 });
 
+router.post("/changepassword2", async(req, res) => {
+    jwt.verify(req.body.token, privateKey, async(err, authData) => {
+        if (err) {
+            res.sendStatus(404);
+        } else {
+            const checkuser = await userModels.single(authData.user.id);
+            if (checkuser){
+                const rs = bcrypt.compareSync(req.body.currentpassword, checkuser.pass);
+                if (rs)
+                {
+                    const hash = bcrypt.hashSync(req.body.password);
+                    const row = await userModels.updateUser({
+                        pass: hash
+                    }, authData.user.id);
+                    if (row.affectedRows > 0) {
+                        res.sendStatus(200);
+                    } else {
+                        res.sendStatus(503);
+                    }
+                } 
+                else {
+                    res.sendStatus(400);
+                }
+            }
+            else res.sendStatus(400);
+        }
+    });
+});
+
 //verify the token
 function verifyToken(req, res, next) {
     //Get token in cookies
@@ -265,14 +338,73 @@ function verifyToken(req, res, next) {
 }
 
 router.get("/mybooking/:id", verifyToken, async(req, res) => {
-    let id = req.params.id;
     jwt.verify(req.token, privateKey, async(err, authData) => {
         if (err) {
             res.sendStatus(404);
             console.log(err);
         } else {
-            const row = await userModels.allBooking(req.params.id);
-
+            let row;
+            if (!req.query.trangthai || req.query.trangthai===""){
+                if (req.query.ngaycheckout && req.query.ngaycheckin){
+                    row = await userModels.allBookingRange(req.params.id,req.query.ngaycheckin,req.query.ngaycheckout);
+                }
+                else if (req.query.ngaycheckin || req.query.ngaycheckout){
+                    row = await userModels.allBookingRange(req.params.id,req.query.ngaycheckin?req.query.ngaycheckin:req.query.ngaycheckout,req.query.ngaycheckin?req.query.ngaycheckin:req.query.ngaycheckout);
+                }
+                else {
+                    row = await userModels.allBooking(req.params.id);
+                }
+            }
+            else {
+                if (req.query.ngaycheckout && req.query.ngaycheckin){
+                    if (req.query.hoantat){
+                        row = await userModels.allBookingTrangThaiValidRange(req.params.id,req.query.trangthai,req.query.ngaycheckin,req.query.ngaycheckout);
+                    }
+                    else {
+                        row = await userModels.allBookingTrangThaiRange(req.params.id,req.query.trangthai,req.query.ngaycheckin,req.query.ngaycheckout);
+                    }
+                }
+                else if (req.query.ngaycheckin || req.query.ngaycheckout){
+                    if (req.query.ngaycheckin){
+                        if (req.query.hoantat){
+                            row = await userModels.allBookingTrangThaiValidRange(req.params.id,req.query.trangthai,req.query.ngaycheckin,req.query.ngaycheckin);
+                        }
+                        else {
+                            row = await userModels.allBookingTrangThaiRange(req.params.id,req.query.trangthai,req.query.ngaycheckin,req.query.ngaycheckin);
+                        }
+                    }
+                    else {
+                        if (req.query.hoantat){
+                            row = await userModels.allBookingTrangThaiValid(req.params.id,req.query.trangthai,req.query.ngaycheckout,req.query.ngaycheckout);
+                        }
+                        else {
+                            row = await userModels.allBookingTrangThai(req.params.id,req.query.trangthai,req.query.ngaycheckout,req.query.ngaycheckout);
+                        }
+                    }
+                    
+                }
+                else {
+                    if (req.query.hoantat){
+                        row = await userModels.allBookingTrangThaiValid(req.params.id,req.query.trangthai);
+                    }
+                    else {
+                        row = await userModels.allBookingTrangThai(req.params.id,req.query.trangthai);
+                    }
+                }  
+            }
+            if (row.length>0){
+                for (let index = 0; index < row.length; index++) {
+                    const img = await roomModels.getImgRoom(row[index].phong);
+                    row[index].img = img;
+                    const comment = await userModels.checkComment(row[index].id);
+                    if (comment.length>0){
+                        row[index].danhgia=0;
+                    }
+                    else {
+                        row[index].danhgia=1;
+                    }
+                }
+            }
             if (row) {
                 res.send(row);
             } else res.sendStatus(400);
@@ -281,7 +413,6 @@ router.get("/mybooking/:id", verifyToken, async(req, res) => {
 });
 
 router.post("/mybooking/feedback", verifyToken, async(req, res) => {
-    console.log(req.body);
     jwt.verify(req.token, privateKey, async(err, authData) => {
         if (err) {
             //console.log(req.body)
@@ -306,7 +437,7 @@ router.post('/cancelbooking', verifyToken, (req, res) => {
         } else {
             //body need id book
             //
-            const row = await userModels.getDetailCancel(79);
+            const row = await userModels.getDetailCancel(req.body.id);
             if (row.length === 0) {
                 res.sendStatus(404);
             } else {

@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useHistory,withRouter } from 'react-router-dom';
 
-const footer = () => {
+const Footer = () => {
+    const history = useHistory();
     return (
         <footer id="footer" className="footer">
         <div className="footer__logo-box">
@@ -37,11 +39,9 @@ const footer = () => {
                             <a href="https://www.facebook.com/Book-stay-112050950559234" className="footer__link">Liên hệ</a>
                         </li>
                         <li className="footer__item">
-                            <a href="javascpit:return(0)" className="footer__link">Chính sách</a>
+                            <a onClick={()=> {history.push('/cancellation_policy')}} href="javascpit:return(0)" className="footer__link">Chính sách</a>
                         </li>
-                        <li className="footer__item">
-                            <a href="javascpit:return(0)" className="footer__link">Nhà tài trợ</a>
-                        </li>
+
                     </ul>
                 </div>
             </div>
@@ -56,4 +56,4 @@ const footer = () => {
     );
 }
 
-export default footer;
+export default withRouter(Footer);

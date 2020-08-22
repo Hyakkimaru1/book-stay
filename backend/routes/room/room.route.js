@@ -143,11 +143,19 @@ router.get('/search',async (req,res)=>{
 
 router.post('/book', async (req,res) => {
     const search = await productModel.searchPhongDaDat(req.body);
+    let flag = true;
     if (search.length>0)
-    {
-        res.sendStatus(400);
+    {   
+        for (let index = 0; index < search.length; index++) {
+        const element = search[index];
+            if (element.trangthai===0){
+                res.sendStatus(400);
+                flag = false;
+                break;
+            }
+        }
     }
-    else {
+    if (flag){
         const arrayDay = dayByDay(req.body.ngaycheckin,req.body.ngaycheckout);
         const row = await productModel.addNguoiDatPhong(req.body);
         //adding short term out of room to table hetphong 
@@ -161,7 +169,7 @@ router.post('/book', async (req,res) => {
         if (row.insertId>0){
             setTimeout(async() => {
                 const resultUserPaid = await productModel.getNguoiDatPhong(row.insertId);
-                 // if user didn't pay, clear data and change status of NguoiDatPhong to -1 
+                    // if user didn't pay, clear data and change status of NguoiDatPhong to -1 
                 if (resultUserPaid.length > 0 && resultUserPaid[0].trangthai !== 1){
                     await productModel.updateNguoiDatPhong({trangthai:-1},row.insertId);
                     arrayIdOutOfRoom.map( async (val) => {
@@ -172,15 +180,14 @@ router.post('/book', async (req,res) => {
             res.send({idBook: row.insertId});
         }
         else res.sendStatus(400);
-    }
-    
+    }  
 });
 
 router.post('/momo',async (req,res)=>{
     const row = await productModel.getNguoiDatPhong(req.body.id);
     if (row.length>0 && row[0].trangthai === 0){
         //getQR from momo then send to user 
-        const getQR = await momoModel.sendRequest(row[0].id.toString(),row[0].id.toString(),row[0].gia.toString(),'dat phong book-stay');
+        const getQR = await momoModel.sendRequest(row[0].gia.toString(),'dat phong book-stay',row[0].id.toString());
         if (getQR !==''){
             res.send({urlQR:getQR});
         }
@@ -195,14 +202,14 @@ router.post('/momo',async (req,res)=>{
 })
 
 router.post('/momoResponsePaid',async (req,res)=>{
-    const resultUserPaid = await productModel.getNguoiDatPhong(req.body.orderId);
+    const resultUserPaid = await productModel.getNguoiDatPhong(req.body.extraData);
     // if user didn't pay, clear data and change status of NguoiDatPhong to -1 
     if (resultUserPaid.length > 0 ){
         if ( req.body.errorCode == 0){
-            await productModel.updateNguoiDatPhong({trangthai:1,transId:req.body.transId},req.body.orderId);
+            await productModel.updateNguoiDatPhong({trangthai:1,transId:req.body.transId},req.body.extraData);
         }
         else {
-            await productModel.updateNguoiDatPhong({trangthai:-1,transId:req.body.transId},req.body.orderId); 
+            await productModel.updateNguoiDatPhong({trangthai:-1,transId:req.body.transId},req.body.extraData); 
         }
     } 
     res.sendStatus(200);

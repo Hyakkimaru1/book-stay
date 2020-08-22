@@ -1,18 +1,23 @@
-import React, { useState,useEffect,useRef } from 'react';
+import React, { useState,useEffect,useRef,useContext } from 'react';
 import {ReactComponent as CogIcon} from '../../icons/cog.svg';
 import {ReactComponent as ChevronIcon} from '../../icons/chevron.svg';
 import {ReactComponent as ArrowIcon} from '../../icons/arrow.svg';
 import {ReactComponent as BoltIcon} from '../../icons/bolt.svg';
 import {CSSTransition} from 'react-transition-group';
-
-const DropdownMenu = () => {
+import { UserContext } from '../../UserContext';
+import {Link} from 'react-router-dom';
+import $ from 'jquery';
+const config = require('../../config/default.json'); 
+const DropdownMenu = (props) => {
     const [activeMenu,setActiveMenu] = useState('main');
     const [menuHeight, setMenuHeight] = useState(null);
+    const [state, dispatch] = useContext(UserContext);
+    const [data,setData] = useState(null);
     const dropdownRef = useRef(null);
     useEffect(() => {
         setMenuHeight(dropdownRef.current?.firstChild.offsetHeight)
       }, [])
-    
+
     function calcHeight(el) {
         const height = el.offsetHeight;
         setMenuHeight(height+22);
@@ -37,43 +42,17 @@ const DropdownMenu = () => {
             classNames="menu-primary"
             onEnter={calcHeight}>
                 <div className="menu">
-                    <DropdownItem goToMenu="animals">My profile</DropdownItem>
-                    <DropdownItem leftIcon={<CogIcon/>} rightIcon={<ChevronIcon/>} goToMenu="settings">Settings</DropdownItem>
+                    {state.admin?<Link to={{pathname:"/admin",state:{type:2}}}><DropdownItem leftIcon={<i style={{color:'#606770'}} class="fas fa-list"></i>}>Trang quản lý</DropdownItem></Link>:<span>
+                    <Link to={{pathname:"/user",state:{type:1}}}><DropdownItem leftIcon={<i style={{color:'#606770'}} class="fas fa-user"></i>}>Thông tin của bạn</DropdownItem></Link>
+                    <Link to={{pathname:"/user",state:{type:2}}}><DropdownItem leftIcon={<i style={{color:'#606770'}} class="fas fa-list"></i>}>Danh sách đặt phòng</DropdownItem></Link></span>
+                    
+                    }
+                    {props.isHost?<Link to={{pathname:"/host/managerooms",state:{type:2}}}><DropdownItem leftIcon={<i style={{color:'#606770'}} class="fas fa-list"></i>}>Trang quản lý của bạn</DropdownItem></Link>:null}
+                    <Link to="/" onClick={() => dispatch({ type: 'logout' })}><DropdownItem leftIcon={<i style={{color:'#606770'}} class="fas fa-sign-out-alt"></i>} rightIcon={<ChevronIcon/>} >Logout</DropdownItem></Link>
                 </div>
                 
             </CSSTransition>
-            <CSSTransition
-                in={activeMenu === 'settings'}
-                timeout={500}
-                classNames="menu-secondary"
-                unmountOnExit
-                onEnter={calcHeight}>
-                <div className="menu">
-                <DropdownItem goToMenu="main" leftIcon={<ArrowIcon />}>
-                    <h2>My Tutorial</h2>
-                </DropdownItem>
-                <DropdownItem leftIcon={<BoltIcon />}>HTML</DropdownItem>
-                <DropdownItem leftIcon={<BoltIcon />}>CSS</DropdownItem>
-                <DropdownItem leftIcon={<BoltIcon />}>JavaScript</DropdownItem>
-                <DropdownItem leftIcon={<BoltIcon />}>Awesome!</DropdownItem>
-                </div>
-            </CSSTransition>
-            <CSSTransition
-                in={activeMenu === 'animals'}
-                timeout={500}
-                classNames="menu-secondary"
-                unmountOnExit
-                onEnter={calcHeight}>
-                <div className="menu">
-                <DropdownItem goToMenu="main" leftIcon={<ArrowIcon />}>
-                    <h2>Animals</h2>
-                </DropdownItem>
-                <DropdownItem leftIcon="🦘">Kangaroo</DropdownItem>
-                <DropdownItem leftIcon="🐸">Frog</DropdownItem>
-                <DropdownItem leftIcon="🦋">Horse?</DropdownItem>
-                <DropdownItem leftIcon="🦔">Hedgehog</DropdownItem>
-                </div>
-            </CSSTransition>
+           
         </div>
     );
 }

@@ -45,6 +45,7 @@ import Footer from './components/Footer/Footer.js'
 import RecommendRooms from './components/RecommendRooms/RecommendRooms';
 import Admin from './components/Admin/Admin';
 import ErrorPage from './components/ErrorPage/ErrorPage';
+import CancellationPolicy from './components/AnotherPage/CancellationPolicy';
 
 const config = require('./config/default.json');
 
@@ -52,9 +53,49 @@ function App() {
   //const [checkError,setCheckError] = useState(true);
   const [state, dispatch] = useReducer(UserReducer, null);
   const [hostBar, setHostBar] = useState(false);
-
+  const [checkChange,setCheckChange] = useState(false); 
   const handleBar = (e) =>{
     setHostBar(true);
+  }
+
+  const [isHost,setIsHost] = useState(false);
+
+  const upDateCheckChange = () => {
+    if (Cookies.get('token')) {
+      $.ajax({
+        url: `${config.url}/user/loginAgain`,
+        type: 'post',
+        xhrFields: {
+          withCredentials: true
+        },
+        success: function (id) {
+          dispatch({
+            id: id.id,
+            avt: id.avt,
+            email: id.email,
+            ten: id.ten,
+            sdt: id.sdt,
+            admin:id.admin,
+            diachi:id.diachi,
+            gioitinh:id.gioitinh,
+            gioithieu:id.gioithieu,
+            ngaysinh:id.ngaysinh,
+            type: "login",
+           
+          });
+        }
+      })
+        .fail(function () {
+          dispatch({
+            type: "logout"
+          });
+        });
+    }
+    else {
+      dispatch({
+        type: "logout"
+      });
+    }
   }
 
   //Begin when go on web check login or not
@@ -74,6 +115,10 @@ function App() {
             ten: id.ten,
             sdt: id.sdt,
             admin:id.admin,
+            diachi:id.diachi,
+            gioitinh:id.gioitinh,
+            gioithieu:id.gioithieu,
+            ngaysinh:id.ngaysinh,
             type: "login",
            
           });
@@ -84,13 +129,25 @@ function App() {
             type: "logout"
           });
         });
+        $.ajax({
+            url: `${config.url}/user/profile`,
+            type: 'post',
+            xhrFields: {
+              withCredentials: true
+            },
+            success: function (val) {
+                if (val.upHost===2)
+                  setIsHost(true);
+        }
+        })
     }
     else {
       dispatch({
         type: "logout"
       });
     }
-  }, []);
+  }, [checkChange]);
+
   if (!state) return null;
   else
     return (
@@ -99,17 +156,13 @@ function App() {
           <ToastContainer/>
           <UserContext.Provider value={[state, dispatch]}>
             {state.type === "login" && (!hostBar ?   <NavBar>
-              <NavItem icon={<Link to="/">🤓</Link>} />
-              <NavItem icon={state.ten} img={state.avt} />
+              <Link className="userbutton" style={{textDecoration:'none',alignSelf: 'center'}} to={{pathname:"/user",state:{type:1}}}><NavItem icon={state.ten} img={state.avt} /></Link>
               <NavItem icon={<CaretIcon />}>
-                <DropdownMenu></DropdownMenu>
-              </NavItem>
-              <NavItem icon={<Link to="/" onClick={() => dispatch({ type: 'logout' })}>Logout</Link>}>
+                <DropdownMenu isHost={isHost}></DropdownMenu>
               </NavItem>
             </NavBar>: <div></div>)}
             {state.type === "logout" && <NavBar>
-              <NavItem icon={<Link to="/forgotpw">🤓</Link>} />
-              <NavItem icon={<Link to="/login">Login/Logup</Link>} />
+              <NavItem icon={<Link to="/login">&nbsp; Login / Sign up &nbsp;</Link>} />
             </NavBar>}
 
 
@@ -135,7 +188,7 @@ function App() {
                   {/* <User /> */}
               </Route>
               <ProtectBooked path="/user">
-              <User />
+              <User onClick={upDateCheckChange} user={state}/>
               </ProtectBooked>
               {/* <Route path="/user" children={<User />} /> */}
               <Route exact strict path="/rooms/:id" children={<PageRoom />} />
@@ -180,7 +233,7 @@ function App() {
 
               <Route path="/login" children={<Login></Login>} />
               <Route path="/signup" children={<Signup></Signup>} />
-
+              <Route exact strict path="/cancellation_policy" children={<CancellationPolicy />} />
             <Route path="/forgotpassword" children={<ForgotPassword/>} />
             <Route path="/newpassword" children={<NewPassword/>} />
             

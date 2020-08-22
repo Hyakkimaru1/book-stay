@@ -31,16 +31,22 @@ module.exports = {
         delete entity.email;
         return db.patch('nguoidung', entity, condition);
     },
-    allBooking: async id => {
-        const rows = db.load(`SELECT * FROM danhsachdatphong d, phong p
-    WHERE d.phong = p.id AND nguoidat = "${id}"`);
-        if (rows.length === 0)
-            return null;
-        return rows;
-    },
+    allBooking: id => db.load(`SELECT d.*,p.trangThai as trangthaiphong,p.ten,p.diaChi FROM danhsachdatphong d, phong p
+    WHERE d.phong = p.id AND nguoidat = "${id}" ORDER BY id DESC`),
+    allBookingRange: (id,ngaycheckin,ngaycheckout) => db.load(`SELECT d.*,p.trangThai as trangthaiphong,p.ten,p.diaChi FROM danhsachdatphong d, phong p
+    WHERE d.phong = p.id AND nguoidat = "${id}"  and '${ngaycheckin}' <= d.ngaycheckin and '${ngaycheckout}' >= ngaycheckin ORDER BY id DESC`),
+    allBookingTrangThai: (id,trangthai) => db.load(`SELECT d.*,p.trangThai as trangthaiphong,p.ten,p.diaChi FROM danhsachdatphong d, phong p
+    WHERE d.phong = p.id AND nguoidat = "${id}" and d.trangthai = ${trangthai} ORDER BY id DESC`),
+    allBookingTrangThaiValid: (id,trangthai) => db.load(`SELECT d.*,p.trangThai as trangthaiphong,p.ten,p.diaChi FROM danhsachdatphong d, phong p
+    WHERE d.phong = p.id AND nguoidat = "${id}" and d.trangthai = ${trangthai} and CURRENT_DATE() < ngaycheckin ORDER BY id DESC`),
+    allBookingTrangThaiRange: (id,trangthai,ngaycheckin,ngaycheckout) => db.load(`SELECT d.*,p.trangThai as trangthaiphong,p.ten,p.diaChi FROM danhsachdatphong d, phong p
+    WHERE d.phong = p.id AND nguoidat = "${id}" and d.trangthai = ${trangthai} and '${ngaycheckin}' <= d.ngaycheckin and '${ngaycheckout}' >= ngaycheckin ORDER BY id DESC`),
+    allBookingTrangThaiValidRange: (id,trangthai,ngaycheckin,ngaycheckout) => db.load(`SELECT d.*,p.trangThai as trangthaiphong,p.ten,p.diaChi FROM danhsachdatphong d, phong p
+    WHERE d.phong = p.id AND nguoidat = "${id}" and d.trangthai = ${trangthai} and CURRENT_DATE() < ngaycheckin and '${ngaycheckin}' <= d.ngaycheckin and '${ngaycheckout}' >= d.ngaycheckin ORDER BY id DESC`),
     sendFeedback: entity => db.add('danhgia', entity),
     updateUser: (entity, condition) => db.patch('nguoidung', entity, { id: condition }),
     getDetailCancel: id => db.load(`SELECT * FROM danhsachdatphong WHERE id = ${id} and trangthai = 1 and ngaycheckin > CURRENT_DATE`),
+    checkComment: id => db.load(`SELECT * from danhgia where dondatphong = ${id}`)
 };
 
 //
