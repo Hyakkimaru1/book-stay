@@ -103,6 +103,7 @@ const NavBar = (props) => {
                     className="booking__input-text bold"
                     value={valueSearch}
                     onChange={handleValueSearch}
+                    onKeyDown={handleSearchClick}
                   >
                   </input>
                 </div>

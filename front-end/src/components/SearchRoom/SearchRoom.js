@@ -23,6 +23,7 @@ export default function SearchRoom(props) {
   useEffect(() => {
     setFilters({ key: props.value.key, ...filters });
   }, [props.value.key]);
+
   useEffect(() => {
     console.log("page", page);
 
@@ -36,10 +37,9 @@ export default function SearchRoom(props) {
   }, [filters]);
 
   useEffect(() => {
-    sortF();
+    setFilters({ key: props.value.key, ...filters });
     console.log("object", rooms);
-    let i = 0;
-    console.log("object nw", rooms);
+    sortF();
   }, [sort]);
 
   function comparePriceUp(a, b) {
@@ -61,19 +61,19 @@ export default function SearchRoom(props) {
     const bandA = parseInt(a.soPhong);
     const bandB = parseInt(b.soPhong);
     let comparison = 0;
-    comparison = bandA > bandB ? 1 : -1;
+    comparison = bandA < bandB ? 1 : -1;
     return comparison;
   }
   function compareArea(a, b) {
     const bandA = parseInt(a.dienTich);
     const bandB = parseInt(b.dienTich);
     let comparison = 0;
-    comparison = bandA > bandB ? 1 : -1;
+    comparison = bandA < bandB ? 1 : -1;
     return comparison;
   }
 
   function sortF() {
-    console.log("sort", sort);
+    console.log("sort", rooms);
 
     switch (sort) {
       case "1":
@@ -104,6 +104,7 @@ export default function SearchRoom(props) {
       success: ([val, page]) => {
         setrooms(val);
         settotalPage(page);
+        sortF();
       },
     });
   };
