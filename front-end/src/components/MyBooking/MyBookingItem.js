@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { ReactComponent as Heart } from "../../icons/icons8_heart_outline.svg";
 import { ReactComponent as Quick } from "../../icons/icons8_lightning_bolt_1.svg";
-import { ReactComponent as Star } from "../../icons/icons8_star.svg";
 import DiaglogRating from "./DialogRating";
 import Rating from "@material-ui/lab/Rating";
 import { makeStyles } from "@material-ui/core/styles";
@@ -23,7 +22,8 @@ const MyBookingItem = (props) => {
                 width="215"
                 height="155"
                 src="https://cdn.luxstay.com/users/170204/vopvKF2uSyomu130qFjYS0Nt.jpg"
-              ></img>
+              >
+              </img>
             </div>
             <div className="item__picture--heart">
               <Heart />
@@ -54,20 +54,28 @@ const MyBookingItem = (props) => {
                     precision={0.5}
                     readOnly
                   />
-                  <button
-                    type=""
-                    class="bt__default"
-                    id="changeAvt"
-                    onClick={() => ratingClick(true)}
-                  >
-                    Đánh giá
-                  </button>
+                  {props.isCheckout
+                    ? <button
+                      type=""
+                      class="bt__default"
+                      id="changeAvt"
+                      onClick={() => ratingClick(true)}
+                    >
+                      Đánh giá
+                    </button>
+                    : <button
+                      className="bt__cancel"
+                    >
+                      Hủy phòng
+                    </button>}
+
                   <DiaglogRating
                     id={props.id}
                     onChange={rating}
                     onClose={() => ratingClick(false)}
                     name={props.name}
-                  ></DiaglogRating>
+                  >
+                  </DiaglogRating>
                 </div>
               </div>
 

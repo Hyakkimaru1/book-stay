@@ -1083,6 +1083,7 @@ input:checked + .slider:before {
 .navbarsearch__wrapper--box-field input {
   background-color: #F5F5F5;
   border: 0;
+  margin-left: 8px;
   box-shadow: none;
   padding: 0;
   font-size: 1rem;
@@ -1164,6 +1165,7 @@ input:checked + .slider:before {
   align-self: center;
 }
 .navbarsearch__wrapper--button button {
+  cursor: pointer;
   height: 36px;
   border-radius: 4px;
   width: 50px;
@@ -3425,6 +3427,143 @@ input:checked + .slider:before {
 .admin > div > div:nth-child(3):active {
   transform: rotate(3deg) translateX(3%);
   cursor: pointer;
+}
+
+.searchroom {
+  font-family: Arial, Helvetica, sans-serif;
+  margin-top: 8rem;
+  position: relative;
+}
+.searchroom .filter-bar {
+  z-index: 1000;
+  transition: top 0.3s;
+  background-color: #fff;
+  font-size: 15px;
+  font-family: Arial, sans-serif;
+  position: fixed;
+  margin-bottom: 4rem;
+  padding-bottom: 10px;
+  width: 100%;
+}
+.searchroom .filter-bar__content {
+  display: flex;
+  padding: 0 4.8rem;
+  margin-top: 15px;
+}
+.searchroom .filter-bar__content .item {
+  margin-right: 15px;
+  display: flex;
+}
+.searchroom .filter-bar__content .item span {
+  margin-left: 5px;
+}
+.searchroom .filter-bar__content .item svg {
+  fill: red;
+  stroke: none;
+  color: red;
+}
+.searchroom .filter-bar__content .item.active {
+  background-color: #f68a39;
+  color: white;
+}
+.searchroom .filter-bar__content .bt__default {
+  padding: 0.6rem 0.8rem;
+  background-color: white;
+  color: #6b6868;
+}
+.searchroom .filter-bar__content .bt__default:hover {
+  background-color: #f68a39;
+  color: white;
+}
+.searchroom .filter-bar hr {
+  border: 0.7px solid #f3f3f3;
+}
+.searchroom__title {
+  position: absolute;
+  margin-top: 11rem;
+  margin-left: 45px;
+  margin-bottom: 20px;
+  font-size: 25px;
+  font-weight: bold;
+}
+.searchroom__content {
+  position: relative;
+  top: 19rem;
+}
+.searchroom__content .row {
+  justify-content: flex-start;
+  max-width: 94%;
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 0px;
+}
+.searchroom__content .row .room__item {
+  flex-basis: 18%;
+  max-width: 20%;
+  margin-bottom: 25px;
+  margin-right: 20px;
+}
+.searchroom__content .row .room__item .room__img img {
+  border-radius: 4px;
+  width: 100%;
+  height: 100%;
+}
+.searchroom__content .row .room__item .room__info--type {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #888;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+}
+.searchroom__content .row .room__item .room__info--name {
+  align-items: center;
+  margin-bottom: 5px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 600;
+  max-width: 270px;
+  max-height: 52px;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.searchroom__content .row .room__item .room__info--name svg {
+  top: 4px;
+  position: relative;
+}
+.searchroom__content .row .room__item .room__info--name:hover {
+  color: #f65e39;
+}
+.searchroom__content .row .room__item .room__info--rooms {
+  font-size: 14px;
+  max-width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 22px;
+}
+.searchroom__content .row .room__item .room__info--price {
+  margin: 5px 0;
+  font-size: 17px;
+  font-weight: 700;
+}
+.searchroom__content .row .room__item .room__info--address {
+  max-width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 1;
+  max-height: 22px;
+  font-size: 14px;
+}
+.searchroom__content--pagination {
+  margin-bottom: 8rem;
+  align-items: center;
+}
+.searchroom__content--pagination .MuiPagination-root {
+  display: flex;
+  justify-content: center;
 }
 
 /*# sourceMappingURL=style.css.map */

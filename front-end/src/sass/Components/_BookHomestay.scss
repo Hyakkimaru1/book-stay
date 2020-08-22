@@ -100,6 +100,27 @@
                             margin-left: 15px;
                             background-color: rgb(246, 75, 33);
                         }
+                        & .bt__cancel {
+                            cursor: pointer;
+                            margin-left: 15px;
+                            background-color: rgb(241, 234, 232);
+                            height: 25px;
+                            text-align: center;
+                            padding: 0 1rem;
+                            color: rgb(246, 75, 33);
+                            font-weight: 600;
+                            display: inline-block;
+                            transition: all 0.3s;
+                            outline: 0;
+                            border-radius: 0.5rem;
+                            overflow: hidden;
+                            border: 1px solid #f65e39;
+                        }
+                        & .bt__cancel:hover {
+                            margin-left: 15px;
+                            background-color: rgb(246, 75, 33);
+                            color: white;
+                        }
                     }
                 }
                 & .subcontent__mid {

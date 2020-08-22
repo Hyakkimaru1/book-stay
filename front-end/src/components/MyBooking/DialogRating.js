@@ -80,6 +80,7 @@ export default function DiaglogRating(props) {
       <Dialog
         fullWidth={true}
         maxWidth="sm"
+        onClose={props.onClose}
         open={props.onChange}
         aria-labelledby="max-width-dialog-title"
       >
@@ -92,7 +93,8 @@ export default function DiaglogRating(props) {
                 width="60"
                 height="60"
                 src="https://cdn.luxstay.com/users/170204/vopvKF2uSyomu130qFjYS0Nt.jpg"
-              ></img>
+              >
+              </img>
               <div className="rating__room--name">{props.name}</div>
             </div>
             <div className="rating__star">
@@ -113,7 +115,8 @@ export default function DiaglogRating(props) {
                 id="feedback-content"
                 style={{ resize: "none" }}
                 placeholder="Hãy chia sẻ cảm nhận của bạn về dịch vụ nơi đây nhé"
-              ></textarea>
+              >
+              </textarea>
             </div>
           </div>
         </DialogContent>
