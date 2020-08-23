@@ -58,13 +58,19 @@
         var prevScrollpos = window.pageYOffset;
         window.onscroll = function() {
             var currentScrollPos = window.pageYOffset;
+            //document.getElementById("filter-bar").style.visibility = "hidden";
+
             if (prevScrollpos > currentScrollPos) {
                 document.getElementById("navbar").style.top = "0";
-                document.getElementById("filter-bar").style.top = "70px";
+                // document.getElementById("filter-bar").style.top = "70px";
+
             } else {
+
                 document.getElementById("navbar").style.top = "-66px";
-                document.getElementById("filter-bar").style.top = "-136px";
+                // document.getElementById("filter-bar").style.top = "-136px";
+
             }
+
             prevScrollpos = currentScrollPos;
         }
     </script>

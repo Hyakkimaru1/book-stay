@@ -1,6 +1,6 @@
 .searchroom {
     font-family: Arial, Helvetica, sans-serif;
-    margin-top: 8rem;
+    margin-top: 7rem;
     position: relative;
     & .filter-bar {
         z-index: 1000;
@@ -8,8 +8,8 @@
         background-color: #fff;
         font-size: 15px;
         font-family: Arial, sans-serif;
-        position: fixed;
-        margin-bottom: 4rem;
+        //position: fixed;
+        margin-bottom: 2rem;
         padding-bottom: 10px;
         width: 100%;
         &__content {
@@ -48,7 +48,7 @@
     }
     &__title {
         position: absolute;
-        margin-top: 11rem;
+        //margin-top: 11rem;
         margin-left: 45px;
         margin-bottom: 20px;
         font-size: 25px;
@@ -56,7 +56,7 @@
     }
     &__content {
         position: relative;
-        top: 19rem;
+        top: 10rem;
         margin-bottom: 25rem;
         & .row {
             justify-content: flex-start;

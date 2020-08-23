@@ -111,6 +111,17 @@ module.exports = {
     }
     return row;
   },
+  getUsersSearch: (title_like) => {
+    const key = "%" + title_like + "%";
+    const row = db.load(`SELECT *
+      FROM nguoidung 
+      WHERE (CONCAT(nguoidung.ten, nguoidung.email) LIKE "${key}")
+     `);
+    if (row.length === 0) {
+      return null;
+    }
+    return row;
+  },
 };
 
 //

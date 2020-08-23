@@ -1,0 +1,81 @@
+.UserItem {
+    max-width: 80%;
+    margin-left: 10%;
+    justify-content: center;
+    font-size: 18px;
+    font-family: Arial, Helvetica, sans-serif;
+    &__wrap {
+        padding: 5px;
+        border-bottom: solid rgb(212, 212, 212) 1px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        &--info {
+            display: flex;
+            & .avatar {}
+            & .name {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 250px;
+                width: 250px;
+                font-weight: bold;
+                margin-left: 15px;
+                align-self: center;
+            }
+            & .email {
+                border-left: solid rgb(212, 212, 212) 1px;
+                margin-left: 25px;
+                align-self: center;
+                & span {
+                    padding-left: 15px;
+                }
+            }
+        }
+        &--status {
+            display: flex;
+            justify-content: space-between;
+            & .upHost {
+                cursor: pointer;
+                align-self: flex-end;
+                margin-right: 30px;
+                & .fa-arrow-up {
+                    color: rgb(106, 225, 255);
+                }
+                & .fa-arrow-down {
+                    color: rgb(255, 101, 101);
+                }
+                & .disable {
+                    color: gray;
+                    cursor: not-allowed;
+                }
+                & .tooltiptext {
+                    visibility: hidden;
+                    opacity: 0.8;
+                    width: auto;
+                    font-size: 10px;
+                    background-color: $color-main;
+                    color: #fff;
+                    text-align: center;
+                    border-radius: 6px;
+                    padding: 5px 5px;
+                    /* Position the tooltip */
+                    position: absolute;
+                    margin-top: 40px;
+                    z-index: 1;
+                }
+            }
+            & .upHost:hover .tooltiptext {
+                visibility: visible;
+            }
+            & .isBan {}
+        }
+    }
+}
+
+.UserTitle {
+    font-size: 40px;
+    text-align: center;
+    font-weight: 700;
+    font-family: Arial, Helvetica, sans-serif;
+}
