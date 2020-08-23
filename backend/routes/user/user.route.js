@@ -27,6 +27,20 @@ router.post("/profile", verifyToken, async (req, res) => {
     }
   });
 });
+router.post("/registerhost", verifyToken, async (req, res) => {
+  jwt.verify(req.token, privateKey, async (err, authData) => {
+    if (err) {
+      res.sendStatus(404);
+    } else {
+      const row = await userModels.regHost(authData.user.id);
+      if (row) {
+        res.sendStatus(200);
+      } else {
+        res.sendStatus(304);
+      }
+    }
+  });
+});
 
 router.post("/profile/update", verifyToken, async (req, res) => {
   jwt.verify(req.token, privateKey, async (err, authData) => {
@@ -352,38 +366,24 @@ router.get("/search", async (req, res) => {
 
   let row, total, nPage;
   let limit = paginate.limit;
-  console.log("query", req.query);
-  console.log("limit", limit);
+  // console.log("query", req.query);
+  // console.log("limit", limit);
   try {
     [row, total] = await Promise.all(
       [
-        userModels.getRoomsSearch(query, limit, 5 * (req.query.page - 1)),
+        userModels.getRoomsSearch(query, limit * 3, 5 * (req.query.page - 1)),
         userModels.getNumRoomsSearch(query),
       ],
     );
     nPage = Math.floor(
-      total[0].total / limit + (total[0].total % limit > 0 ? 1 : 0),
+      total[0].total / (limit * 3) + (total[0].total % limit > 0 ? 1 : 0),
     );
-
-    console.log("Page", nPage);
   } catch (error) {
     res.sendStatus(404);
     console.log("Error", error);
   }
 
   res.send([row, nPage]);
-
-  // let row;
-  // if (req.query.title_like) {
-  //   row = await hostModels.getRoomManageSearch(
-  //     authData.user.id,
-  //     req.query.title_like,
-  //   );
-  // } else {
-  //   row = await hostModels.getRoomManage(authData.user.id);
-  // }
-
-  // res.send(row);
 });
 
 module.exports = router;

@@ -871,6 +871,9 @@ input:checked + .slider:before {
 .BoxStart__host:hover {
   cursor: pointer;
 }
+.Box .MuiTypography-h6 {
+  font-size: 3rem !important;
+}
 
 .ListOptions {
   background-color: white;
@@ -2556,12 +2559,20 @@ input:checked + .slider:before {
 }
 
 .MuiTypography-h6 {
-  font-size: 2rem !important;
+  font-size: 3rem !important;
   color: #f68a39;
 }
 
 .MuiDialogTitle-root {
   padding-bottom: 5px !important;
+}
+
+.MuiTypography-body1 {
+  font-size: 1.5rem !important;
+}
+
+.MuiButton-label {
+  font-size: 1.5rem !important;
 }
 
 .HostReBar__top {
@@ -3489,6 +3500,7 @@ input:checked + .slider:before {
 .searchroom__content {
   position: relative;
   top: 19rem;
+  margin-bottom: 25rem;
 }
 .searchroom__content .row {
   justify-content: flex-start;

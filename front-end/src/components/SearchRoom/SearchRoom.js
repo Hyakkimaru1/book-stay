@@ -25,20 +25,15 @@ export default function SearchRoom(props) {
   }, [props.value.key]);
 
   useEffect(() => {
-    console.log("page", page);
-
+    // console.log("page", page);
     const paramString = queryString.stringify(
       { key: props.value.key, page: page },
     );
-    console.log("param", filters);
-    console.log("props", props);
     fetchData(paramString);
-    console.log("data", rooms);
   }, [filters]);
 
   useEffect(() => {
     setFilters({ key: props.value.key, ...filters });
-    console.log("object", rooms);
     sortF();
   }, [sort]);
 
@@ -73,7 +68,7 @@ export default function SearchRoom(props) {
   }
 
   function sortF() {
-    console.log("sort", rooms);
+    // console.log("sort", rooms);
 
     switch (sort) {
       case "1":

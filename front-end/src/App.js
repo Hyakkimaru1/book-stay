@@ -222,7 +222,7 @@ function App() {
               </Router>
             </Switch>
           </UserContext.Provider>
-          {/* <Footer /> */}
+          <Footer />
         </div>
       </Router>
     );

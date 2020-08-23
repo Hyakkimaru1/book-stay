@@ -14,7 +14,7 @@ const FilterBar = (props) => {
     props.sortChange(e);
   };
   return (
-    <div className="filter-bar">
+    <div className="filter-bar" id="filter-bar">
       <hr />
       <FilterBarItems active={filter} onChange={filterClick}>
         <div key="0">

@@ -53,10 +53,18 @@
 }
 
 .MuiTypography-h6 {
-    font-size: 2rem !important;
+    font-size: 3rem !important;
     color: $color-main;
 }
 
 .MuiDialogTitle-root {
     padding-bottom: 5px !important;
+}
+
+.MuiTypography-body1 {
+    font-size: 1.5rem !important;
+}
+
+.MuiButton-label {
+    font-size: 1.5rem !important;
 }

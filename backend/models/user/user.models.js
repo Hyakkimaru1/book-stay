@@ -9,6 +9,11 @@ module.exports = {
     }
     return rows[0];
   },
+  regHost: async (id) => {
+    const condition = { id: id };
+    const entity = { upHost: 1 };
+    return db.patch("nguoidung", entity, condition);
+  },
   singleUsername: async (username) => {
     const rows = await db.load(
       `select * from nguoidung where email = "${username}"`,
