@@ -28,26 +28,13 @@ import React, {useState, Component } from 'react';
     }
 
     return (
-
-        
-            <ul className="mybooking__dropdown" 
-               
-            >
+            <ul className="mybooking__dropdown">
                  <DropdownItem>Tất cả chỗ đặt</DropdownItem>
-                 <DropdownItem>Chờ xác nhận</DropdownItem>
+                 <DropdownItem>Sắp tới</DropdownItem>
                  <DropdownItem>Chờ thanh toán</DropdownItem>
-                 <DropdownItem>Đã chấp nhận</DropdownItem>
-                 <DropdownItem>Từ chối</DropdownItem>
-                 <DropdownItem>Thành công</DropdownItem>
+                 <DropdownItem>Hoàn tất thanh toán</DropdownItem>
                  <DropdownItem>Không thành công</DropdownItem>
-                 <DropdownItem>Đã huỷ</DropdownItem>
-               
             </ul>
-
-
-           
-       
-        
     )
 }
 

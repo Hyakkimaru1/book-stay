@@ -62,11 +62,6 @@ class InforUser extends Component {
         console.log("false");
       });
   }
-
-  setOption(newOption) {
-    this.setState({ option: newOption });
-  }
-
   handleRegHostClick = () => {
     this.setState({ regHost: true });
     $.ajax({
@@ -85,9 +80,19 @@ class InforUser extends Component {
       });
   };
 
+  setOption(newOption) {
+    this.setState({ option: newOption });
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (newProps != this.props) {
+      this.setState({ ...this.state, user: newProps.user });
+    }
+  }
+
   render() {
     const bodyShowroom = this.state.option === "ListOption1"
-      ? <Showrooms user={this.state.user} />
+      ? <Showrooms user={this.state.user} onClick={this.props.onClick} />
       : <ChangePass />;
     const info = this.state.option === "ListOption1"
       ? {
@@ -107,7 +112,7 @@ class InforUser extends Component {
               <div className="BoxStart__img">
                 <img
                   className="BoxStart__img--img"
-                  src={this.state.user.avatar}
+                  src={this.state.user.avt}
                   alt=""
                 />
               </div>
@@ -124,6 +129,7 @@ class InforUser extends Component {
               </div>
             </div>
           </div>
+
           <div className="col-1-of-4">
             <button
               id="btnRegHost"

@@ -108,3 +108,12 @@
   .slider.round:before {
     border-radius: 50%;
   }
+
+  .userbutton{
+    color: black;
+    cursor: pointer;
+    align-self: center;
+    &:hover,:active{
+      color: black;
+    }
+  }

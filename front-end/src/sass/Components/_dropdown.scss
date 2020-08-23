@@ -26,12 +26,13 @@
     border-radius: $border-radius;
     transition: $speed;
     padding: 0.5rem;
-    cursor: context-menu;
+    cursor: pointer;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
+    font-size:1.6rem;
     user-select: none;
   }
   

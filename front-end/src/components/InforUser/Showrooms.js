@@ -1,8 +1,21 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import { toast } from 'react-toastify';
+import { UserContext } from '../../UserContext';
 import $ from 'jquery';
 const config = require('../../config/default.json');
+
+var openFile = function(file) {
+    var input = file.target;
+
+    var reader = new FileReader();
+    reader.onload = function(){
+      var dataURL = reader.result;
+      var output = document.getElementById('avtuser');
+      output.src = dataURL;
+    };
+    reader.readAsDataURL(input.files[0]);
+};
 
 class Showrooms extends Component {
     constructor(props){
@@ -10,20 +23,32 @@ class Showrooms extends Component {
         this.state = {
             user: this.props.user,
         }
+        this.handleOnClick = this.handleOnClick.bind(this);
     }
-
+    static context = UserContext;
     componentWillReceiveProps(newProps,newState){
-        this.setState({user:newProps.user});
+        if (newProps!=this.props){
+            this.setState({user:newProps.user});
+            return true;
+        }
+        else return false;
+        
     }
 
-    handleOnClick(){
-        let userUpdate = this.state.user;
-        if (userUpdate.ngaysinh!==null){
-            userUpdate.ngaysinh = moment(userUpdate.ngay).format('YYYY-MM-DD');
+    async handleOnClick(){
+        let userUpdate = {...this.state.user};
+        delete userUpdate.admin;
+        delete userUpdate.type;
+        delete userUpdate.user;
+        delete userUpdate.avt;
+
+        if (document.getElementById('inputBirthday').value !== null){
+            userUpdate.ngaysinh = moment(document.getElementById('inputBirthday').value).format('YYYY-MM-DD');
         }
         else {
             delete userUpdate.ngaysinh;
         }
+
         if (document.getElementById('male').checked===true){
             userUpdate.gioitinh=1;
         }
@@ -33,8 +58,8 @@ class Showrooms extends Component {
         else if (document.getElementById('another').checked===true){
             userUpdate.gioitinh=3;
         }
-        console.log(userUpdate);
-        $.ajax({
+        const instance = this;
+        await $.ajax({
             url: `${config.url}/user/profile/update`,
             type: 'post',
             data:userUpdate,
@@ -48,20 +73,54 @@ class Showrooms extends Component {
         .fail(function() {
             toast.error("Cập nhật thất bại");
         });
+        if (document.getElementById('avtchanging').value!==''){
+            var formData = new FormData();
+            formData.append('file',document.getElementById('avtchanging').files[0]);
+            userUpdate.formData = formData;
+            await $.ajax({
+                url: `${config.url}/user/profile/updateavt`,
+                type: 'post',
+                data:formData,
+                contentType: false, 
+                processData: false,
+                xhrFields: {
+                    withCredentials: true
+                },
+                success: function( val ) {
+                }
+            })
+            .fail(function() {
+                toast.error("Cập nhật thất ảnh đại diện thất bại");
+            });
+        }
+        instance.props.onClick();
     }
 
+    
+
     render() {
-        console.log()
         return (
             <div className="Showroom">
                  <div className="Showroom__avt">
                     <div className="Showroom__img">
-                        <img className="Showroom__img--img" src="https://cdn.luxstay.com/home/slider/slider_154_1589798803.jpg" alt=""/>
+                        <img className="Showroom__img--img" src={this.state.user.avt} id="avtuser" alt=""/>
                     </div>
                     <div className="Showroom__avt--bt">
-                        <button type="" style={{marginLeft:'2rem'}} className="bt__default" id="changeAvt">
+                        <button onClick={()=>{document.getElementById('avtchanging').click()}} type="" style={{marginLeft:'2rem'}} className="bt__default">
                             Đổi ảnh đại diện
                         </button>
+                        <input style={{display:'none'}} type="file" onChange={(event)=>{
+                            var input = event.target;
+
+                            var reader = new FileReader();
+                            reader.onload = function(){
+                              var dataURL = reader.result;
+                              var output = document.getElementById('avtuser');
+                              output.src = dataURL;
+                            };
+                            reader.readAsDataURL(input.files[0]);
+                        }} accept="image/x-png,image/gif,image/jpeg"  id="avtchanging">
+                        </input>
                     </div>  
                 </div>
                 <div className="Showroom__info">
@@ -105,7 +164,15 @@ class Showrooms extends Component {
                     }))}} value={this.state.user.diachi}  className="Showroom__info--input"></input>
                     
                     <label for="inputBirthday" className="Showroom__info--label">Ngày sinh</label>
-                    <input  type="date" id="inputBirthday" onChange={(e)=>this.setState({user:{ngaysinh:e.target.value}})} value={moment(this.state.user.ngaysinh).format('YYYY-MM-DD')}  className="Showroom__info--input "></input>
+                    <input  type="date" id="inputBirthday" onChange={(event)=>{
+                            const value = event.target.value;
+                            this.setState(
+                            prevState => ({
+                                user: {
+                                    ...prevState.user,
+                                    ngaysinh:value
+                            }
+                    }))}} value={moment(this.state.user.ngaysinh).format('YYYY-MM-DD')}  className="Showroom__info--input "></input>
                     <label for="inputSex" className="Showroom__info--label">Giới tính</label>
                     <div className="form">
                         <div class="form__radio-group">
@@ -143,7 +210,7 @@ class Showrooms extends Component {
                             }
                     }))}} id="inputSelf" value={this.state.user.gioithieu} className="Showroom__info--input"></textarea>
                     <div>
-                    <button onClick={this.handleOnClick.bind(this)} type=""  className="bt__default" style={{marginTop:'4rem'}}>Cập nhật</button>    
+                    <button onClick={this.handleOnClick} type=""  className="bt__default" style={{marginTop:'4rem'}}>Cập nhật</button>    
                     </div>
                 </div>
             </div>

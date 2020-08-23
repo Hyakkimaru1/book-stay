@@ -64,7 +64,7 @@ const PageInfoBook = (props) => {
             $.post(`${config.url}/room/book`,dataSend, (val) => {
                 props.onClick(val.idBook);
             }).fail(function() {
-                toast.error('Thất bại');
+                toast.error('Bạn đang có giao dịch trùng chưa được thanh toán.');
             });
         }
     }

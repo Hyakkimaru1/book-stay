@@ -1,30 +1,27 @@
 
-import React, { useState } from 'react';
+import React, { useState,useEffect,useContext } from 'react';
 import InforUser from '../InforUser/InforUser';
 import MenuUser from './MenuUser';
 import MyBooking from '../MyBooking/MyBooking';
+import { UserContext } from '../../UserContext';
+import { useLocation } from 'react-router-dom';
 
-const User = () => {
+const User = (props) => {
     const [option, setOption] = useState('2');
-
+    const [userinfo,setUser] = useState(props.user);
+    const [state] = useContext(UserContext);
+    const location = useLocation();
+    useEffect(() => {
+        if (location.state && location.state.type){
+            setOption(location.state.type);
+         }
+    }, [location.state]);
 
     const onOptionClick = (a) => {
 
         setOption(a);
 
     };
-    const content = () => {
-        switch (option) {
-            case '1':
-                return <InforUser />
-            case '2':
-                return <MyBooking />
-            default:
-                return <InforUser />
-        }
-    }
-
-    let curStatus = content();
     return (
         <div >
 
@@ -35,19 +32,15 @@ const User = () => {
                 <span key='1' >
                     Cài đặt tài khoản
                 </span>
-                <span key='2' >
+                {state.admin?null:<span key='2' >
                     Đặt chỗ của tôi
-                </span>
-                {
-                    <span key='3' >
-                        Phòng đã đăng
-                </span>
-                }
+                </span>}
+                
 
             </MenuUser>
 
             <div>
-                {curStatus}
+                {option=='1'? <InforUser user={props.user} onClick = {props.onClick}/>:<MyBooking />}
 
             </div>
         </div>

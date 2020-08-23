@@ -27,6 +27,10 @@ const Login = () => {
           ten: val.ten,
           sdt: val.sdt,
           admin: val.admin,
+          diachi: val.diachi,
+          gioitinh: val.gioitinh,
+          gioithieu: val.gioithieu,
+          ngaysinh: val.ngaysinh,
           type: "login",
         });
       })

@@ -1,80 +1,40 @@
 import React, { useState, useEffect, useContext } from "react";
-import { UserContext } from "../../UserContext";
 import BookItem from "./MyBookingItem";
-import $ from "jquery";
 
 //import { Redirect, useLocation, useHistory } from 'react-router-dom';
 import { ReactComponent as Empty } from "../../icons/journal.svg";
 
-const config = require("../../config/default.json");
-
 function BookHomestay(props) {
   const [allBooked, setAllBooked] = useState([]);
-  const [state, dispatch] = useContext(UserContext);
+
   var type = 1;
-  const id = 1;
-
-  function all(all, type) {
-    switch (type) {
-      case "Tất cả chỗ đặt":
-        return all.filter((a) => a.trangthai == 1);
-        break;
-      case "Chờ xác nhận":
-        return all.filter((a) => a.trangthai == 1);
-        break;
-      case "Chờ thanh toán":
-        return all.filter((a) => a.trangthai == 1);
-        break;
-      case "Đã chấp nhận":
-        return all.filter((a) => a.trangthai == 1);
-        break;
-      case "Từ chối":
-        return all.filter((a) => a.trangthai == 1);
-        break;
-      case "Thành công":
-        return all.filter((a) => a.trangthai == 1);
-        break;
-      case "Không thành công":
-        return all.filter((a) => a.trangthai == 1);
-        break;
-      default:
-        return all;
-    }
-    return all;
+  if (props.data && props.data.length === 0) {
+    type = 2;
   }
-  useEffect(() => {
-    $.ajax({
-      url: `${config.url}/user/mybooking/${id}`,
-      type: "get",
-      //contentType: 'application/json; charset=utf-8',
-      xhrFields: {
-        withCredentials: true,
-      },
-      success: (result) => {
-        setAllBooked(result);
-      },
-    });
-  }, [state.user]);
+  if (props.data) {
+  } else type = 2;
 
-  let myBooked = allBooked;
-  const now = new Date().getTime();
-
+  let myBooked = props.data;
   const checkType = (type) => {
     switch (type) {
       case 1:
         return (
-          <ul>
+          <ul style={{ listStyle: "none" }}>
             {myBooked.map((p) => {
-              const dateCheckout = Date.parse(p.ngaycheckout);
-              const isCheckout = now > dateCheckout;
-
               return <BookItem
+                refresh={props.refresh}
                 id={p.id}
-                name={p.tenphong}
+                idphong={p.phong}
+                img={p.img[0]}
+                danhgia={p.danhgia}
+                trangthai={p.trangthai}
+                trangthaiphong={p.trangthaiphong}
+                name={p.ten}
                 diaChi={p.diaChi}
+                ngaycheckin={p.ngaycheckin}
+                ngaycheckout={p.ngaycheckout}
                 gia={p.gia}
-                soPhong={p.soPhong}
-                isCheckout={isCheckout}
+                sokhach={p.sokhach}
               />;
             })}
           </ul>
@@ -84,9 +44,17 @@ function BookHomestay(props) {
 
       default:
         return (
-          <div className="homestay__empty">
+          <div className="homestay__empty" style={{ textAlign: "center" }}>
             <Empty />
-            <span>Danh sách trống!</span>
+            <span
+              style={{
+                fontSize: "1.6rem",
+                marginLeft: "4rem",
+                marginTop: "2rem",
+              }}
+            >
+              Danh sách trống!
+            </span>
           </div>
         );
 
@@ -96,7 +64,7 @@ function BookHomestay(props) {
 
   return (
     <div className="homestay">
-      {checkType(1)}
+      {checkType(type)}
     </div>
   );
 }

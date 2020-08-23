@@ -41,7 +41,7 @@ module.exports = {
   removeOutOfRoom: condition => db.del('hetphong',condition),
   addOutOfRoom: entity => db.add('hetphong',entity),
   getTheMostBook: _ => db.load('SELECT pg.id,pg.ten,pg.diaChi,pg.soKhachToiDa,pg.giaNgayThuong,pg.soPhong,pg.soGiuong, COUNT(pg.id) AS list FROM `danhsachdatphong` ds JOIN phong pg ON  pg.id=ds.phong where pg.trangThai=1 and ds.trangthai = 1 GROUP BY pg.id,pg.ten,pg.diaChi,pg.soKhachToiDa,pg.giaNgayThuong,pg.soPhong,pg.soGiuong Order By list DESC LIMIT 4'),
-  getJustBook: _ => db.load('SELECT ds.id as danhsachdat, pg.id,pg.ten,pg.diaChi,pg.soKhachToiDa,pg.giaNgayThuong,pg.soPhong,pg.soGiuong FROM `danhsachdatphong` ds JOIN phong pg ON  pg.id=ds.phong where pg.trangThai=1 and ds.trangthai = 1 ORDER BY danhsachdat DESC LIMIT 4'),
+  getJustBook: _ => db.load('SELECT DISTINCT pg.id,pg.ten,pg.diaChi,pg.soKhachToiDa,pg.giaNgayThuong,pg.soPhong,pg.soGiuong FROM `danhsachdatphong` ds JOIN phong pg ON  pg.id=ds.phong where pg.trangThai=1 and ds.trangthai = 1 LIMIT 4'),
   getImgRoom: (id) => db.load(`SELECT img.img FROM img JOIN phong WHERE  img.phong = phong.id and phong.id = ${id} GROUP BY img.phong`),
   getRoomInHCM: () => db.load(`SELECT count(*) as rooms FROM phong WHERE trangThai=1 and MATCH (diaChi) AGAINST ('Ho Chi minh' IN NATURAL LANGUAGE MODE)`),
   getRoomInHN: () => db.load(`SELECT count(*) as rooms FROM phong WHERE trangThai=1 and MATCH (diaChi) AGAINST ('Hà Nội' IN NATURAL LANGUAGE MODE)`),

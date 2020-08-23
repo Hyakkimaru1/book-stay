@@ -28,9 +28,12 @@
             }
 
             & .col-2-of-3 {
-                @include respond(tab-port) {
-                    display: block;
+                @media screen {
+                    @include respond(tab-port) {
+                        display: block;
+                    }
                 }
+                
 
                 display: flex;
 

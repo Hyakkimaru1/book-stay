@@ -34,6 +34,7 @@ import MomoQR from "./components/Payment.js/MomoQR";
 import PageHostInf from "./components/PageHostInf/PageHostInf";
 import InfWhoBook from "./components/ListBookRoom.js/InfWhoBook";
 import ManageRooms from "./components/ManageRooms.js/ManageRooms";
+import ManageUsers from "./components/Admin/ManageUser/ManageUsers";
 import ListBookRoom from "./components/ListBookRoom.js/ListBookRoom";
 import { ToastContainer } from "react-toastify";
 import OutOfRoom from "./components/ManageRooms.js/OutOfRoom/OutOfRoom";
@@ -43,6 +44,8 @@ import Home from "./components/Home/Home.js";
 import Footer from "./components/Footer/Footer.js";
 import RecommendRooms from "./components/RecommendRooms/RecommendRooms";
 import Admin from "./components/Admin/Admin";
+import ErrorPage from "./components/ErrorPage/ErrorPage";
+import CancellationPolicy from "./components/AnotherPage/CancellationPolicy";
 import SearchRoom from "./components/SearchRoom/SearchRoom";
 
 const config = require("./config/default.json");
@@ -50,7 +53,6 @@ const config = require("./config/default.json");
 function App() {
   //const [checkError,setCheckError] = useState(true);
   const [state, dispatch] = useReducer(UserReducer, null);
-  const [hostBar, setHostBar] = useState(false);
   const [search, setsearch] = useState(
     { key: "", startD: null, endD: null, guest: 0 },
   );
@@ -60,8 +62,44 @@ function App() {
     setsearch(temp);
   }
 
-  const handleBar = (e) => {
-    setHostBar(true);
+  const [checkChange, setCheckChange] = useState(false);
+
+  const [isHost, setIsHost] = useState(false);
+
+  const upDateCheckChange = () => {
+    if (Cookies.get("token")) {
+      $.ajax({
+        url: `${config.url}/user/loginAgain`,
+        type: "post",
+        xhrFields: {
+          withCredentials: true,
+        },
+        success: function (id) {
+          dispatch({
+            id: id.id,
+            avt: id.avt,
+            email: id.email,
+            ten: id.ten,
+            sdt: id.sdt,
+            admin: id.admin,
+            diachi: id.diachi,
+            gioitinh: id.gioitinh,
+            gioithieu: id.gioithieu,
+            ngaysinh: id.ngaysinh,
+            type: "login",
+          });
+        },
+      })
+        .fail(function () {
+          dispatch({
+            type: "logout",
+          });
+        });
+    } else {
+      dispatch({
+        type: "logout",
+      });
+    }
   };
 
   //Begin when go on web check login or not
@@ -81,6 +119,10 @@ function App() {
             ten: id.ten,
             sdt: id.sdt,
             admin: id.admin,
+            diachi: id.diachi,
+            gioitinh: id.gioitinh,
+            gioithieu: id.gioithieu,
+            ngaysinh: id.ngaysinh,
             type: "login",
           });
         },
@@ -90,12 +132,25 @@ function App() {
             type: "logout",
           });
         });
+      $.ajax({
+        url: `${config.url}/user/profile`,
+        type: "post",
+        xhrFields: {
+          withCredentials: true,
+        },
+        success: function (val) {
+          if (val.upHost === 2) {
+            setIsHost(true);
+          }
+        },
+      });
     } else {
       dispatch({
         type: "logout",
       });
     }
-  }, []);
+  }, [checkChange]);
+
   if (!state) return null;
   else {
     return (
@@ -104,31 +159,26 @@ function App() {
           <ToastContainer />
           <UserContext.Provider value={[state, dispatch]}>
             {state.type === "login" &&
-              (!hostBar
-                ? <NavBar
-                  onChange={(item) => handleSearch(item)}
-                  value={search}
+              (<NavBar
+                onChange={(item) => handleSearch(item)}
+                value={search}
+              >
+                <Link
+                  className="userbutton"
+                  style={{ textDecoration: "none", alignSelf: "center" }}
+                  to={{ pathname: "/user", state: { type: 1 } }}
                 >
-                  <NavItem icon={<Link to="/">🤓</Link>} />
                   <NavItem icon={state.ten} img={state.avt} />
-                  <NavItem icon={<CaretIcon />}>
-                    <DropdownMenu></DropdownMenu>
-                  </NavItem>
-                  <NavItem
-                    icon={<Link
-                      to="/"
-                      onClick={() => dispatch({ type: "logout" })}
-                    >
-                      Logout
-                    </Link>}
-                  >
-                  </NavItem>
-                </NavBar>
-                : <div></div>)}
+                </Link>
+                <NavItem icon={<CaretIcon />}>
+                  <DropdownMenu isHost={isHost}></DropdownMenu>
+                </NavItem>
+              </NavBar>)}
             {state.type === "logout" &&
               <NavBar onChange={(item) => handleSearch(item)} value={search}>
-                <NavItem icon={<Link to="/forgotpw">🤓</Link>} />
-                <NavItem icon={<Link to="/login">Login/Logup</Link>} />
+                <NavItem
+                  icon={<Link to="/login">&nbsp; Login / Sign up &nbsp;</Link>}
+                />
               </NavBar>}
 
             {/* <Switch>
@@ -153,13 +203,12 @@ function App() {
                 children={<RecommendRooms />}
               >
               </Route>
-
-              <Route exact path="/hostbar">
+              {/* <Route exact path="/hostbar">
                 <HostRegister hostBar={handleBar} />
-                {/* <User /> */}
-              </Route>
+                {/* <User /> 
+              </Route> */}
               <ProtectBooked path="/user">
-                <User />
+                <User onClick={upDateCheckChange} user={state} />
               </ProtectBooked>
               {/* <Route path="/user" children={<User />} /> */}
               <Route exact strict path="/rooms/:id" children={<PageRoom />} />
@@ -175,17 +224,16 @@ function App() {
                 <Route children={<ListBookRoom />} />
               </ProctectUser>
 
-              <ProctectAdmin strict path="/admin">
+              <ProctectAdmin exact strict path="/admin">
                 <Route children={<Admin />} />
               </ProctectAdmin>
 
               <ProctectUser exact strict path="/host/managerooms">
                 <Route children={<ManageRooms />} />
               </ProctectUser>
-
-              <ProtectHostRegister path="/host/register">
-                <HostRegister hostBar={handleBar} />
-              </ProtectHostRegister>
+              <ProctectUser exact strict path="/admin/manageusers">
+                <Route children={<ManageUsers />} />
+              </ProctectUser>
 
               <ProctectUser strict path="/host/outofroom/:id">
                 <Route children={<OutOfRoom />} />
@@ -209,17 +257,21 @@ function App() {
 
               <Route path="/login" children={<Login></Login>} />
               <Route path="/signup" children={<Signup></Signup>} />
-
+              <Route
+                exact
+                strict
+                path="/cancellation_policy"
+                children={<CancellationPolicy />}
+              />
               <Route path="/forgotpassword" children={<ForgotPassword />} />
               <Route path="/newpassword" children={<NewPassword />} />
               <Route
                 path="/search"
                 children={<SearchRoom value={search}></SearchRoom>}
               />
-              <Router>
-                <h1>ERROR</h1>
-                <Link to="/">Public Page</Link>
-              </Router>
+              <Route>
+                <ErrorPage />
+              </Route>
             </Switch>
           </UserContext.Provider>
           <Footer />

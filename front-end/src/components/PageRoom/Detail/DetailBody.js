@@ -4,6 +4,7 @@ import numberWithComas from '../../../js/numberWithCommas';
 
 import $ from 'jquery';
 import Swal from 'sweetalert2';
+import { useHistory } from 'react-router-dom';
 const config = require('../../../config/default.json');
 var moment = require('moment');
 
@@ -18,6 +19,7 @@ let newStr="";
 const DetailBody = (props) => {
     const [tienNghi, setTienNghi] = useState();
     const [lengthCmt, setLengthCmt] = useState(false);
+    const history = useHistory();
     let sumIconShow = 0;
     useEffect(() => {
         $.get(`${config.url}/room/tiennghi/${props.id}`,data=>{
@@ -112,7 +114,7 @@ const DetailBody = (props) => {
                     <div>
                         <div className="cozy__base--title" style={{marginTop:'1rem'}}>Chính sách hủy phòng</div>
                         <div className="cozy__base--para">
-                        <strong>Trung bình:</strong> Miễn phí hủy phòng trong vòng 48h sau khi đặt phòng thành công và trước 5 ngày so với thời gian check-in. Sau đó, hủy phòng trước 5 ngày so với thời gian check-in, được hoàn lại 100% tổng số tiền đã trả (trừ phí dịch vụ). <p className="cozy__base--button">Chi tiết</p> 
+                        <strong>Trung bình:</strong> Miễn phí hủy phòng trong vòng 48h sau khi đặt phòng thành công và trước 1 ngày so với thời gian check-in. Sau đó, hủy phòng trước 1 ngày so với thời gian check-in, được hoàn lại 100% tổng số tiền đã trả (trừ phí dịch vụ). <p onClick={()=>history.push('/cancellation_policy')}  className="cozy__base--button">Chi tiết</p> 
                         </div>
                     </div>
                     <div>

@@ -15,6 +15,7 @@ import Switch from "@material-ui/core/Switch";
 import Rating from "@material-ui/lab/Rating";
 import { UserContext } from "../../UserContext";
 import queryString from "query-string";
+import {toast} from 'react-toastify'
 
 import $, { data } from "jquery";
 
@@ -49,7 +50,8 @@ export default function DiaglogRating(props) {
       nguoiDung: state.user,
       danhGia: point,
       comment: content,
-      phong: props.id,
+      phong: props.idphong,
+      dondatphong:props.id
     };
 
     if (content !== "") {
@@ -62,11 +64,13 @@ export default function DiaglogRating(props) {
           withCredentials: true,
         },
         success: (result) => {
-          console.log(result + "aaaaa");
           props.onClose();
+          props.refresh();
+          toast.success('Đánh giá thành công');
         },
       }).fail(function () {
-        //history.push('/ERROR');
+        props.onClose();
+        toast.error('Đánh giá thất bại');
       });
     }
   };
