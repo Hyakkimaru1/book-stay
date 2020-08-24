@@ -61,6 +61,9 @@ function App() {
     const temp = { ...item };
     setsearch(temp);
   }
+  function handleHomeSearch(item) {
+    setsearch({ key: item });
+  }
 
   const [checkChange, setCheckChange] = useState(false);
 
@@ -195,7 +198,12 @@ function App() {
             <Route path="/forgotpw" children={ <ForgotPassword/>} /> */}
 
             <Switch>
-              <Route exact strict path="/" children={<Home />} />
+              <Route
+                exact
+                strict
+                path="/"
+                children={<Home onChange={(item) => handleHomeSearch(item)} />}
+              />
               <Route
                 exact
                 strict
