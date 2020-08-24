@@ -12,6 +12,7 @@ const Home = () => {
     const history = useHistory();
     useEffect(() => {
         $.get(`${config.url}/room/homepage`, val => {
+            console.log(val);
             setData(val);
         })
     }, []);

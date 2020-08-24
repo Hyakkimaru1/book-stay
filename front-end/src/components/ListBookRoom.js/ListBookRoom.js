@@ -40,9 +40,10 @@ const ListBookRoom = () => {
         setNumPage(arrayPage);
         setData(val);
       },
-    }).fail(function () {
-      //history.push('/ERROR');
-    });
+    })
+      .fail(function () {
+        //history.push('/ERROR');
+      });
   }, [filters]);
 
   useEffect(() => {
@@ -51,7 +52,9 @@ const ListBookRoom = () => {
       if (!isNaN(res[1])) {
         if (listFilter) {
           listFilter.map((val, i) => {
-            if (val.id == res[1]) return setItemActive(i);
+            if (val.id == res[1]) {
+              return setItemActive(i);
+            }
             return;
           });
         }
@@ -114,19 +117,17 @@ const ListBookRoom = () => {
           >
             <div className="ListBookRoom__filter" id="list_filter">
               {listFilter &&
-                listFilter.map((val, i) => (
+                listFilter.map((val, i) =>
                   <div
                     onClick={() => handleClickChooseFilter(val.id, i)}
-                    style={
-                      i === itemActive
-                        ? { color: "#f68a39" }
-                        : { color: "#222" }
-                    }
+                    style={i === itemActive
+                      ? { color: "#f68a39" }
+                      : { color: "#222" }}
                     className="ListBookRoom__filter--item"
                   >
                     {val.ten}
                   </div>
-                ))}
+                )}
             </div>
             <svg
               onClick={handleClickFilter}
@@ -159,32 +160,39 @@ const ListBookRoom = () => {
                   <path
                     d="M165.55,141.9h-159.1c-1.1825,0 -2.15,-0.9675 -2.15,-2.15v0c0,-1.1825 0.9675,-2.15 2.15,-2.15h159.1c1.1825,0 2.15,0.9675 2.15,2.15v0c0,1.1825 -0.9675,2.15 -2.15,2.15zM6.45,86h159.1c1.1825,0 2.15,0.9675 2.15,2.15v0c0,1.1825 -0.9675,2.15 -2.15,2.15h-159.1c-1.1825,0 -2.15,-0.9675 -2.15,-2.15v0c0,-1.1825 0.9675,-2.15 2.15,-2.15zM165.55,34.4h-159.1c-1.1825,0 -2.15,-0.9675 -2.15,-2.15v0c0,-1.1825 0.9675,-2.15 2.15,-2.15h159.1c1.1825,0 2.15,0.9675 2.15,2.15v0c0,1.1825 -0.9675,2.15 -2.15,2.15z"
                     fill="#e67e22"
-                  ></path>
+                  >
+                  </path>
                   <path
                     d="M75.25,19.35c-7.12447,0 -12.9,5.77553 -12.9,12.9c0,7.12447 5.77553,12.9 12.9,12.9c7.12447,0 12.9,-5.77553 12.9,-12.9c0,-7.12447 -5.77553,-12.9 -12.9,-12.9z"
                     fill="#dff0fe"
-                  ></path>
+                  >
+                  </path>
                   <path
                     d="M75.25,21.5c5.9254,0 10.75,4.8246 10.75,10.75c0,5.9254 -4.8246,10.75 -10.75,10.75c-5.9254,0 -10.75,-4.8246 -10.75,-10.75c0,-5.9254 4.8246,-10.75 10.75,-10.75M75.25,17.2c-8.3119,0 -15.05,6.7381 -15.05,15.05c0,8.3119 6.7381,15.05 15.05,15.05c8.3119,0 15.05,-6.7381 15.05,-15.05c0,-8.3119 -6.7381,-15.05 -15.05,-15.05z"
                     fill="#e67e22"
-                  ></path>
+                  >
+                  </path>
                   <path
                     d="M135.45,75.25c-7.12447,0 -12.9,5.77553 -12.9,12.9c0,7.12447 5.77553,12.9 12.9,12.9c7.12447,0 12.9,-5.77553 12.9,-12.9c0,-7.12447 -5.77553,-12.9 -12.9,-12.9z"
                     fill="#dff0fe"
-                  ></path>
+                  >
+                  </path>
                   <path
                     d="M135.45,77.4c5.9254,0 10.75,4.8246 10.75,10.75c0,5.9254 -4.8246,10.75 -10.75,10.75c-5.9254,0 -10.75,-4.8246 -10.75,-10.75c0,-5.9254 4.8246,-10.75 10.75,-10.75M135.45,73.1c-8.3119,0 -15.05,6.7381 -15.05,15.05c0,8.3119 6.7381,15.05 15.05,15.05c8.3119,0 15.05,-6.7381 15.05,-15.05c0,-8.3119 -6.7381,-15.05 -15.05,-15.05z"
                     fill="#e67e22"
-                  ></path>
+                  >
+                  </path>
                   <g>
                     <path
                       d="M49.45,126.85c-7.12447,0 -12.9,5.77553 -12.9,12.9c0,7.12447 5.77553,12.9 12.9,12.9c7.12447,0 12.9,-5.77553 12.9,-12.9c0,-7.12447 -5.77553,-12.9 -12.9,-12.9z"
                       fill="#dff0fe"
-                    ></path>
+                    >
+                    </path>
                     <path
                       d="M49.45,129c5.9254,0 10.75,4.8246 10.75,10.75c0,5.9254 -4.8246,10.75 -10.75,10.75c-5.9254,0 -10.75,-4.8246 -10.75,-10.75c0,-5.9254 4.8246,-10.75 10.75,-10.75M49.45,124.7c-8.3119,0 -15.05,6.7381 -15.05,15.05c0,8.3119 6.7381,15.05 15.05,15.05c8.3119,0 15.05,-6.7381 15.05,-15.05c0,-8.3119 -6.7381,-15.05 -15.05,-15.05z"
                       fill="#e67e22"
-                    ></path>
+                    >
+                    </path>
                   </g>
                 </g>
               </g>
@@ -222,27 +230,24 @@ const ListBookRoom = () => {
             disabled={filters.page <= 1 || numPage.length === 0}
             onClick={(_) => handlePageChange(filters.page - 1)}
           >
-            {" "}
             Trước
           </button>
-          {numPage.map((val) => (
+          {numPage.map((val) =>
             <button
               class="ListBookRoom__normalBt"
               value={val}
-              style={
-                val === filters.page ? { backgroundColor: "#f68a39" } : null
-              }
+              style={val === filters.page
+                ? { backgroundColor: "#f68a39" }
+                : null}
               onClick={(_) => handlePageChange(val)}
             >
               {val}
             </button>
-          ))}
+          )}
           <button
             class="ListBookRoom__button"
-            disabled={
-              filters.page >= numPage[numPage.length - 1] ||
-              numPage.length === 0
-            }
+            disabled={filters.page >= numPage[numPage.length - 1] ||
+              numPage.length === 0}
             onClick={(_) => handlePageChange(filters.page + 1)}
           >
             Sau
