@@ -91,11 +91,17 @@ const Login = () => {
               </Link>
               <p onClick={handleClick} className="Login__btn">Đăng nhập</p>
               <p className="Login__createAcc">
-                Bạn chưa có tài khoản? <strong
-                  className="Login__createAcc--link"
+                Bạn chưa có tài khoản?
+                <Link
+                  to={{ pathname: "/signup", state: location.state }}
+                  style={{ textDecoration: "none" }}
                 >
-                  Đăng ký ngay
-                </strong>
+                  <strong
+                    className="Login__createAcc--link"
+                  >
+                    Đăng ký ngay
+                  </strong>
+                </Link>
               </p>
             </form>
           </div>

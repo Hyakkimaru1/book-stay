@@ -3559,6 +3559,9 @@ input:checked + .slider:before {
   margin-bottom: 25px;
   margin-right: 20px;
 }
+.searchroom__content .row .room__item .room__img {
+  height: 192px;
+}
 .searchroom__content .row .room__item .room__img img {
   border-radius: 4px;
   width: 100%;

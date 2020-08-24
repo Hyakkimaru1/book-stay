@@ -89,11 +89,12 @@ module.exports = {
 
   getRoomsSearch: (title_like, paginate, offset) => {
     const key = "%" + title_like + "%";
-    const row = db.load(`SELECT *
-      FROM phong 
-      WHERE (CONCAT(phong.ten, phong.diaChi) LIKE "${key}")
-      LIMIT ${paginate} 
-      OFFSET ${offset}`);
+    const row = db.load(`SELECT p.*, i.img , ROUND(AVG(d.danhGia)) as rate
+    FROM (phong p LEFT JOIN img i ON p.id = i.phong) LEFT JOIN danhgia d
+     ON p.id = d.phong AND (CONCAT(p.ten, p.diaChi) LIKE "${key}")
+    GROUP BY p.id
+    LIMIT ${paginate} 
+    OFFSET ${offset}`);
     if (row.length === 0) {
       return null;
     }

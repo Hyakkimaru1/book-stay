@@ -180,6 +180,7 @@ router.post("/signup", async (req, res) => {
     } else {
       const entity = req.body;
       entity.pass = bcrypt.hashSync(req.body.pass, 10);
+      entity.avatar = "default";
 
       const add = await userModels.addUser(entity);
       if (add) {
@@ -670,7 +671,7 @@ router.get("/manageusers", verifyToken, async (req, res) => {
         } else {
           row = await userModels.all();
         }
-
+        console.log(row);
         res.send(row);
       }
     }

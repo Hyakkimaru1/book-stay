@@ -15,7 +15,7 @@ export default function SearchItem(props) {
           <img
             width="270"
             height="192"
-            src="https://cdn.luxstay.com/users/170204/vopvKF2uSyomu130qFjYS0Nt.jpg"
+            src={props.data.img}
           >
           </img>
         </div>
@@ -39,7 +39,8 @@ export default function SearchItem(props) {
           </div>
           <Rating
             name="half-rating-read"
-            defaultValue={2.5}
+            defaultValue={0}
+            value={props.data.rate}
             precision={0.5}
             readOnly
           />
