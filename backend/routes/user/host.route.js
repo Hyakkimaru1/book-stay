@@ -276,6 +276,14 @@ router.get('/reservations',verifyToken, async(req, res) => {
             if (req.query.filter && req.query.filter != -1){
                 filter = `danhsachdatphong.phong = ${req.query.filter} and`
             }
+
+            if (req.query.startDate && req.query.endDate){
+                filter += ` '${req.query.startDate}' <= danhsachdatphong.ngaycheckin and danhsachdatphong.ngaycheckin <= '${req.query.endDate}' and`
+            }
+            else if (req.query.startDate)
+            {
+                filter += ` '${req.query.startDate}' = danhsachdatphong.ngaycheckin and`
+            }
             if (!req.query.title_like){
                 [result,page] = await Promise.all([hostModels.getWhoBookTheRoom(authData.user.id,filter,paginate.limit,5*(req.query.page-1)),hostModels.getNumPage(authData.user.id,filter)]);
             }

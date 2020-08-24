@@ -83,9 +83,7 @@ const DetailBody = (props) => {
                         {
                             icon[i].classList.add("popup__base--icon")
                         }
-                        if (document.getElementById("popupContent").offsetHeight>666){
-                            document.getElementById("popupContent").style.marginTop = (document.getElementById("popupContent").offsetHeight - 666)/2 + 'px';
-                        }
+                        
                     }}>Xem thêm </a>
                 </div>
                 <div className="detail__body--price">

@@ -5,6 +5,7 @@ import {
   BrowserRouter as Router,
   Link,
   useLocation,
+  useHistory,
 } from "react-router-dom";
 
 function useQuery() {
@@ -19,6 +20,7 @@ const NavBar = (props) => {
   const [sum, setSum] = useState(0);
   const [valueSearch, setvalueSearch] = useState("");
   const [baby, setBaby] = useState(0);
+  const history = useHistory();
   const totalChange = (total, baby) => {
     setSum(total);
     setBaby(baby);

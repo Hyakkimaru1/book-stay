@@ -4,6 +4,7 @@ import ItemListBookRoom from "./ItemListBookRoom";
 import { UserContext } from "../../UserContext";
 import queryString from "query-string";
 import { useLocation } from "react-router-dom";
+import { RangeDayPickerNav } from '../PageRoom/RangeDayPickerNav';
 const config = require("../../config/default.json");
 const ListBookRoom = () => {
   const [state] = useContext(UserContext);
@@ -108,11 +109,11 @@ const ListBookRoom = () => {
       >
         <div
           class="navbarsearch__wrapper"
-          style={{ margin: "0 auto", width: "40%" }}
+          style={{ margin: "0 auto", width: "40%",backgroundColor:'transparent' }}
         >
           <div
             class="navbarsearch__wrapper--box"
-            style={{ position: "relative", marginTop: "2rem" }}
+            style={{ position: "relative", marginTop: "2rem"}}
           >
             <div className="ListBookRoom__filter" id="list_filter">
               {listFilter &&
@@ -196,6 +197,7 @@ const ListBookRoom = () => {
                 </g>
               </g>
             </svg>
+            
             <div className="searchBox">
               <i class="fas fa-search fa-lg searchBox__icon"></i>
               <input
@@ -205,11 +207,23 @@ const ListBookRoom = () => {
                 class="searchBox__text"
               />
             </div>
+            
           </div>
         </div>
-        <div>
-          {data && data.map((val) => <ItemListBookRoom data={val} />)}
+        <div style={{display:'flex',justifyContent:'center',marginTop:'2rem'}}>
+          <RangeDayPickerNav onDatesChange={(startDate,endDate)=>{
+            if (startDate&&endDate){
+              setFilters({...filters,
+                startDate:startDate.format('YYYY-MM-DD'),
+                endDate:endDate.format('YYYY-MM-DD')
+              })
+            }
+            else if (startDate){
+              setFilters({...filters,startDate:startDate.format('YYYY-MM-DD')})
+            }
+          }}/>
         </div>
+        <div>{data && data.map((val) => <ItemListBookRoom data={val} />)}</div>
         <div style={{ textAlign: "center", marginTop: "2rem" }}>
           <button
             class="ListBookRoom__button"
