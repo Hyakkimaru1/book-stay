@@ -4,12 +4,13 @@ import Item from "./SearchItem";
 import $ from "jquery";
 import queryString from "query-string";
 import Pagination from "@material-ui/lab/Pagination";
+import { ReactComponent as Empty } from "../../icons/empty.svg";
 
 const config = require("../../config/default.json");
 export default function SearchRoom(props) {
   const [rooms, setrooms] = useState(null);
   const [page, setPage] = useState(1);
-  const [totalPage, settotalPage] = useState(1);
+  const [totalPage, settotalPage] = useState({ page: 0, item: 0 });
   const [filters, setFilters] = useState({ key: "", page: 1 });
   const [sort, setsort] = useState("0");
   const handleChange = (event, value) => {
@@ -22,6 +23,7 @@ export default function SearchRoom(props) {
   };
   useEffect(() => {
     setFilters({ key: props.value.key, ...filters });
+    setsort("0");
   }, [props.value.key]);
 
   useEffect(() => {
@@ -96,9 +98,11 @@ export default function SearchRoom(props) {
       xhrFields: {
         withCredentials: false,
       },
-      success: ([val, page]) => {
+      success: ([val, page, item]) => {
+        console.log("item", item);
         setrooms(val);
-        settotalPage(page);
+        console.log("VAL", val);
+        settotalPage({ page, item });
         sortF();
       },
     });
@@ -106,23 +110,33 @@ export default function SearchRoom(props) {
 
   return (
     <div className="searchroom">
-      <FilterBar sortChange={sortChange}></FilterBar>
+      <FilterBar sortChange={sortChange} sort={sort}></FilterBar>
       <div className="searchroom__title">
-        <p>5 homestay tại Thành Phố Hồ Chí Minh</p>
+        <p>
+          {totalPage.item} homestay có tên hoặc địa điểm trùng với ' {props
+            .value
+            .key} '
+        </p>
       </div>
       <div className="searchroom__content ">
-        <div className="row">
-          {rooms && rooms.map((val, i) => <Item key={i} data={val} />)}
-        </div>
-        <div className="searchroom__content--pagination">
-          <Pagination
-            count={totalPage}
-            page={page}
-            onChange={handleChange}
-            variant="outlined"
-            color="secondary"
-          />
-        </div>
+        {(!rooms || rooms.length === 0)
+          ? <div className="searchroom_empty">
+            <Empty />
+          </div>
+          : <div>
+            <div className="row">
+              {rooms && rooms.map((val, i) => <Item key={i} data={val} />)}
+            </div>
+            <div className="searchroom__content--pagination">
+              <Pagination
+                count={totalPage.page}
+                page={page}
+                onChange={handleChange}
+                variant="outlined"
+                color="secondary"
+              />
+            </div>
+          </div>}
       </div>
     </div>
   );

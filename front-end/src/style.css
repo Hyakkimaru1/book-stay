@@ -3554,6 +3554,7 @@ input:checked + .slider:before {
   margin-bottom: 0px;
 }
 .searchroom__content .row .room__item {
+  cursor: pointer;
   flex-basis: 18%;
   max-width: 20%;
   margin-bottom: 25px;
@@ -3623,6 +3624,9 @@ input:checked + .slider:before {
 .searchroom__content--pagination .MuiPagination-root {
   display: flex;
   justify-content: center;
+}
+.searchroom_empty {
+  text-align: center;
 }
 
 .errorpage {

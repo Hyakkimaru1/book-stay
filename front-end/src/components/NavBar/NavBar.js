@@ -52,7 +52,8 @@ const NavBar = (props) => {
     // console.log("keysearch", props);
   }, [props.value]);
   const a = props.value;
-  const handleSearchClick = () => {
+
+  const handleBtnSearchClick = (e) => {
     const item = {
       key: valueSearch,
       startD: startDay,
@@ -60,8 +61,19 @@ const NavBar = (props) => {
       guest: sum,
     };
     props.onChange(item);
+  };
+  const handleSearchClick = (e) => {
+    if (e.keyCode == 13) {
+      const item = {
+        key: valueSearch,
+        startD: startDay,
+        endD: endDate,
+        guest: sum,
+      };
+      props.onChange(item);
 
-    // console.log("query", query.get("name"));
+      // console.log("query", query.get("name"));
+    }
   };
 
   return (
@@ -103,7 +115,9 @@ const NavBar = (props) => {
                     className="booking__input-text bold"
                     value={valueSearch}
                     onChange={handleValueSearch}
-                    onKeyDown={handleSearchClick}
+                    onKeyDown={(event) => {
+                      handleSearchClick(event);
+                    }}
                   >
                   </input>
                 </div>
@@ -201,7 +215,7 @@ const NavBar = (props) => {
                 >
                   <button
                     type="button"
-                    onClick={handleSearchClick}
+                    onClick={handleBtnSearchClick}
                     className="navbarsearch__wrapper--searchbtn"
                   >
                     <svg

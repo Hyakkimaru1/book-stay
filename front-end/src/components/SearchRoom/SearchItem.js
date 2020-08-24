@@ -1,15 +1,21 @@
 import React from "react";
 import Rating from "@material-ui/lab/Rating";
 import { ReactComponent as Flash } from "../../icons/icons8_lightning_bolt.svg";
+import { useHistory } from "react-router-dom";
 
 export default function SearchItem(props) {
+  const history = useHistory();
+
   const currency = props.data.giaNgayThuong.toString().replace(
     /(\d)(?=(\d\d\d)+(?!\d))/g,
     "$1,",
   );
 
   return (
-    <div className="room__item">
+    <div
+      className="room__item"
+      onClick={() => history.push(`/rooms/${props.data.id}`)}
+    >
       <div className="room__item--wrap">
         <div className="room__img">
           <img

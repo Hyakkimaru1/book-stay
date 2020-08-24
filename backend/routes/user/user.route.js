@@ -609,12 +609,11 @@ router.post("/cancelbooking", verifyToken, (req, res) => {
 });
 
 router.get("/search", async (req, res) => {
-  console.log(req.query.key);
   const query = req.query.key;
 
   let row, total, nPage;
   let limit = paginate.limit;
-  // console.log("query", req.query);
+  console.log("query", req.query);
   // console.log("limit", limit);
   try {
     [row, total] = await Promise.all(
@@ -630,8 +629,8 @@ router.get("/search", async (req, res) => {
     res.sendStatus(404);
     console.log("Error", error);
   }
-
-  res.send([row, nPage]);
+  const totalItem = total[0].total;
+  res.send([row, nPage, totalItem]);
 });
 
 router.post("/registerhost", verifyToken, async (req, res) => {

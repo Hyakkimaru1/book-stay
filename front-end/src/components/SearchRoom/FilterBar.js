@@ -16,7 +16,7 @@ const FilterBar = (props) => {
   return (
     <div className="filter-bar" id="filter-bar">
       <hr />
-      <FilterBarItems active={filter} onChange={filterClick}>
+      <FilterBarItems active={props.sort} onChange={filterClick}>
         <div key="0">
           <span>Tất cả</span>
         </div>
