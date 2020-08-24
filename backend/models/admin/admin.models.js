@@ -14,7 +14,7 @@ module.exports = {
       return null; 
     return rows[0];
   } ,
-  updateUser: (entity, condition) => db.patch('admin',entity,{id: condition}),
+  updateAdmin: (entity, condition) => db.patch('admin', entity, { id: condition }),
   getUserByEmail: async email =>{
     const rows = await db.load(`select * from admin where email = '${email}'`);
     if (rows.length === 0)

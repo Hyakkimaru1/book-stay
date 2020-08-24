@@ -7,11 +7,12 @@ const ItemListBookRoom = (props) => {
     const handleOnClick = ()=>{
         history.push(`/host/reservations/${props.data.id}`);
     }
+    const currentDate = new Date;
     if (props.data)
     return (
         <div class="ListBookRoom">
             <div>
-                <p class="ListBookRoom__status">Complete</p>
+                {moment(props.data.ngaycheckin).isBefore(currentDate)?<p class="ListBookRoom__status">Complete</p>:<p class="ListBookRoom__status">&nbsp; Soon&nbsp;&nbsp;</p>}
             </div>
             <div class="ListBookRoom__body">
                 <div class="ListBookRoom__name">

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { RangeDayPickerNav } from '../PageRoom/RangeDayPickerNav';
 import GuestPopup from './GuestPopup';
+import { useHistory } from 'react-router-dom';
 
 
 
@@ -11,6 +12,7 @@ const NavBar = (props) => {
     const [endDate, setEndDate] = useState(null);
     const [sum, setSum] = useState(0);
     const [baby, setBaby] = useState(0);
+    const history = useHistory();
     const totalChange = (total, baby) => {
         setSum(total);
         setBaby(baby);
@@ -36,7 +38,7 @@ const NavBar = (props) => {
         <nav id="navbar" className="navbar">
             <div className="navbar__container ">
                 <div className="navbar__container--left ">
-                    <div className="navbar-logo">
+                    <div className="navbar-logo" style={{cursor:'pointer'}} onClick={()=>history.push('/')}>
                         <img alt="a" src="https://i.pinimg.com/236x/c1/09/73/c10973a2554dcebd540db0bd62066c62--origami-lion-lion-logo.jpg"></img>
                     </div>
                     <div className="navbarsearch">

@@ -302,26 +302,50 @@ router.post("/changepassword2", async(req, res) => {
         if (err) {
             res.sendStatus(404);
         } else {
-            const checkuser = await userModels.single(authData.user.id);
-            if (checkuser){
-                const rs = bcrypt.compareSync(req.body.currentpassword, checkuser.pass);
-                if (rs)
-                {
-                    const hash = bcrypt.hashSync(req.body.password);
-                    const row = await userModels.updateUser({
-                        pass: hash
-                    }, authData.user.id);
-                    if (row.affectedRows > 0) {
-                        res.sendStatus(200);
-                    } else {
-                        res.sendStatus(503);
+            if (!authData.admin){
+                const checkuser = await userModels.single(authData.user.id);
+                if (checkuser){
+                    const rs = bcrypt.compareSync(req.body.currentpassword, checkuser.pass);
+                    if (rs)
+                    {
+                        const hash = bcrypt.hashSync(req.body.password);
+                        const row = await userModels.updateUser({
+                            pass: hash
+                        }, authData.user.id);
+                        if (row.affectedRows > 0) {
+                            res.sendStatus(200);
+                        } else {
+                            res.sendStatus(503);
+                        }
+                    } 
+                    else {
+                        res.sendStatus(400);
                     }
-                } 
-                else {
-                    res.sendStatus(400);
                 }
+                else res.sendStatus(400);
             }
-            else res.sendStatus(400);
+            else {
+                const checkuser = await adminModels.single(authData.user.id);
+                if (checkuser){
+                    const rs = bcrypt.compareSync(req.body.currentpassword, checkuser.pass);
+                    if (rs)
+                    {
+                        const hash = bcrypt.hashSync(req.body.password);
+                        const row = await adminModels.updateAdmin({
+                            pass: hash
+                        }, authData.user.id);
+                        if (row.affectedRows > 0) {
+                            res.sendStatus(200);
+                        } else {
+                            res.sendStatus(503);
+                        }
+                    } 
+                    else {
+                        res.sendStatus(400);
+                    }
+                }
+                else res.sendStatus(400);
+            }
         }
     });
 });
