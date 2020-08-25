@@ -667,30 +667,38 @@ router.post("/cancelbooking", verifyToken, (req, res) => {
 
 router.get("/search", async (req, res) => {
   const query = req.query;
-  console.log("query", query);
+
   let row, total, nPage;
-  let limit = paginate.limit;
+  let limit = paginate.limit * 3;
+  let totalRoom;
   // console.log("limit", limit);
   try {
     [row, total] = await Promise.all(
       [
         userModels.getRoomsSearch(
           query,
-          limit * 3,
-          5 * (req.query.page - 1),
+          limit,
+          15 * (req.query.page - 1),
         ),
         userModels.getNumRoomsSearch(query),
       ],
     );
+
+    if (total) {
+      totalRoom = total.length;
+    } else {
+      totalRoom = 0;
+    }
+
     nPage = Math.floor(
-      total[0].total / (limit * 3) + (total[0].total % limit > 0 ? 1 : 0),
+      totalRoom / (limit) + (totalRoom % limit > 0 ? 1 : 0),
     );
   } catch (error) {
     res.sendStatus(404);
     console.log("Error", error);
   }
-  const totalItem = total[0].total;
-  res.send([row, nPage, totalItem]);
+
+  res.send([row, nPage, totalRoom]);
 });
 
 router.post("/registerhost", verifyToken, async (req, res) => {

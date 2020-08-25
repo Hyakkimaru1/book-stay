@@ -89,24 +89,29 @@ module.exports = {
 
   getRoomsSearch: (query, paginate, offset) => {
     const key = "%" + query.key + "%";
-    const row1 = db.load(`SELECT  p.*, i.img , ROUND(AVG(d.danhGia)) as rate
+    let row;
+    if (query.startD) {
+      console.log("object");
+      row = db.load(`SELECT  p.*, i.img , ROUND(AVG(d.danhGia)) as rate
     FROM ((phong p LEFT JOIN img i ON p.id = i.phong) LEFT JOIN danhgia d
      ON p.id = d.phong) 
 		 WHERE p.trangthai = 1 AND (CONCAT(p.ten, p.diaChi) LIKE "${key}") AND p.id NOT IN 
 		 (SELECT h.phong
 		 FROM hetphong h 
-		 WHERE (h.sophongconlai = 0 OR h.permission = 1) AND ngayHetPhong >= '${query.startD}' AND ngayHetPhong < '${query.endD}')
+		 WHERE (h.sophongconlai = 0 OR h.permission = 1) AND h.ngayHetPhong >= '${query.startD}' AND h.ngayHetPhong < '${query.endD}')
 		 GROUP BY p.id
     LIMIT ${paginate} 
     OFFSET ${offset}`);
-    const row2 = db.load(`SELECT p.*, i.img , ROUND(AVG(d.danhGia)) as rate
+    } else {
+      row = db.load(`SELECT p.*, i.img , ROUND(AVG(d.danhGia)) as rate
     FROM (phong p LEFT JOIN img i ON p.id = i.phong) LEFT JOIN danhgia d
      ON p.id = d.phong 
 		 WHERE p.trangthai = 1 and (CONCAT(p.ten, p.diaChi) LIKE "${key}")
     GROUP BY p.id
     LIMIT ${paginate} 
     OFFSET ${offset}`);
-    const row = query.startD ? row1 : row2;
+    }
+
     if (row.length === 0) {
       return null;
     }
@@ -114,11 +119,22 @@ module.exports = {
   },
   getNumRoomsSearch: (query) => {
     const key = "%" + query.key + "%";
-    const row = db.load(`SELECT COUNT(*) as total
+    let row;
+    if (query.startD) {
+      row = db.load(`SELECT *
+    FROM ((phong p LEFT JOIN img i ON p.id = i.phong) LEFT JOIN danhgia d
+     ON p.id = d.phong) 
+		 WHERE p.trangthai = 1 AND (CONCAT(p.ten, p.diaChi) LIKE "${key}") AND p.id NOT IN 
+		 (SELECT h.phong
+		 FROM hetphong h 
+		 WHERE (h.sophongconlai = 0 OR h.permission = 1) AND h.ngayHetPhong >= '${query.startD}' AND h.ngayHetPhong < '${query.endD}')
+		 GROUP BY p.id `);
+    } else {
+      row = db.load(`SELECT *
       FROM phong 
       WHERE phong.trangthai = 1 and (CONCAT(phong.ten, phong.diaChi) LIKE "${key}")
       `);
-
+    }
     if (row.length === 0) {
       return null;
     }
