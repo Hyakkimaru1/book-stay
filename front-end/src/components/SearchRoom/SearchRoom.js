@@ -99,7 +99,9 @@ export default function SearchRoom(props) {
         withCredentials: false,
       },
       success: ([val, page, item]) => {
+        // console.log("item", item);
         setrooms(val);
+        //console.log("VAL", val);
         settotalPage({ page, item });
         sortF();
       },

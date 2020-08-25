@@ -4,7 +4,7 @@ import ItemListBookRoom from "./ItemListBookRoom";
 import { UserContext } from "../../UserContext";
 import queryString from "query-string";
 import { useLocation } from "react-router-dom";
-import { RangeDayPickerNav } from '../PageRoom/RangeDayPickerNav';
+import { RangeDayPickerNav2 } from '../PageRoom/RangeDayPickerNav2';
 const config = require("../../config/default.json");
 const ListBookRoom = () => {
   const [state] = useContext(UserContext);
@@ -211,7 +211,7 @@ const ListBookRoom = () => {
           </div>
         </div>
         <div style={{display:'flex',justifyContent:'center',marginTop:'2rem'}}>
-          <RangeDayPickerNav onDatesChange={(startDate,endDate)=>{
+          <RangeDayPickerNav2 onDatesChange={(startDate,endDate)=>{
             if (startDate&&endDate){
               setFilters({...filters,
                 startDate:startDate.format('YYYY-MM-DD'),

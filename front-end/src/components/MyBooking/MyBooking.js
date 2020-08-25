@@ -8,7 +8,7 @@ import queryString from "query-string";
 import BookCar from './BookCar';
 
 import { UserContext } from '../../UserContext';
-import { RangeDayPickerNav } from '../PageRoom/RangeDayPickerNav';
+import { RangeDayPickerNav2 } from '../PageRoom/RangeDayPickerNav2';
 
 import $ from 'jquery';
 
@@ -101,7 +101,7 @@ const MyBooking = () => {
                                         <span>Chọn khoảng thời gian check in</span>
 
                                         <div className="mybooking__frommonth--range">
-                                            <RangeDayPickerNav onDatesChange={
+                                            <RangeDayPickerNav2 onDatesChange={
                                                 (newStartDay, newEndDate) => {
                                                     if (newStartDay!=null && newEndDate!=null){
                                                         setFilter({...filter,ngaycheckin:newStartDay.format('YYYY-MM-DD'),ngaycheckout:newEndDate.format('YYYY-MM-DD')});

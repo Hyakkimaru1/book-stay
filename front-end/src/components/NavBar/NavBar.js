@@ -49,9 +49,9 @@ const NavBar = (props) => {
 
   useEffect(() => {
     let str = props.value.key;
-    const test = str.normalize("NFKD").replace(/[\u0300-\u036f]/g, "");
+    //const test = str.normalize("NFKD").replace(/[\u0300-\u036f]/g, "");
     // console.log("testTring", test);
-    // console.log("keysearch", props);
+    console.log("keysearch", props);
   }, [props.value]);
   const a = props.value;
 
@@ -82,12 +82,16 @@ const NavBar = (props) => {
     <nav id="navbar" className="navbar">
       <div className="navbar__container ">
         <div className="navbar__container--left ">
-          <div className="navbar-logo" style={{cursor:'pointer'}} onClick={()=>history.push('/')}>
-            <img
-              alt="a"
-              src="https://i.pinimg.com/236x/c1/09/73/c10973a2554dcebd540db0bd62066c62--origami-lion-lion-logo.jpg"
+          <div className="navbar-logo">
+            <Link
+              to={"/"}
             >
-            </img>
+              <img
+                alt="a"
+                src="https://i.pinimg.com/236x/c1/09/73/c10973a2554dcebd540db0bd62066c62--origami-lion-lion-logo.jpg"
+              >
+              </img>
+            </Link>
           </div>
           <div className="navbarsearch">
             <div className="navbarsearch__wrapper">

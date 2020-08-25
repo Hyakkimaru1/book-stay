@@ -1,6 +1,6 @@
 import React from 'react';
 import { DateRangePicker } from 'calcite-react/DatePicker';
-export class RangeDayPickerNav extends React.Component {
+export class RangeDayPickerNav2 extends React.Component {
       constructor(props) {
         super(props)
         this.state = {
@@ -37,6 +37,7 @@ export class RangeDayPickerNav extends React.Component {
               onDatesChange={this.onDatesChange}
               focusedInput={this.state.focusedInput}
               onFocusChange={this.onFocusChange}
+              isOutsideRange={() => {}}
             />
           </div>
         )
