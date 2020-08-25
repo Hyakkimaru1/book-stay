@@ -24,6 +24,7 @@ class PageCreateARoom extends Component {
             soPhong:"",
             soGiuong:"",
             soKhachToiDa:"",
+            soluongchothue: 1,
             danhSachTienNghi:[],
             tiennghi:[],
             hinhAnh: [],
@@ -361,7 +362,7 @@ class PageCreateARoom extends Component {
     render() {
         let bodyPage;
         if (this.state.option==="form_create_room_1")
-            bodyPage =  <NameRoom onChange={this.onChange} ten={this.state.ten} diaChi={this.state.diaChi}/>;
+            bodyPage =  <NameRoom onChange={this.onChange} soluongchothue={this.state.soluongchothue} ten={this.state.ten} diaChi={this.state.diaChi}/>;
         else if (this.state.option==="form_create_room_2")
             bodyPage = <MoreInfRoom onChange={this.onChange}
             dienTich={this.state.dienTich}

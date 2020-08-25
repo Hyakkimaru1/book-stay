@@ -92,7 +92,7 @@ module.exports = {
     const row = db.load(`SELECT p.*, i.img , ROUND(AVG(d.danhGia)) as rate
     FROM (phong p LEFT JOIN img i ON p.id = i.phong) LEFT JOIN danhgia d
      ON p.id = d.phong 
-		 WHERE (CONCAT(p.ten, p.diaChi) LIKE "${key}")
+		 WHERE p.trangthai = 1 and (CONCAT(p.ten, p.diaChi) LIKE "${key}")
     GROUP BY p.id
     LIMIT ${paginate} 
     OFFSET ${offset}`);
@@ -105,7 +105,7 @@ module.exports = {
     const key = "%" + title_like + "%";
     const row = db.load(`SELECT COUNT(*) as total
       FROM phong 
-      WHERE (CONCAT(phong.ten, phong.diaChi) LIKE "${key}")
+      WHERE phong.trangthai = 1 and (CONCAT(phong.ten, phong.diaChi) LIKE "${key}")
       `);
 
     if (row.length === 0) {

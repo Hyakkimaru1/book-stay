@@ -42,7 +42,6 @@ const DropdownMenu = (props) => {
             classNames="menu-primary"
             onEnter={calcHeight}>
                 <div className="menu">
-                    {console.log(state.admin)}
                     {state.admin?<Link to={{pathname:"/admin",state:{type:2}}}><DropdownItem leftIcon={<i style={{color:'#606770'}} class="fas fa-list"></i>}>Trang quản lý</DropdownItem></Link>:<span>
                     <Link to={{pathname:"/user",state:{type:1}}}><DropdownItem leftIcon={<i style={{color:'#606770'}} class="fas fa-user"></i>}>Thông tin của bạn</DropdownItem></Link>
                     <Link to={{pathname:"/user",state:{type:2}}}><DropdownItem leftIcon={<i style={{color:'#606770'}} class="fas fa-list"></i>}>Danh sách đặt phòng</DropdownItem></Link></span>

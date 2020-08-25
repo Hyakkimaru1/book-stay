@@ -156,17 +156,6 @@ router.post("/login", async (req, res) => {
           });
         } else res.sendStatus(403);
       }
-      res.send(
-        {
-          token,
-          id: row.id,
-          ten: row.ten,
-          email: row.email,
-          sdt: row.sdt,
-          avt: row.avatar,
-          admin: false,
-        },
-      );
     }
   } else res.sendStatus(403);
 });
@@ -628,11 +617,11 @@ router.post("/cancelbooking", verifyToken, (req, res) => {
           const arrayDay = dayByDay(row[0].ngaycheckin, row[0].ngaycheckout);
           //adding short term out of room to table hetphong
           let arrayIdOutOfRoom = [];
-
+          
           arrayDay.map(async (val) => {
             const resultOFR = await roomModels.getOutOffRoom(row[0].phong, val);
             if (resultOFR.length > 0) {
-              arrayIdOutOfRoom.push(resultOFR[0].id);
+              arrayIdOutOfRoom.push(resultOFR[0]);
             }
           });
           const resultOFD = await roomModels.updateNguoiDatPhong({
@@ -644,9 +633,9 @@ router.post("/cancelbooking", verifyToken, (req, res) => {
             //call momo to refund cast
             // const resultRefund = await momoModels.sendRequestRefund(row[0].id+"rf",row[0].id,row[0].gia,row[0].transId);
             arrayIdOutOfRoom.map(async (val) => {
-              await roomModels.removeOutOfRoom({
-                id: val,
-              });
+              await roomModels.updateOutOfRoom(
+                {sophongconlai:val.sophongconlai+1},
+                val.id);
             });
             res.sendStatus(200);
           }
@@ -663,7 +652,6 @@ router.get("/search", async (req, res) => {
 
   let row, total, nPage;
   let limit = paginate.limit;
-  console.log("query", req.query);
   // console.log("limit", limit);
   try {
     [row, total] = await Promise.all(
@@ -720,7 +708,6 @@ router.get("/manageusers", verifyToken, async (req, res) => {
         } else {
           row = await userModels.all();
         }
-        console.log(row);
         res.send(row);
       }
     }

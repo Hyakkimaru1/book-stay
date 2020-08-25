@@ -7,6 +7,10 @@ const NameRoom = (props) => {
     const handleChangeAddress = (e) => {
         props.onChange({diaChi:e.target.value})
     }
+
+    const handleChangeChoThue = (e) => {
+        props.onChange({soluongchothue:e.target.value})
+    }
     return (
         <div style={{marginTop:'5rem'}}>
             <div className="CreateRoom__title">
@@ -19,6 +23,9 @@ const NameRoom = (props) => {
 
                 <label className="CreateRoom__label" for="">Địa chỉ của chỗ ở</label>
                 <input className="CreateRoom__input" onChange={handleChangeAddress} value={props.diaChi} name="" id="addHome" type="text" required></input> 
+
+                <label className="CreateRoom__label" for="">Số lượng muốn cho thuê</label>
+                <input className="CreateRoom__input" onChange={handleChangeChoThue} value={props.soluongchothue} name="" id="soluongchothue" type="number" min="1" required></input> 
                 
             </div>
         </div>

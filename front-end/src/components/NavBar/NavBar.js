@@ -218,6 +218,7 @@ const NavBar = (props) => {
                   <button
                     type="button"
                     onClick={handleBtnSearchClick}
+                    id="searchbtn"
                     className="navbarsearch__wrapper--searchbtn"
                   >
                     <svg

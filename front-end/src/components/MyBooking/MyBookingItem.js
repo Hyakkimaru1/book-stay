@@ -40,7 +40,7 @@ const MyBookingItem = (props) => {
             withCredentials: true,
           },
           success: (result) => {
-            toast.error("Huỷ phòng thành công");
+            toast.success("Huỷ phòng thành công");
             props.refresh();
           },
         }).fail(function () {

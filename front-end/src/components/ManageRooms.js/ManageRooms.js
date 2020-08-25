@@ -58,7 +58,7 @@ const ManageRooms = () => {
                                     <input type="text" onChange={handleChange}  placeholder="Tìm kiếm" className="searchBox__manage--text"/>
                         </div>
                         <div style={{display:'flex',justifyContent:'flex-end'}}>
-                        <button onClick={handleClickAdd} style={{backgroundColor:'#f68a39'}} type="" className="bt__default OutOfRoom__bt"> <i className="fas fa-plus"></i> Thêm</button>
+                        <button onClick={handleClickAdd}  style={state.admin?{opacity:'0'}:{backgroundColor:'#f68a39'}} type="" className="bt__default OutOfRoom__bt"> <i className="fas fa-plus"></i> Thêm</button>
                     </div>
                 </div>
                 <div>

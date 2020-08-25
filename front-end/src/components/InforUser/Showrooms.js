@@ -23,6 +23,7 @@ class Showrooms extends Component {
         this.state = {
             user: this.props.user,
         }
+        
         this.handleOnClick = this.handleOnClick.bind(this);
     }
     static context = UserContext;
@@ -99,11 +100,12 @@ class Showrooms extends Component {
     
 
     render() {
+        console.log(this.state.user);
         return (
             <div className="Showroom">
                  <div className="Showroom__avt">
                     <div className="Showroom__img">
-                        <img className="Showroom__img--img" src={this.state.user.avt} id="avtuser" alt=""/>
+                        <img className="Showroom__img--img" src={this.state.user.avatar?this.state.user.avatar:'https://cdn.luxstay.com/users_avatar_default/default-avatar.png'} id="avtuser" alt=""/>
                     </div>
                     <div className="Showroom__avt--bt">
                         <button onClick={()=>{document.getElementById('avtchanging').click()}} type="" style={{marginLeft:'2rem'}} className="bt__default">

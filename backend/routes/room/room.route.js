@@ -159,12 +159,28 @@ router.post('/book', async (req,res) => {
         const arrayDay = dayByDay(req.body.ngaycheckin,req.body.ngaycheckout);
         const row = await productModel.addNguoiDatPhong(req.body);
         //adding short term out of room to table hetphong 
-        let arrayIdOutOfRoom = []
+        let arrayIdOutOfRoom = [];
+        const room = await productModel.single(req.body.phong);
         arrayDay.map( async (val) => {
-            const resultOFR = await productModel.addOutOfRoom({phong:req.body.phong,ngayHetPhong:val});
-            if (resultOFR.insertId>0){
-                arrayIdOutOfRoom.push(resultOFR.insertId);
+            const resultOFRexist = await productModel.getOutOffRoom(req.body.phong,val);
+            if (resultOFRexist.length===0){
+                const resultOFR = await productModel.addOutOfRoom({phong:req.body.phong,ngayHetPhong:val,sophongconlai:room.soluongchothue-1});
+                if (resultOFR.insertId>0){
+                    arrayIdOutOfRoom.push(resultOFR.insertId);
+                }
             }
+            else {
+                if (resultOFRexist[0].sophongconlai===0){
+                    res.sendStatus(503);
+                }
+                else {
+                    await productModel.updateOutOfRoom({
+                        sophongconlai:resultOFRexist[0].sophongconlai-1},
+                        resultOFRexist[0].id
+                        );
+                } 
+            }
+            
         });
         if (row.insertId>0){
             setTimeout(async() => {
@@ -173,7 +189,11 @@ router.post('/book', async (req,res) => {
                 if (resultUserPaid.length > 0 && resultUserPaid[0].trangthai !== 1){
                     await productModel.updateNguoiDatPhong({trangthai:-1},row.insertId);
                     arrayIdOutOfRoom.map( async (val) => {
-                        await productModel.removeOutOfRoom({id:val});
+                        const resultOFRexist = await productModel.getOutOffRoomId(val);
+                        await productModel.updateOutOfRoom({
+                            sophongconlai:resultOFRexist[0].sophongconlai+1},
+                            val
+                            );
                     });
                 }
             }, 15*60000); // 10 minutes 

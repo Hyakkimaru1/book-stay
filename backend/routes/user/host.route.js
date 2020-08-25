@@ -353,7 +353,10 @@ router.post('/outofroom/:id',verifyToken, async(req, res) => {
             res.sendStatus(404);
         } else {
             if (authData.admin){
-                const result = await roomModel.removeOutOfRoom(req.body);
+                const result = await roomModel.updateOutOfRoom({
+                    permission:0},
+                    req.body.id
+                    );
                 if (result.affectedRows>0){
                     res.sendStatus(200);
                 }
@@ -364,7 +367,10 @@ router.post('/outofroom/:id',verifyToken, async(req, res) => {
                 if (row){
                     if(row.nguoiDang===authData.user.id)
                     {
-                        const result = await roomModel.removeOutOfRoom(req.body);
+                        const result = await roomModel.updateOutOfRoom({
+                            permission:0},
+                            req.body.id
+                            );
                         if (result.affectedRows>0){
                             res.sendStatus(200);
                         }
@@ -387,22 +393,52 @@ router.post('/addoutofroom',verifyToken, async(req, res) => {
             res.sendStatus(404);
         } else {
             if (authData.admin){
-                const result = await roomModel.addOutOfRoom(req.body);
-                if (result.affectedRows>0){
-                    res.sendStatus(200);
+                const resultOFRexist = await roomModel.getOutOffRoom(req.body.phong,req.body.ngayHetPhong);
+                if (resultOFRexist.length>0){
+                    const result = await roomModel.updateOutOfRoom({
+                        permission:1},
+                        resultOFRexist[0].id
+                        );
+                    if (result.affectedRows>0){
+                        res.sendStatus(200);
+                    }
+                    else res.sendStatus(503);
                 }
-                else res.sendStatus(503);
+                else {
+                    const room = await roomModel.single(req.body.phong);
+                    req.body.sophongconlai = room.soluongchothue;
+                    const result = await roomModel.addOutOfRoom(req.body);
+                    if (result.affectedRows>0){
+                        res.sendStatus(200);
+                    }
+                    else res.sendStatus(503);
+                }
             }
             else {
                 const row = await roomModel.single(req.body.phong);
                 if (row){
                     if(row.nguoiDang===authData.user.id)
                     {
-                        const result = await roomModel.addOutOfRoom(req.body);
-                        if (result.affectedRows>0){
-                            res.sendStatus(200);
+                        const resultOFRexist = await roomModel.getOutOffRoom(req.body.phong,req.body.ngayHetPhong);
+                        if (resultOFRexist.length>0){
+                            const result = await roomModel.updateOutOfRoom({
+                                permission:1},
+                                resultOFRexist[0].id
+                                );
+                            if (result.affectedRows>0){
+                                res.sendStatus(200);
+                            }
+                            else res.sendStatus(503);
                         }
-                        else res.sendStatus(503);
+                        else {
+                            const room = await roomModel.single(req.body.phong);
+                            req.body.sophongconlai = room.soluongchothue;
+                            const result = await roomModel.addOutOfRoom(req.body);
+                            if (result.affectedRows>0){
+                                res.sendStatus(200);
+                            }
+                            else res.sendStatus(503);
+                        }
                     }
                     else res.sendStatus(403);
                 }

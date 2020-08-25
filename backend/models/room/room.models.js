@@ -18,8 +18,8 @@ module.exports = {
   FROM danhgia dg JOIN nguoidung nd ON dg.nguoiDung = nd.id
   WHERE dg.phong = ${id}`),
   checkIsRoom: id => db.load(`SELECT * FROM phong WHERE id=${id} and trangThai = 1`),
-  checkRoomInvalid: (id,date1,date2) => db.load(`SELECT * FROM hetphong WHERE phong=${id} AND ngayHetPhong >= '${date1}' AND ngayHetPhong < '${date2}'`),
-  checkRoomInvalidNow: (id,date1) => db.load(`SELECT * FROM hetphong WHERE phong=${id} AND ngayHetPhong >= ${date1}`),
+  checkRoomInvalid: (id,date1,date2) => db.load(`SELECT * FROM hetphong WHERE phong=${id} AND ngayHetPhong >= '${date1}' AND ngayHetPhong < '${date2}' AND ( sophongconlai = 0 OR permission = 1)`),
+  checkRoomInvalidNow: (id,date1) => db.load(`SELECT * FROM hetphong WHERE phong=${id} AND ngayHetPhong >= ${date1} AND ( sophongconlai = 0 OR permission = 1)`),
   getImg: id => db.load(`SELECT img FROM img WHERE phong = ${id}`),
   getOwner: id => db.load(`SELECT nguoidung.id, nguoidung.ten, nguoidung.avatar,nguoidung.timeCreate
   FROM phong JOIN nguoidung on phong.nguoiDang = nguoidung.id
@@ -35,6 +35,7 @@ module.exports = {
   and nguoidat = ${entity.nguoidat} and ngaycheckin='${entity.ngaycheckin}' and ngaycheckout = '${entity.ngaycheckout}' and sokhach = ${entity.sokhach}`),
   
   updateRoom: (entity, condition) => db.patch('phong',entity,{id:condition}),
+  updateOutOfRoom: (entity, condition) => db.patch('hetphong',entity,{id:condition}),
   removeAllTienNghi: condition => db.del('tiennghicuaphong',{phong:condition}),
   getImg: id => db.load(`SELECT * FROM img WHERE phong = ${id}`),
   delImg: condition => db.del('img',{phong:condition}),
@@ -51,4 +52,5 @@ module.exports = {
   getRoomInNT: () => db.load(`SELECT count(*) as rooms FROM phong WHERE trangThai=1 and MATCH (diaChi) AGAINST ('Nha Trang' IN NATURAL LANGUAGE MODE)`),
   getRoomInDL: () => db.load(`SELECT count(*) as rooms FROM phong WHERE trangThai=1 and MATCH (diaChi) AGAINST ('Đà Lạt' IN NATURAL LANGUAGE MODE)`),
   getOutOffRoom: (phong,ngayHetPhong) => db.load(`SELECT * FROM hetphong WHERE phong = ${phong} and ngayHetPhong = '${ngayHetPhong}'`),
+  getOutOffRoomId: (id) => db.load(`SELECT * FROM hetphong WHERE id = ${id}`),
 };

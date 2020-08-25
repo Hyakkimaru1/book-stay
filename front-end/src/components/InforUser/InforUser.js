@@ -59,7 +59,6 @@ class InforUser extends Component {
       },
     })
       .fail(function () {
-        console.log("false");
       });
   }
   handleRegHostClick = () => {
@@ -71,7 +70,6 @@ class InforUser extends Component {
         withCredentials: true,
       },
       success: function (val) {
-        console.log("val", val);
         toast("Đã gửi yêu cầu!");
       },
     })
@@ -112,7 +110,7 @@ class InforUser extends Component {
               <div className="BoxStart__img">
                 <img
                   className="BoxStart__img--img"
-                  src={this.state.user.avt}
+                  src={this.state.user.avatar?this.state.user.avatar:'https://cdn.luxstay.com/users_avatar_default/default-avatar.png'}
                   alt=""
                 />
               </div>
@@ -131,14 +129,17 @@ class InforUser extends Component {
           </div>
 
           <div className="col-1-of-4">
-            <button
+            {
+              this.state.user?<button
               id="btnRegHost"
               type=""
               className="BoxStart__host"
               onClick={this.handleClickOpen}
             >
               Trở thành chủ nhà
-            </button>
+            </button>:null
+            }
+            
             <Dialog
               fullWidth={true}
               maxWidth="md"

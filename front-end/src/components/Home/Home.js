@@ -12,7 +12,6 @@ const Home = () => {
     const history = useHistory();
     useEffect(() => {
         $.get(`${config.url}/room/homepage`, val => {
-            console.log(val);
             setData(val);
         })
     }, []);
@@ -58,8 +57,11 @@ const Home = () => {
                     </div>
                     <div style={{overflow:'hidden'}}>
                     <div className="Home__topplaces--card" id="slide__places">   
-                        <CardPlace img="https://cdn.luxstay.com/home/location/location_5_1559735011.png" name="Hồ Chí Minh" places={data.rooms.hcm}/>
-                        <CardPlace img="https://cdn.luxstay.com/home/location/location_16_1559303173.png" name="Đà Nẵng" places={data.rooms.dn}/>
+                        <CardPlace onClick={()=>{
+                            document.getElementById('search-input').value='Hồ Chí Minh'; 
+                            document.getElementById('searchbtn').click();
+                        }} img="https://cdn.luxstay.com/home/location/location_5_1559735011.png" name="Hồ Chí Minh" places={data.rooms.hcm}/>
+                        <CardPlace onClick={()=>history.push('/search?key=Đà%20Nẵng')} img="https://cdn.luxstay.com/home/location/location_16_1559303173.png" name="Đà Nẵng" places={data.rooms.dn}/>
                         <CardPlace img="https://cdn.luxstay.com/home/location/location_1_1559734709.png" name="Hà Nội" places={data.rooms.hn}/>
                         <CardPlace img="https://cdn.luxstay.com/home/location/location_10_1559303118.png" name="Vũng Tàu" places={data.rooms.vt}/>
                         <CardPlace img="https://cdn.luxstay.com/home/location/location_1_1559373089.png" places={data.rooms.nt} name="Nha Trang" />

@@ -61,7 +61,7 @@ const OutOfRoom = () => {
                     await $.ajax({
                         url:`${config.url}/host/addoutofroom`,
                         type:'post',
-                        data:{phong:id,ngayHetPhong:addRow,permission:1},
+                        data:{phong:id,ngayHetPhong:addRow,permission:1}, 
                         xhrFields: {
                             withCredentials: true
                         }, success: ()=>{                           
