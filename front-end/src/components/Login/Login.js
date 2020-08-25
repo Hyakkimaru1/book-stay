@@ -10,7 +10,7 @@ import Wave from "../../icons/wave.png";
 
 const config = require("../../config/default.json");
 
-const Login = () => {
+const Login = (props) => {
   const [state, dispatch] = useContext(UserContext);
   const location = useLocation();
   const history = useHistory();
@@ -32,6 +32,21 @@ const Login = () => {
           gioithieu: val.gioithieu,
           ngaysinh: val.ngaysinh,
           type: "login",
+        });
+        $.ajax({
+          url: `${config.url}/user/profile`,
+          type: "post",
+          xhrFields: {
+            withCredentials: true,
+          },
+          success: function (val) {
+            if (val.upHost === 2) {
+              props.handleChange(true);
+            }
+            else {
+              props.handleChange(false);
+            }
+          },
         });
       })
         .fail(function () {

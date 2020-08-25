@@ -64,7 +64,17 @@ function App() {
     setsearch({ key: item });
   }
 
+  const handleIsHostWhenLogin = (value) => {
+    setIsHost(value);
+  }
+
   const [isHost, setIsHost] = useState(false);
+
+  const onBlur = () =>{
+    setTimeout(()=>{
+      document.getElementsByClassName('icon-button')[1].click()
+    },200)
+  }
 
   const upDateCheckChange = () => {
     if (Cookies.get("token")) {
@@ -142,6 +152,9 @@ function App() {
           if (val.upHost === 2) {
             setIsHost(true);
           }
+          else {
+            setIsHost(false);
+          }
         },
       });
     } else {
@@ -170,7 +183,7 @@ function App() {
                 >
                   <NavItem icon={state.ten} img={state.avt} />
                 </Link>
-                <NavItem icon={<CaretIcon />}>
+                <NavItem onBlur={onBlur} icon={<CaretIcon />}>
                   <DropdownMenu isHost={isHost}></DropdownMenu>
                 </NavItem>
               </NavBar>)}
@@ -253,7 +266,7 @@ function App() {
 
               <Route path="/payment/momo" children={<MomoQR />} />
 
-              <Route path="/login" children={<Login></Login>} />
+              <Route path="/login" children={<Login handleChange = {handleIsHostWhenLogin}></Login>} />
               <Route path="/signup" children={<Signup></Signup>} />
               <Route
                 exact
