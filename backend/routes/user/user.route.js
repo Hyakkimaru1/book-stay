@@ -535,56 +535,57 @@ router.get("/mybooking/:id", verifyToken, async (req, res) => {
   });
 });
 
-router.post("/changepassword2", async(req, res) => {
-    jwt.verify(req.body.token, privateKey, async(err, authData) => {
-        if (err) {
-            res.sendStatus(404);
-        } else {
-            if (!authData.admin){
-                const checkuser = await userModels.single(authData.user.id);
-                if (checkuser){
-                    const rs = bcrypt.compareSync(req.body.currentpassword, checkuser.pass);
-                    if (rs)
-                    {
-                        const hash = bcrypt.hashSync(req.body.password);
-                        const row = await userModels.updateUser({
-                            pass: hash
-                        }, authData.user.id);
-                        if (row.affectedRows > 0) {
-                            res.sendStatus(200);
-                        } else {
-                            res.sendStatus(503);
-                        }
-                    } 
-                    else {
-                        res.sendStatus(400);
-                    }
-                }
-                else res.sendStatus(400);
+router.post("/changepassword2", async (req, res) => {
+  jwt.verify(req.body.token, privateKey, async (err, authData) => {
+    if (err) {
+      res.sendStatus(404);
+    } else {
+      if (!authData.admin) {
+        const checkuser = await userModels.single(authData.user.id);
+        if (checkuser) {
+          const rs = bcrypt.compareSync(
+            req.body.currentpassword,
+            checkuser.pass,
+          );
+          if (rs) {
+            const hash = bcrypt.hashSync(req.body.password);
+            const row = await userModels.updateUser({
+              pass: hash,
+            }, authData.user.id);
+            if (row.affectedRows > 0) {
+              res.sendStatus(200);
+            } else {
+              res.sendStatus(503);
             }
-            else {
-                const checkuser = await adminModels.single(authData.user.id);
-                if (checkuser){
-                    const rs = bcrypt.compareSync(req.body.currentpassword, checkuser.pass);
-                    if (rs)
-                    {
-                        const hash = bcrypt.hashSync(req.body.password);
-                        const row = await adminModels.updateAdmin({
-                            pass: hash
-                        }, authData.user.id);
-                        if (row.affectedRows > 0) {
-                            res.sendStatus(200);
-                        } else {
-                            res.sendStatus(503);
-                        }
-                    } 
-                    else {
-                        res.sendStatus(400);
-                    }
-                }
-                else res.sendStatus(400);
+          } else {
+            res.sendStatus(400);
+          }
+        } else res.sendStatus(400);
+      } else {
+        const checkuser = await adminModels.single(authData.user.id);
+        if (checkuser) {
+          const rs = bcrypt.compareSync(
+            req.body.currentpassword,
+            checkuser.pass,
+          );
+          if (rs) {
+            const hash = bcrypt.hashSync(req.body.password);
+            const row = await adminModels.updateAdmin({
+              pass: hash,
+            }, authData.user.id);
+            if (row.affectedRows > 0) {
+              res.sendStatus(200);
+            } else {
+              res.sendStatus(503);
             }
-}})});
+          } else {
+            res.sendStatus(400);
+          }
+        } else res.sendStatus(400);
+      }
+    }
+  });
+});
 router.post("/mybooking/feedback", verifyToken, async (req, res) => {
   jwt.verify(req.token, privateKey, async (err, authData) => {
     if (err) {
@@ -617,7 +618,7 @@ router.post("/cancelbooking", verifyToken, (req, res) => {
           const arrayDay = dayByDay(row[0].ngaycheckin, row[0].ngaycheckout);
           //adding short term out of room to table hetphong
           let arrayIdOutOfRoom = [];
-          
+
           arrayDay.map(async (val) => {
             const resultOFR = await roomModels.getOutOffRoom(row[0].phong, val);
             if (resultOFR.length > 0) {
@@ -634,8 +635,9 @@ router.post("/cancelbooking", verifyToken, (req, res) => {
             // const resultRefund = await momoModels.sendRequestRefund(row[0].id+"rf",row[0].id,row[0].gia,row[0].transId);
             arrayIdOutOfRoom.map(async (val) => {
               await roomModels.updateOutOfRoom(
-                {sophongconlai:val.sophongconlai+1},
-                val.id);
+                { sophongconlai: val.sophongconlai + 1 },
+                val.id,
+              );
             });
             res.sendStatus(200);
           }
@@ -648,15 +650,19 @@ router.post("/cancelbooking", verifyToken, (req, res) => {
 });
 
 router.get("/search", async (req, res) => {
-  const query = req.query.key;
-
+  const query = req.query;
+  console.log("query", query);
   let row, total, nPage;
   let limit = paginate.limit;
   // console.log("limit", limit);
   try {
     [row, total] = await Promise.all(
       [
-        userModels.getRoomsSearch(query, limit * 3, 5 * (req.query.page - 1)),
+        userModels.getRoomsSearch(
+          query,
+          limit * 3,
+          5 * (req.query.page - 1),
+        ),
         userModels.getNumRoomsSearch(query),
       ],
     );

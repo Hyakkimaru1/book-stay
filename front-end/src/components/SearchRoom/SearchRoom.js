@@ -28,11 +28,20 @@ export default function SearchRoom(props) {
 
   useEffect(() => {
     // console.log("page", page);
+    let endD = props.value.endD ? props.value.endD : props.value.startD;
+    let startD = props.value.startD;
+    endD = endD ? endD.format("YYYY-MM-DD") : endD;
+    startD = startD ? startD.format("YYYY-MM-DD") : startD;
     const paramString = queryString.stringify(
-      { key: props.value.key, page: page },
+      {
+        key: props.value.key,
+        startD,
+        endD,
+        page: page,
+      },
     );
     fetchData(paramString);
-  }, [filters]);
+  }, [filters, props.value]);
 
   useEffect(() => {
     setFilters({ key: props.value.key, ...filters });
