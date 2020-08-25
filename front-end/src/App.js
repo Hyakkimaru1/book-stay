@@ -32,17 +32,16 @@ import ProtectBooked from "./ProtectBooked";
 import PageBookRoom from "./components/PageBookRoom/PageBookRoom";
 import MomoQR from "./components/Payment.js/MomoQR";
 import PageHostInf from "./components/PageHostInf/PageHostInf";
-import InfWhoBook from "./components/ListBookRoom.js/InfWhoBook";
+import InfWhoBook from "./components/ListBookRoom/InfWhoBook";
 import ManageRooms from "./components/ManageRooms.js/ManageRooms";
 import ManageUsers from "./components/Admin/ManageUser/ManageUsers";
-import ListBookRoom from "./components/ListBookRoom.js/ListBookRoom";
+import ListBookRoom from "./components/ListBookRoom/ListBookRoom";
 import { ToastContainer } from "react-toastify";
 import OutOfRoom from "./components/ManageRooms.js/OutOfRoom/OutOfRoom";
 import NewPassword from "./components/Login/NewPassword";
 import HostRegister from "./components/HostRegister/HostRegister.js";
 import Home from "./components/Home/Home.js";
 import Footer from "./components/Footer/Footer.js";
-import RecommendRooms from "./components/RecommendRooms/RecommendRooms";
 import Admin from "./components/Admin/Admin";
 import ErrorPage from "./components/ErrorPage/ErrorPage";
 import CancellationPolicy from "./components/AnotherPage/CancellationPolicy";
@@ -204,13 +203,6 @@ function App() {
                 path="/"
                 children={<Home onChange={(item) => handleHomeSearch(item)} />}
               />
-              <Route
-                exact
-                strict
-                path="/vietnam/:country"
-                children={<RecommendRooms />}
-              >
-              </Route>
               {/* <Route exact path="/hostbar">
                 <HostRegister hostBar={handleBar} />
                 {/* <User /> 
