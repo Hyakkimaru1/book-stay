@@ -64,8 +64,6 @@ function App() {
     setsearch({ key: item });
   }
 
-  const [checkChange, setCheckChange] = useState(false);
-
   const [isHost, setIsHost] = useState(false);
 
   const upDateCheckChange = () => {
@@ -151,7 +149,7 @@ function App() {
         type: "logout",
       });
     }
-  }, [checkChange]);
+  }, []);
 
   if (!state) return null;
   else {

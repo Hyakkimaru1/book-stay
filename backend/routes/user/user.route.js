@@ -42,6 +42,8 @@ router.post("/profile", verifyToken, async (req, res) => {
         delete row.pass;
         delete row.id;
         delete row.timeCreate;
+        row.avt = row.avatar;
+        delete row.avatar;
         res.send(row);
       } else res.sendStatus(404);
     }
@@ -169,14 +171,23 @@ router.post("/signup", async (req, res) => {
     } else {
       const entity = req.body;
       entity.pass = bcrypt.hashSync(req.body.pass, 10);
-      entity.avatar = "default";
+      entity.avatar = "https://cdn.luxstay.com/users_avatar_default/default-avatar.png";
 
       const add = await userModels.addUser(entity);
       if (add) {
         const row2 = await userModels.singleUsername(req.body.email);
         const data = { id: row2.id };
         jwt.sign({ user: data }, privateKey, function (err, token) {
-          res.send({ token, id: data.id });
+          res.send({ token,id: data.id,
+            diachi: data.diachi,
+            ngaysinh: data.ngaysinh,
+            gioithieu: data.gioithieu,
+            gioitinh: data.gioitinh,
+            ten: data.ten,
+            email: data.email,
+            sdt: data.sdt,
+            avt: data.avatar,
+            admin: false,});
         });
       } else {
         res.sendStatus(403);
@@ -214,7 +225,7 @@ router.post("/resetpw", async (req, res) => {
 });
 
 router.post("/loginAgain", verifyToken, async (req, res) => {
-  jwt.verify(req.token, privateKey, (err, authData) => {
+  jwt.verify(req.token, privateKey, async (err, authData) => {
     if (err) {
       res.sendStatus(404);
     } else {
@@ -230,15 +241,20 @@ router.post("/loginAgain", verifyToken, async (req, res) => {
           },
         );
       } else {
+        const row = await userModels.single(authData.user.id);
         res.send(
           {
-            id: authData.user.id,
-            ten: authData.user.ten,
-            email: authData.user.email,
-            sdt: authData.user.sdt,
-            avt: authData.user.avatar,
+            id: row.id,
+            diachi: row.diachi,
+            ngaysinh: row.ngaysinh,
+            gioithieu: row.gioithieu,
+            gioitinh: row.gioitinh,
+            ten: row.ten,
+            email: row.email,
+            sdt: row.sdt,
+            avt: row.avatar,
             admin: false,
-          },
+          }
         );
       }
     }

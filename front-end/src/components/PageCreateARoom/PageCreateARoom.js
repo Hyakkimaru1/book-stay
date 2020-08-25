@@ -249,8 +249,8 @@ class PageCreateARoom extends Component {
             delete dataSend.removeInfFill;
             delete dataSend.isCheckAgain;
             if (this.state.checkedMorePrice===false){
-                delete dataSend.giaNgayLe;
-                delete dataSend.giaThang;
+                dataSend.giaNgayLe = 0;
+                dataSend.giaThang = 0;
                 
             }
             else {

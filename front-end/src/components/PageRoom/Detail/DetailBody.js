@@ -92,7 +92,8 @@ const DetailBody = (props) => {
                     <ul className="detail__price">
                         <li className="detail__price--item"><p className="detail__price--item-note">Thứ hai - Thứ năm</p>{props.data && numberWithComas(props.data.giaNgayThuong)}₫</li>
                         <li className="detail__price--item"><p className="detail__price--item-note">Thứ sáu - Chủ nhật</p> {props.data && numberWithComas(props.data.giaNgayCuoiTuan)}₫</li>
-                        {props.data && props.data.khachThem && <li className="detail__price--item"><p className="detail__price--item-note">Phí khách tăng thêm</p> {props.data && props.data.khachThem}₫ (sau 2 khách)</li>}    
+                        {props.data && props.data.giaNgayLe&& props.data.giaNgayLe!=0?<li className="detail__price--item"><p className="detail__price--item-note">Giá ngày lễ </p>{ numberWithComas(props.data.giaNgayLe)}₫</li>:null}
+                        {props.data && props.data.giaThang&& props.data.giaThang!=0?<li className="detail__price--item"><p className="detail__price--item-note">Chiết khấu tháng </p>{ numberWithComas(props.data.giaThang)}%</li>:null} 
                         <li className="detail__price--item"><p className="detail__price--item-note">Số đêm tối thiểu</p> 1 đêm</li>
                     </ul>
                 </div>

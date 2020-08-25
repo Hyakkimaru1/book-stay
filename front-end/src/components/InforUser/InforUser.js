@@ -104,13 +104,12 @@ class InforUser extends Component {
     return (
       <div className="Box" style={{ backgroundColor: "#F8F8F8" }}>
         <div className="row">
-          <ToastContainer />
           <div className="col-3-of-4">
             <div className="BoxStart">
               <div className="BoxStart__img">
                 <img
                   className="BoxStart__img--img"
-                  src={this.state.user.avatar?this.state.user.avatar:'https://cdn.luxstay.com/users_avatar_default/default-avatar.png'}
+                  src={this.state.user.avt?this.state.user.avt:'https://cdn.luxstay.com/users_avatar_default/default-avatar.png'}
                   alt=""
                 />
               </div>

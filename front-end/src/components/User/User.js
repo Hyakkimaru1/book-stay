@@ -8,13 +8,13 @@ import { useLocation } from 'react-router-dom';
 
 const User = (props) => {
     const [option, setOption] = useState('2');
-    const [userinfo,setUser] = useState(props.user);
     const [state] = useContext(UserContext);
     const location = useLocation();
     useEffect(() => {
         if (location.state && location.state.type){
             setOption(location.state.type);
          }
+        
     }, [location.state]);
 
     const onOptionClick = (a) => {
