@@ -72,7 +72,8 @@ function App() {
 
   const onBlur = () =>{
     setTimeout(()=>{
-      document.getElementsByClassName('icon-button')[1].click()
+      if (document.getElementsByClassName('icon-button')[1])
+        document.getElementsByClassName('icon-button')[1].click()
     },200)
   }
 
