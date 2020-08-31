@@ -66,16 +66,17 @@ function App() {
 
   const handleIsHostWhenLogin = (value) => {
     setIsHost(value);
-  }
+  };
 
   const [isHost, setIsHost] = useState(false);
 
-  const onBlur = () =>{
-    setTimeout(()=>{
-      if (document.getElementsByClassName('icon-button')[1])
-        document.getElementsByClassName('icon-button')[1].click()
-    },200)
-  }
+  const onBlur = () => {
+    setTimeout(() => {
+      if (document.getElementsByClassName("icon-button")[1]) {
+        document.getElementsByClassName("icon-button")[1].click();
+      }
+    }, 200);
+  };
 
   const upDateCheckChange = () => {
     if (Cookies.get("token")) {
@@ -152,8 +153,7 @@ function App() {
         success: function (val) {
           if (val.upHost === 2) {
             setIsHost(true);
-          }
-          else {
+          } else {
             setIsHost(false);
           }
         },
@@ -267,7 +267,10 @@ function App() {
 
               <Route path="/payment/momo" children={<MomoQR />} />
 
-              <Route path="/login" children={<Login handleChange = {handleIsHostWhenLogin}></Login>} />
+              <Route
+                path="/login"
+                children={<Login handleChange={handleIsHostWhenLogin}></Login>}
+              />
               <Route path="/signup" children={<Signup></Signup>} />
               <Route
                 exact

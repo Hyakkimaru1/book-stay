@@ -118,7 +118,7 @@ const Signup = () => {
                 </div>
               </div>
 
-              <p onClick={handleClick} className="Login__btn">Đăng nhập</p>
+              <p onClick={handleClick} className="Login__btn">Đăng ký</p>
               <p className="Login__createAcc">
                 Bạn đã có tài khoản? <strong
                   className="Login__createAcc--link"
